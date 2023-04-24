@@ -1,4 +1,5 @@
-import { Icon, Text, View } from "native-base"
+import { Text , View} from "native-base"
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const PostItem = () => {
     return (
@@ -6,10 +7,8 @@ const PostItem = () => {
             <View>Header</View>
             <Text>Hi</Text>
             <View>
-                <View className="h-full flex flex-row gap-2">
-                    <Icon name="home" size={6} className="mx-0"/>
-                    <Icon name="plus" size={6}/>
-                    <Icon name="plus" size={6}/>
+                <View className="h-full flex flex-row gap-2 mx-0 my-0">
+                    <Ionicons name="md-checkmark-circle" size={24} color="green" />
                 </View>
             </View>
         </View>
