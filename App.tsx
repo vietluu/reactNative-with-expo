@@ -1,10 +1,8 @@
 import React from "react";
 import {
   Text,
-  Link,
   HStack,
   Center,
-  Heading,
   Switch,
   useColorMode,
   NativeBaseProvider,
@@ -14,6 +12,7 @@ import {
 } from "native-base";
 import NativeBaseIcon from "./components/NativeBaseIcon";
 import PostItem from "./components/post/PostItem";
+import AvatarEntity from "./components/common/AvatarEntity";
 
 // Define the config
 const config = {
@@ -25,8 +24,9 @@ const config = {
 export const theme = extendTheme({ config });
 type MyThemeType = typeof theme;
 declare module "native-base" {
-  interface ICustomTheme extends MyThemeType {}
+  interface ICustomTheme extends MyThemeType { }
 }
+
 export default function App() {
   return (
     <NativeBaseProvider>
@@ -36,9 +36,10 @@ export default function App() {
         px={4}
         flex={1}
       >
-        <PostItem />
-      </Center>
-    </NativeBaseProvider>
+        {/* <PostItem /> */}
+        <AvatarEntity username="quangtv2" avatar="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"></AvatarEntity>
+      </Center >
+    </NativeBaseProvider >
   );
 }
 
