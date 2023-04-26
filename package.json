@@ -10,11 +10,6 @@
     "nativebase"
   ],
   "license": "MIT",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{ts,css,tsx,js,json}": [
       "prettier --write",
@@ -23,7 +18,9 @@
     ".{ts,tsx}": [
       "npm run lint:fix",
       "npm run lint"
-    ]
+    ],
+    "*.{tsx,ts}": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   },
   "scripts": {
     "start": "expo start",
@@ -31,8 +28,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "eslint --ext .tsx --ext .ts src/",
-    "eject": "expo eject",
-    "prepare": "husky install"
+    "eject": "expo eject"
   },
   "dependencies": {
     "expo": "^48.0.15",
