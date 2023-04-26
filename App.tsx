@@ -7,8 +7,6 @@ import {
   useColorMode,
   NativeBaseProvider,
   extendTheme,
-  VStack,
-  Box,
 } from "native-base";
 import NativeBaseIcon from "./components/NativeBaseIcon";
 import PostItem from "./components/post/PostItem";
