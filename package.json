@@ -31,6 +31,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
     "expo": "^48.0.15",
     "expo-status-bar": "~1.4.4",
     "native-base": "3.4.0",
