@@ -11,7 +11,7 @@ const AvatarEntity = ({ username, email, avatar }: User) => {
             }} />
 
             <Text className="font-bold">{username}</Text>
-        </View>
+            </View>
     )
 }
 
