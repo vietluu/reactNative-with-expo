@@ -18,6 +18,9 @@ import AvatarEntity from './src/common/AvatarEntity';
 import PostLoader from './src/components/PostLoader';
 import CommentLoader from './src/components/CommentLoader';
 import Navigation from './src/components/Navigation';
+import { Provider } from 'react-redux';
+
+import store from './src/redux';
 // Define the config
 const config = {
   useSystemColorMode: false,
@@ -35,7 +38,9 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <StatusBar />
-      <Navigation />
+      <Provider store={store}>
+        <Navigation />
+      </Provider>
     </NativeBaseProvider>
   );
 }
