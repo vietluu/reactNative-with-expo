@@ -18,6 +18,8 @@ import AvatarEntity from './src/components/common/AvatarEntity';
 import PostLoader from './src/components/PostLoader';
 import CommentLoader from './src/components/CommentLoader';
 import Navigation from './src/components/Navigation';
+import Login from './src/components/auth/Login';
+import Register from './src/components/auth/Register';
 // Define the config
 const config = {
   useSystemColorMode: false,
@@ -36,6 +38,7 @@ export default function App() {
     <NativeBaseProvider>
       <StatusBar />
       <Navigation />
+      {/* <Setting /> */}
     </NativeBaseProvider>
   );
 }
