@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Layout from './layout';
+import Layout from './Layout';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 
