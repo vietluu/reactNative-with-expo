@@ -13,11 +13,11 @@ import {
   StatusBar,
 } from 'native-base';
 import NativeBaseIcon from './src/lib/NativeBaseIcon';
-import PostItem from './assets/post/PostItem';
+import PostItem from './src/screens/home/PostItem';
 import AvatarEntity from './src/common/AvatarEntity';
-import PostLoader from './src/lib/PostLoader';
-import CommentLoader from './src/lib/CommentLoader';
-import Router from './src/components';
+import PostLoader from './src/components/PostLoader';
+import CommentLoader from './src/components/CommentLoader';
+import Navigation from './src/components/Navigation';
 // Define the config
 const config = {
   useSystemColorMode: false,
@@ -35,7 +35,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <StatusBar />
-      <Router />
+      <Navigation />
     </NativeBaseProvider>
   );
 }

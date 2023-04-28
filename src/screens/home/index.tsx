@@ -1,9 +1,9 @@
 import { NavigationAction } from '@react-navigation/native';
 import { Center, Text } from 'native-base';
 import React from 'react';
-import PostLoader from '../../src/lib/PostLoader';
-import CommentLoader from '../../src/lib/CommentLoader';
-const Post = ({ navigation }: any) => {
+import PostLoader from '../../components/PostLoader';
+import CommentLoader from '../../components/CommentLoader';
+const Home = ({ navigation }: any) => {
   return (
     <Center
       _dark={{ bg: 'blueGray.900' }}
@@ -17,4 +17,4 @@ const Post = ({ navigation }: any) => {
     </Center>
   );
 };
-export default Post;
+export default Home;

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import CreatePost from './createPost';
-import Notify from './notification';
-import Post from '../../assets/post';
-import Setting from './setting';
-import PostStore from './postStore';
+import CreatePost from '../screens/createPost';
+import Notify from '../screens/notification';
+import Home from '../screens/home';
+import Setting from '../screens/setting';
+import PostStore from '../screens/postStore';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import PostItem from '../../assets/post/PostItem';
+import PostItem from '../screens/home/PostItem';
 import Icon from '@expo/vector-icons/Ionicons';
 
 function Layout() {
@@ -31,7 +31,7 @@ function Layout() {
     >
       <Tab.Screen
         name="home"
-        component={Post}
+        component={Home}
         options={{
           tabBarLabel: '',
           headerShown: false,
