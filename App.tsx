@@ -14,7 +14,7 @@ import {
 } from 'native-base';
 import NativeBaseIcon from './src/lib/NativeBaseIcon';
 import PostItem from './src/screens/home/PostItem';
-import AvatarEntity from './src/common/AvatarEntity';
+import AvatarEntity from './src/components/common/AvatarEntity';
 import PostLoader from './src/components/PostLoader';
 import CommentLoader from './src/components/CommentLoader';
 import Navigation from './src/components/Navigation';
