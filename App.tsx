@@ -20,6 +20,9 @@ import CommentLoader from './src/components/CommentLoader';
 import Navigation from './src/components/Navigation';
 import Login from './src/components/auth/Login';
 import Register from './src/components/auth/Register';
+import { Provider } from 'react-redux';
+
+import store from './src/redux';
 // Define the config
 const config = {
   useSystemColorMode: false,
@@ -39,6 +42,9 @@ export default function App() {
       <StatusBar />
       <Navigation />
       {/* <Setting /> */}
+      <Provider store={store}>
+        <Navigation />
+      </Provider>
     </NativeBaseProvider>
   );
 }
