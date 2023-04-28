@@ -13,7 +13,7 @@ import {
   StatusBar,
 } from 'native-base';
 import NativeBaseIcon from './src/lib/NativeBaseIcon';
-import PostItem from './src/screens/home/PostItem';
+import PostItem from './src/components/post/PostItem';
 import AvatarEntity from './src/components/common/AvatarEntity';
 import PostLoader from './src/components/PostLoader';
 import CommentLoader from './src/components/CommentLoader';
