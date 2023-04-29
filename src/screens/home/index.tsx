@@ -1,16 +1,15 @@
-import { NavigationAction } from '@react-navigation/native';
-import { Center, ScrollView, Stack, Text, ToastProvider } from 'native-base';
+import { Center, ScrollView,} from 'native-base';
 import React, { useEffect, useState, useCallback } from 'react';
 import PostLoader from '../../components/PostLoader';
-import CommentLoader from '../../components/CommentLoader';
-import PostItem from './PostItem';
+import PostItem from '../../components/post/PostItem';
 import Post from '../../types/post/post.types';
 import { createStackNavigator } from '@react-navigation/stack';
 import Detail from './Detail';
 import { ToastAndroid } from 'react-native';
-import { RefreshControl } from 'react-native-gesture-handler';
+// import { RefreshControl } from 'react-native-gesture-handler';
 
 const StackView = createStackNavigator();
+
 const Home = ({ navigation }: any) => {
   const [postdata, setPostdata] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,6 +34,7 @@ const Home = ({ navigation }: any) => {
       }
     })();
   }, []);
+  
   const Main = ({ navigation }: any) => {
     return (
       <Center flex={1}>
@@ -42,9 +42,9 @@ const Home = ({ navigation }: any) => {
         <ScrollView
           w="full"
           px={2}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
+          // refreshControl={
+          //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          // }
         >
           {postdata?.length > 0 &&
             postdata?.map((val, i) => (

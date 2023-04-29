@@ -13,8 +13,7 @@ import {
 } from 'native-base';
 import React, { memo, useState, useLayoutEffect } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Post from '../../types/post/post.types';
-import AvatarEntity from '../../common/AvatarEntity';
+import AvatarEntity from '../common/AvatarEntity';
 
 const PostItem = ({ value, navigation }: any) => {
   const [active, setActive] = useState(false);
