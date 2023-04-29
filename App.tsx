@@ -41,7 +41,6 @@ export default function App() {
     <NativeBaseProvider>
       <StatusBar />
       <Navigation />
-      {/* <Setting /> */}
       <Provider store={store}>
         <Navigation />
       </Provider>
