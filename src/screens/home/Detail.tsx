@@ -13,14 +13,14 @@ import {
 } from 'native-base';
 import React, { memo, useState, useLayoutEffect } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import AvatarEntity from '../common/AvatarEntity';
+import AvatarEntity from '../../components/common/AvatarEntity';
 
-const PostItem = ({ value, navigation }: any) => {
+const Detail = ({ route, navigation }: any) => {
   const [active, setActive] = useState(false);
+  const value = route.params;
   const user = {
     id: 2,
   };
-
   useLayoutEffect(() => {
     if (value.react) {
       let arr = value.react.map((val: any) => Number(val.id));
@@ -29,12 +29,22 @@ const PostItem = ({ value, navigation }: any) => {
       }
     }
   }, [value.react]);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '',
+      headerLeft: () => (
+        <HStack w="full" alignItems={'center'}>
+          <Ionicons name="chevron-back-outline" size={33} color="#fff" />
+          <AvatarEntity
+            username={value?.created_by?.name}
+            avatar={value?.created_by?.avatar}
+          />
+        </HStack>
+      ),
+    });
+  }, [navigation, route]);
   return (
     <Box w="full" px={2} mb={2} bgColor="coolGray.200">
-      <AvatarEntity
-        username={value?.created_by?.name}
-        avatar={value?.created_by?.avatar}
-      />
       <VStack>
         <Text fontSize="md" mt={1}>
           {value?.content}
@@ -68,7 +78,6 @@ const PostItem = ({ value, navigation }: any) => {
               icon={
                 <Ionicons name="chatbubble-outline" size={36} color="#644AB5" />
               }
-              onPress={(e) => navigation.navigate('detail', value)}
             />
 
             <IconButton
@@ -101,4 +110,4 @@ const PostItem = ({ value, navigation }: any) => {
     </Box>
   );
 };
-export default memo(PostItem);
+export default memo(Detail);
