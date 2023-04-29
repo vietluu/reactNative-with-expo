@@ -1,8 +1,8 @@
-import { Center } from 'native-base';
+import { NavigationAction } from '@react-navigation/native';
+import { Center, Text } from 'native-base';
 import React from 'react';
 import PostLoader from '../../components/PostLoader';
 import CommentLoader from '../../components/CommentLoader';
-
 const Home = ({ navigation }: any) => {
   return (
     <Center

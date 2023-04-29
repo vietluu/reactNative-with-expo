@@ -1,3 +1,4 @@
+import { NavigationAction } from '@react-navigation/native';
 import { Center, Text } from 'native-base';
 // import { Text, View, SafeAreaView, StatusBar, Image } from 'react-native'
 
