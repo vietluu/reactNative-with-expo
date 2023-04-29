@@ -1,4 +1,4 @@
-import { Avatar, View, Text } from 'native-base';
+import { Avatar, View, Text, HStack } from 'native-base';
 import { User } from '../types';
 
 const defaultAvatar: string =
@@ -6,15 +6,18 @@ const defaultAvatar: string =
 
 const AvatarEntity = ({ username, email, avatar }: User) => {
   return (
-    <View className="flex flex-row items-center gap-2">
+    <HStack w="full" alignItems="center" py="2">
       <Avatar
+        size="md"
         source={{
           uri: avatar || defaultAvatar,
         }}
       />
 
-      <Text className="font-bold text-xl">{username}</Text>
-    </View>
+      <Text fontSize="lg" pl={2}>
+        {username}
+      </Text>
+    </HStack>
   );
 };
 

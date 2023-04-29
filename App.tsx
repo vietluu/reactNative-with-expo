@@ -36,12 +36,12 @@ declare module 'native-base' {
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <StatusBar />
-      <Provider store={store}>
+    <Provider store={store}>
+      <NativeBaseProvider>
+        <StatusBar />
         <Navigation />
-      </Provider>
-    </NativeBaseProvider>
+      </NativeBaseProvider>
+    </Provider>
   );
 }
 
