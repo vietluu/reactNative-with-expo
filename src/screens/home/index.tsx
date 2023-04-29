@@ -2,9 +2,8 @@ import { Center, ScrollView,} from 'native-base';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ToastAndroid } from 'react-native';
 import React, { useEffect, useState, useCallback } from 'react';
-import PostLoader from '../../components/PostLoader';
+import PostLoader from '../../components/post/PostLoader';
 import PostItem from '../../components/post/PostItem';
-import Post from '../../types/post/post.types';
 import Detail from './Detail';
 // import { RefreshControl } from 'react-native-gesture-handler';
 

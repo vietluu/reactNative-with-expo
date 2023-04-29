@@ -27,7 +27,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "eslint --ext .tsx --ext .ts src/",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "format": "prettier --write \"src/**/*.{ts, tsx}\""
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Center, HStack, Skeleton, VStack, View } from 'native-base';
+import { Center, HStack, Skeleton, View } from 'native-base';
 
 const PostLoader = () => {
   return (

@@ -1,8 +1,5 @@
 import {
-    Avatar,
     Box,
-    Button,
-    Center,
     HStack,
     IconButton,
     Image,
@@ -23,12 +20,14 @@ import {
   
     useLayoutEffect(() => {
       if (value.react) {
-        let arr = value.react.map((val: any) => Number(val.id));
+        const arr = value.react.map((val: any) => Number(val.id));
+
         if (arr.includes(user.id)) {
           setActive(true);
         }
       }
     }, [value.react]);
+    
     return (
       <Box w="full" px={2} mb={2} bgColor="coolGray.200">
         <AvatarEntity

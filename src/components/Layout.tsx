@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
-import * as SecureStore from 'expo-secure-store';
+import React from 'react';
 import CreatePost from '../screens/createPost';
 import Notify from '../screens/notification';
 import Home from '../screens/home';
 import Setting from '../screens/setting';
 import PostStore from '../screens/postStore';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import PostItem from '../screens/home/PostItem';
 import Icon from '@expo/vector-icons/Ionicons';
 
 function Layout() {

@@ -1,5 +1,5 @@
 import { Center, HStack, Skeleton } from 'native-base';
-import { Rect } from 'react-native-svg';
+
 const CommentLoader = () => {
   return (
     <Center>

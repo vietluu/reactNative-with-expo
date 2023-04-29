@@ -15,7 +15,7 @@ import {
 import NativeBaseIcon from './src/lib/NativeBaseIcon';
 import PostItem from './src/screens/home/PostItem';
 import AvatarEntity from './src/components/common/AvatarEntity';
-import PostLoader from './src/components/PostLoader';
+import PostLoader from './src/components/post/PostLoader';
 import CommentLoader from './src/components/CommentLoader';
 import Navigation from './src/components/Navigation';
 import Login from './src/components/auth/Login';
@@ -33,7 +33,7 @@ const config = {
 export const theme = extendTheme({ config });
 type MyThemeType = typeof theme;
 declare module 'native-base' {
-  interface ICustomTheme extends MyThemeType {}
+  type ICustomTheme = MyThemeType
 }
 
 export default function App() {
