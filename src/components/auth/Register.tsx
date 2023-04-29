@@ -51,7 +51,9 @@ const Register = (props: Props) => {
             base: "auto",
             md: "3"
           }}>
-          <Button size="md">Register</Button>   
+            <Button size="md">Register</Button>   
+          <Text className="">Already have an account?</Text>
+            
           </Stack>
         </Center>
       </NativeBaseProvider>

@@ -40,9 +40,9 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <StatusBar />
-      <Navigation />
+      {/* <Navigation /> */}
       <Provider store={store}>
-        <Navigation />
+        <Login />
       </Provider>
     </NativeBaseProvider>
   );

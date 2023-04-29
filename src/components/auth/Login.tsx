@@ -86,6 +86,9 @@ const Login = (props: Props) => {
             }}
           >
             <Button size="md">Login</Button>
+
+          <Text className="">Dont have an account?</Text>
+
           </Stack>
         </Center>
       </NativeBaseProvider>
