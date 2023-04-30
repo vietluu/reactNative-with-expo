@@ -12,10 +12,22 @@ function BaseLink() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SignIn">
         <Stack.Group>
-          <Stack.Screen name="SignIn" component={SignIn} />
-          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen
+            name="SignInScreen"
+            component={SignIn}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="SignUpScreen"
+            component={SignUp}
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack.Group>
-        
+
         <Stack.Screen
           name="LayoutScreen"
           component={Layout}

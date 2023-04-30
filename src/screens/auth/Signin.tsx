@@ -18,7 +18,7 @@ const SignIn = ({ navigation }: any) => {
   }
 
   const goToSignUp = () => {
-    navigation.navigate('SignUp')
+    navigation.navigate('SignUpScreen')
   }
 
   return (
