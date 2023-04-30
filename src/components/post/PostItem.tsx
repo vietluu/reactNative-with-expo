@@ -64,4 +64,5 @@ const PostItem = ({ value, navigation }: any) => {
     </Box>
   )
 }
+
 export default memo(PostItem)

@@ -4,10 +4,9 @@ import { ToastAndroid } from 'react-native'
 import React, { useEffect, useState, useCallback } from 'react'
 import PostLoader from '../../components/post/PostLoader'
 import PostItem from '../../components/post/PostItem'
-import Detail from './Detail'
-import Signup from '../auth/SignUp'
-import Signin from '../auth/SignIn'
-// import { RefreshControl } from 'react-native-gesture-handler'
+import Detail from '../../components/post/Detail'
+
+import { RefreshControl } from 'react-native-gesture-handler'
 
 const StackView = createStackNavigator()
 
@@ -18,8 +17,10 @@ const Home = ({ navigation }: any) => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true)
-    isLoading == false && setRefreshing(false)
-    isLoading == false && ToastAndroid.show('tin tức đã được cập nhật!', ToastAndroid.TOP)
+    setTimeout(() => {
+      setRefreshing(false)
+      isLoading == false && ToastAndroid.show('tin tức đã được cập nhật!', ToastAndroid.TOP)
+    }, 1000)
   }, [])
 
   useEffect(() => {
@@ -37,13 +38,7 @@ const Home = ({ navigation }: any) => {
     return (
       <Center flex={1}>
         {isLoading && <PostLoader />}
-        <ScrollView
-          w="full"
-          px={2}
-          // refreshControl={
-          //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          // }
-        >
+        <ScrollView w="full" px={2} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           {postdata?.length > 0 && postdata?.map((val, i) => <PostItem key={i} value={val} navigation={navigation} />)}
         </ScrollView>
       </Center>

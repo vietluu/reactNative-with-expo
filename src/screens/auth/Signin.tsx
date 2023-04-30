@@ -13,11 +13,11 @@ const SignIn = ({ navigation }: any) => {
   }
 
   const goToSignUp = () => {
-    navigation.navigate('SignUpScreen')
+    navigation.navigate('SignUp')
   }
 
   return (
-    <View className="h-full">
+    <View>
       <NativeBaseProvider>
         <Center _dark={{ bg: 'blueGray.900' }} _light={{ bg: 'blueGray.50' }} px={4} flex={1}>
           <Text>SignIn</Text>
@@ -71,7 +71,7 @@ const SignIn = ({ navigation }: any) => {
               Sign in
             </Button>
 
-            <Text onPress={goToSignUp}>Dont have an account?</Text>
+            <Text onPress={(e) => goToSignUp()}>Dont have an account?</Text>
           </Stack>
         </Center>
       </NativeBaseProvider>
