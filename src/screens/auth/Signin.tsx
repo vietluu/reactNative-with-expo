@@ -17,7 +17,7 @@ const SignIn = ({ navigation }: any) => {
   }
 
   return (
-    <View className="h-full">
+    <View>
       <NativeBaseProvider>
         <Center _dark={{ bg: 'blueGray.900' }} _light={{ bg: 'blueGray.50' }} px={4} flex={1}>
           <Text>SignIn</Text>
