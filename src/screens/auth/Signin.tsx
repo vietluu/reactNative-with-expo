@@ -1,20 +1,42 @@
 import { useState } from 'react'
-import { Input, Stack, Text, Button, Icon, Pressable, Center, NativeBaseProvider, View, FormControl } from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons'
 import { api } from '../../utils/api'
 import { UserSignIn } from '../../types'
+import { Platform } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { MaterialIcons } from '@expo/vector-icons'
+import { Input, Text, Button, Icon, Pressable, Center, FormControl } from 'native-base'
 
 const SignIn = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [user, setUser] = useState({ email: '', password: '' })
 
   const handleSignIn = async () => {
-    const payload: UserSignIn = user
-    const { data } = await api.post('/auth/local/signup', payload)
+    if (user.email === '' || user.password === '') return
 
-    console.log('handleSignIn')
-    navigation.navigate('LayoutScreen')
-    return true
+    setLoading(true)
+    const payload: UserSignIn = user
+
+    try {
+      const { data } = await api.post('/auth/local/signin', JSON.parse(JSON.stringify(payload)))
+      const { access_token } = data
+
+      if (Platform.OS === 'web') {
+        // do something for ios
+        localStorage.setItem('access_token', access_token)
+      } else if (Platform.OS === 'android') {
+        // other thing for android
+        await AsyncStorage.setItem('access_token', access_token)
+      }
+
+      console.log('sign in success', data)
+      if (!data || !data.access_token) return
+      navigation.navigate('LayoutScreen')
+    } catch (error) {
+      console.error('handleSignIn', error)
+    }
+
+    setLoading(false)
   }
 
   const goToSignUp = () => {
@@ -32,6 +54,8 @@ const SignIn = ({ navigation }: any) => {
         <Input
           marginTop={4}
           InputLeftElement={<Icon as={<MaterialIcons name="email" />} size={5} ml="2" color="muted.400" />}
+          onChangeText={(text) => setUser({ ...user, email: text })}
+          defaultValue={user.email}
           placeholder="Email"
         />
 
@@ -49,11 +73,13 @@ const SignIn = ({ navigation }: any) => {
               />
             </Pressable>
           }
+          onChangeText={(text) => setUser({ ...user, password: text })}
+          defaultValue={user.password}
           placeholder="Password"
         />
       </FormControl>
 
-      <Button w={'full'} onPress={handleSignIn} marginTop={4}>
+      <Button w={'full'} onPress={handleSignIn} marginTop={4} isLoading={loading} isLoadingText="Signing in">
         Sign in
       </Button>
 
