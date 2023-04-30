@@ -15,6 +15,7 @@ function BaseLink() {
           <Stack.Screen name="SignIn" component={SignIn} />
           <Stack.Screen name="SignUp" component={SignUp} />
         </Stack.Group>
+        
         <Stack.Screen
           name="LayoutScreen"
           component={Layout}
