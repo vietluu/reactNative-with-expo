@@ -1,31 +1,26 @@
 import React from 'react'
-import {
-  Input,
-  Stack,
-  Text,
-  Button,
-  Icon,
-  Pressable,
-  Center,
-  NativeBaseProvider,
-  View,
-} from 'native-base'
+import { Input, Stack, Text, Button, Icon, Pressable, Center, NativeBaseProvider, View } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
+import { api } from '../../utils/api'
 
-
-const Signin = () => {
+const SignIn = ({ navigation }: any) => {
   const [show, setShow] = React.useState(false)
 
+  const handleSignIn = () => {
+    console.log('handleSignIn')
+    navigation.navigate('LayoutScreen')
+    return true
+  }
+
+  const goToSignUp = () => {
+    navigation.navigate('SignUp')
+  }
+
   return (
-    <View>
+    <View className="h-full">
       <NativeBaseProvider>
-        <Center
-          _dark={{ bg: 'blueGray.900' }}
-          _light={{ bg: 'blueGray.50' }}
-          px={4}
-          flex={1}
-        >
-          <Text className="">Signin</Text>
+        <Center _dark={{ bg: 'blueGray.900' }} _light={{ bg: 'blueGray.50' }} px={4} flex={1}>
+          <Text>SignIn</Text>
 
           <Stack space={4} w="100%" alignItems="center">
             {/* Email Input */}
@@ -34,14 +29,7 @@ const Signin = () => {
                 base: '75%',
                 md: '25%',
               }}
-              InputLeftElement={
-                <Icon
-                  as={<MaterialIcons name="email" />}
-                  size={5}
-                  ml="2"
-                  color="muted.400"
-                />
-              }
+              InputLeftElement={<Icon as={<MaterialIcons name="email" />} size={5} ml="2" color="muted.400" />}
               placeholder="Email"
             />
 
@@ -55,11 +43,7 @@ const Signin = () => {
               InputRightElement={
                 <Pressable onPress={() => setShow(!show)}>
                   <Icon
-                    as={
-                      <MaterialIcons
-                        name={show ? 'visibility' : 'visibility-off'}
-                      />
-                    }
+                    as={<MaterialIcons name={show ? 'visibility' : 'visibility-off'} />}
                     size={5}
                     mr="2"
                     color="muted.400"
@@ -83,15 +67,16 @@ const Signin = () => {
               md: '3',
             }}
           >
-            <Button size="md">Login</Button>
+            <Button className="w-full" onPress={handleSignIn}>
+              Sign in
+            </Button>
 
-          <Text className="">Dont have an account?</Text>
-
+            <Text onPress={(e) => goToSignUp()}>Dont have an account?</Text>
           </Stack>
         </Center>
       </NativeBaseProvider>
-    </ View>
+    </View>
   )
 }
 
-export default Signin
+export default SignIn

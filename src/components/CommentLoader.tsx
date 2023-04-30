@@ -1,4 +1,4 @@
-import { Center, HStack, Skeleton } from 'native-base';
+import { Center, HStack, Skeleton } from 'native-base'
 
 const CommentLoader = () => {
   return (
@@ -8,6 +8,6 @@ const CommentLoader = () => {
         <Skeleton.Text lines={3} w="90%" p={3} />
       </HStack>
     </Center>
-  );
-};
-export default CommentLoader;
+  )
+}
+export default CommentLoader

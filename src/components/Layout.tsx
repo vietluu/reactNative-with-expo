@@ -33,9 +33,7 @@ function Layout() {
         options={{
           tabBarLabel: '',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="home" size={size} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <Icon name="home" size={size} color={color} />,
         }}
       />
       <Tab.Screen
@@ -44,9 +42,7 @@ function Layout() {
         options={{
           tabBarLabel: '',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="bookmark-outline" size={size} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <Icon name="bookmark-outline" size={size} color={color} />,
         }}
       />
       <Tab.Screen
@@ -55,9 +51,7 @@ function Layout() {
         options={{
           tabBarLabel: '',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="add-circle-outline" size={33} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <Icon name="add-circle-outline" size={33} color={color} />,
         }}
       />
       <Tab.Screen
@@ -66,9 +60,7 @@ function Layout() {
         options={{
           tabBarLabel: '',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="notifications" size={size} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <Icon name="notifications" size={size} color={color} />,
         }}
       />
       <Tab.Screen
@@ -77,9 +69,7 @@ function Layout() {
         options={{
           tabBarLabel: '',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="person-circle-outline" size={33} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <Icon name="person-circle-outline" size={33} color={color} />,
         }}
       />
     </Tab.Navigator>

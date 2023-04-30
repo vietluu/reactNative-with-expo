@@ -45,7 +45,7 @@ const PostItem = ({ value, navigation }: any) => {
             <IconButton icon={<Ionicons name="heart-outline" size={39} color={`${active ? '#000' : '#644AB5'}`} />} />
             <IconButton
               icon={<Ionicons name="chatbubble-outline" size={36} color="#644AB5" />}
-              onPress={(e) => navigation.navigate('Detail', value)}
+              onPress={(e) => navigation.navigate('detail', value)}
             />
 
             <IconButton icon={<Ionicons name="paper-plane-outline" size={36} color="#644AB5" />} />
@@ -64,4 +64,5 @@ const PostItem = ({ value, navigation }: any) => {
     </Box>
   )
 }
+
 export default memo(PostItem)
