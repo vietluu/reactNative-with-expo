@@ -1,11 +1,4 @@
-import {
-  Box,
-  HStack,
-  IconButton,
-  Image,
-  Text,
-  VStack,
-} from 'native-base'
+import { Box, HStack, IconButton, Image, Text, VStack } from 'native-base'
 import React, { memo, useState, useLayoutEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import AvatarEntity from '../../components/common/AvatarEntity'
@@ -16,7 +9,7 @@ const Detail = ({ route, navigation }: any) => {
   const user = {
     id: 2,
   }
-  
+
   useLayoutEffect(() => {
     if (value.react) {
       const arr = value.react.map((val: any) => Number(val.id))
@@ -32,10 +25,7 @@ const Detail = ({ route, navigation }: any) => {
       headerLeft: () => (
         <HStack w="full" alignItems={'center'}>
           <Ionicons name="chevron-back-outline" size={33} color="#fff" />
-          <AvatarEntity
-            username={value?.created_by?.name}
-            avatar={value?.created_by?.avatar}
-          />
+          <AvatarEntity username={value?.created_by?.name} avatar={value?.created_by?.avatar} />
         </HStack>
       ),
     })
@@ -63,46 +53,20 @@ const Detail = ({ route, navigation }: any) => {
       <HStack>
         <VStack w="90%">
           <HStack alignItems={'center'}>
-            <IconButton
-              icon={
-                <Ionicons
-                  name="heart-outline"
-                  size={39}
-                  color={`${active ? '#000' : '#644AB5'}`}
-                />
-              }
-            />
-            <IconButton
-              icon={
-                <Ionicons name="chatbubble-outline" size={36} color="#644AB5" />
-              }
-            />
+            <IconButton icon={<Ionicons name="heart-outline" size={39} color={`${active ? '#000' : '#644AB5'}`} />} />
+            <IconButton icon={<Ionicons name="chatbubble-outline" size={36} color="#644AB5" />} />
 
-            <IconButton
-              icon={
-                <Ionicons
-                  name="paper-plane-outline"
-                  size={36}
-                  color="#644AB5"
-                />
-              }
-            />
+            <IconButton icon={<Ionicons name="paper-plane-outline" size={36} color="#644AB5" />} />
           </HStack>
           {value.react.length > 0 && (
             <VStack ml={2} mb={1}>
-              <Text color={'gray.400'}>
-                {value.react.length} person like this!
-              </Text>
+              <Text color={'gray.400'}>{value.react.length} person like this!</Text>
             </VStack>
           )}
         </VStack>
 
         <VStack w="10%">
-          <IconButton
-            icon={
-              <Ionicons name="bookmark-outline" size={36} color="#644AB5" />
-            }
-          />
+          <IconButton icon={<Ionicons name="bookmark-outline" size={36} color="#644AB5" />} />
         </VStack>
       </HStack>
     </Box>

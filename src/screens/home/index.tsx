@@ -19,23 +19,20 @@ const Home = ({ navigation }: any) => {
   const onRefresh = useCallback(() => {
     setRefreshing(true)
     isLoading == false && setRefreshing(false)
-    isLoading == false &&
-      ToastAndroid.show('tin tức đã được cập nhật!', ToastAndroid.TOP)
+    isLoading == false && ToastAndroid.show('tin tức đã được cập nhật!', ToastAndroid.TOP)
   }, [])
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       setIsLoading(true)
-      const res = await fetch(
-        'https://642f7da7b289b1dec4b3f5cc.mockapi.io/api/v1/post',
-      ).then((res) => res.json())
+      const res = await fetch('https://642f7da7b289b1dec4b3f5cc.mockapi.io/api/v1/post').then((res) => res.json())
       if (res) {
         setPostdata(res)
         setIsLoading(false)
       }
     })()
   }, [])
-  
+
   const Main = ({ navigation }: any) => {
     return (
       <Center flex={1}>
@@ -47,15 +44,12 @@ const Home = ({ navigation }: any) => {
           //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           // }
         >
-          {postdata?.length > 0 &&
-            postdata?.map((val, i) => (
-              <PostItem key={i} value={val} navigation={navigation} />
-            ))}
+          {postdata?.length > 0 && postdata?.map((val, i) => <PostItem key={i} value={val} navigation={navigation} />)}
         </ScrollView>
       </Center>
     )
   }
-  
+
   return (
     <StackView.Navigator
       initialRouteName="main"
@@ -71,5 +65,5 @@ const Home = ({ navigation }: any) => {
       <StackView.Screen name="Signup" component={Signup} />
     </StackView.Navigator>
   )
-};
-export default Home;
+}
+export default Home

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Center, HStack, Skeleton, View } from 'native-base';
+import React from 'react'
+import { Center, HStack, Skeleton, View } from 'native-base'
 
 const PostLoader = () => {
   return (
@@ -86,6 +86,6 @@ const PostLoader = () => {
         </HStack>
       </Center>
     </View>
-  );
-};
-export default PostLoader;
+  )
+}
+export default PostLoader

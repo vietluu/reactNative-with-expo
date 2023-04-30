@@ -1,51 +1,29 @@
-import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Layout from './Layout';
-import { NavigationContainer } from '@react-navigation/native';
-
-//SplashScreen.preventAutoHideAsync();
+import React from 'react'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import Layout from './Layout'
+import { NavigationContainer } from '@react-navigation/native'
+import Signin from '../screens/auth/Signin'
+import { StyleSheet } from 'react-native'
+import Signup from '../screens/auth/Signup'
 
 function BaseLink() {
-  // const [appIsReady,setAppIsReady] = useState(false)
-  // useEffect(() => {
-  //     async function prepare() {
-  //       try {
-  //         await new Promise(resolve => setTimeout(resolve, 2000));
-  //       } catch (e) {
-  //         console.warn(e);
-  //       } finally {
-  //         // Tell the application to render
-  //         setAppIsReady(true);
-  //       }
-  //     }
+  const Stack = createNativeStackNavigator()
 
-  //     prepare();
-  // }, []);
-  // const onLayoutRootView = useCallback(async () => {
-  //     if (appIsReady) {
-  //       await SplashScreen.hideAsync();
-  //     }
-  //   }, [appIsReady]);
-
-  //   if (!appIsReady) {
-  //     return null;
-  //   }
-
-  const Stack = createNativeStackNavigator();
-  
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="LoginScreen">
+        <Stack.Screen name="SignInScreen" component={Signin} options={{ headerShown: false }} />
+        <Stack.Screen name="SignUpScreen" component={Signup} options={{ headerShown: false }} />
         <Stack.Screen
-          name="layout"
+          name="LayoutScreen"
           component={Layout}
           options={{
             headerShown: false,
           }}
         />
-      
       </Stack.Navigator>
     </NavigationContainer>
-  );
+  )
 }
-export default BaseLink;
+
+export default BaseLink
