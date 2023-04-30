@@ -1,12 +1,13 @@
 import React from 'react'
 import { Input, Stack, Text, Button, Icon, Pressable, Center, NativeBaseProvider, View } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
+import { api } from '../../utils/api'
 
-const Signin = ({ navigation }: any) => {
+const SignIn = ({ navigation }: any) => {
   const [show, setShow] = React.useState(false)
 
-  const handleLogin = () => {
-    console.log('handleLogin')
+  const handleSignIn = () => {
+    console.log('handleSignIn')
     navigation.navigate('LayoutScreen')
     return true
   }
@@ -19,7 +20,7 @@ const Signin = ({ navigation }: any) => {
     <View className="h-full">
       <NativeBaseProvider>
         <Center _dark={{ bg: 'blueGray.900' }} _light={{ bg: 'blueGray.50' }} px={4} flex={1}>
-          <Text>Signin</Text>
+          <Text>SignIn</Text>
 
           <Stack space={4} w="100%" alignItems="center">
             {/* Email Input */}
@@ -66,7 +67,7 @@ const Signin = ({ navigation }: any) => {
               md: '3',
             }}
           >
-            <Button className="w-full" onPress={handleLogin}>
+            <Button className="w-full" onPress={handleSignIn}>
               Sign in
             </Button>
 
@@ -78,4 +79,4 @@ const Signin = ({ navigation }: any) => {
   )
 }
 
-export default Signin
+export default SignIn

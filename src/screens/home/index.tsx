@@ -5,8 +5,8 @@ import React, { useEffect, useState, useCallback } from 'react'
 import PostLoader from '../../components/post/PostLoader'
 import PostItem from '../../components/post/PostItem'
 import Detail from './Detail'
-import Signup from '../auth/Signup'
-import Signin from '../auth/Signin'
+import Signup from '../auth/SignUp'
+import Signin from '../auth/SignIn'
 // import { RefreshControl } from 'react-native-gesture-handler'
 
 const StackView = createStackNavigator()
@@ -61,8 +61,6 @@ const Home = ({ navigation }: any) => {
     >
       <StackView.Screen name="My review" component={Main} />
       <StackView.Screen name="Detail" component={Detail} />
-      <StackView.Screen name="Login" component={Signin} />
-      <StackView.Screen name="Signup" component={Signup} />
     </StackView.Navigator>
   )
 }

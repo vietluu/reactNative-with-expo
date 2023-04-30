@@ -1,12 +1,28 @@
-import React from 'react'
+import { useState } from 'react'
 import { Input, Stack, Text, Button, Icon, Pressable, Center, NativeBaseProvider, View } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
+import { api } from '../../utils/api'
+import { UserSignUp } from '../../types'
 
-const Signup = ({ navigation }: any) => {
-  const [show, setShow] = React.useState(false)
+const SignUp = ({ navigation }: any) => {
+  const [show, setShow] = useState(false)
+  const [user, setUser] = useState({ email: '', password: '' })
 
-  const handleSignUp = () => {
-    console.log('handleSignUp')
+  const handleSignUp = async () => {
+    console.log('user', user)
+
+    const payload: UserSignUp = { email: 'quangtv@rabiloo.com', password: '12345678' }
+
+    try {
+      const { data } = await api.post('/auth/local/signup', payload)
+
+      if (!data || !data.access_token) return
+
+      console.log('handleSignUp sucess', data)
+      navigation.navigate('LayoutScreen')
+    } catch (error) {
+      console.error('handleSignUp', error)
+    }
   }
 
   const goToSignIn = () => {
@@ -17,7 +33,7 @@ const Signup = ({ navigation }: any) => {
     <View>
       <NativeBaseProvider>
         <Center _dark={{ bg: 'blueGray.900' }} _light={{ bg: 'blueGray.50' }} px={4} flex={1}>
-          <Text>Signup</Text>
+          <Text>SignUp</Text>
 
           <Stack space={4} w="100%" alignItems="center">
             {/* Email Input */}
@@ -27,6 +43,8 @@ const Signup = ({ navigation }: any) => {
                 md: '25%',
               }}
               InputLeftElement={<Icon as={<MaterialIcons name="email" />} size={5} ml="2" color="muted.400" />}
+              onChangeText={(text) => setUser({ ...user, email: text })}
+              defaultValue={user.email}
               placeholder="Email"
             />
 
@@ -47,6 +65,8 @@ const Signup = ({ navigation }: any) => {
                   />
                 </Pressable>
               }
+              onChangeText={(text) => setUser({ ...user, password: text })}
+              defaultValue={user.password}
               placeholder="Password"
             />
 
@@ -85,7 +105,7 @@ const Signup = ({ navigation }: any) => {
             }}
           >
             <Button size="md" onPress={handleSignUp}>
-              Signup
+              SignUp
             </Button>
 
             <Text onPress={goToSignIn}>Already have an account?</Text>
@@ -96,4 +116,4 @@ const Signup = ({ navigation }: any) => {
   )
 }
 
-export default Signup
+export default SignUp
