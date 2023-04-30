@@ -8,14 +8,16 @@ import {
   Pressable,
   Center,
   NativeBaseProvider,
+  View,
 } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 
 
-const Login = () => {
+const Signin = () => {
   const [show, setShow] = React.useState(false)
+
   return (
-    <>
+    <View>
       <NativeBaseProvider>
         <Center
           _dark={{ bg: 'blueGray.900' }}
@@ -23,7 +25,7 @@ const Login = () => {
           px={4}
           flex={1}
         >
-          <Text className="">Login</Text>
+          <Text className="">Signin</Text>
 
           <Stack space={4} w="100%" alignItems="center">
             {/* Email Input */}
@@ -88,8 +90,8 @@ const Login = () => {
           </Stack>
         </Center>
       </NativeBaseProvider>
-    </>
+    </ View>
   )
 }
 
-export default Login
+export default Signin

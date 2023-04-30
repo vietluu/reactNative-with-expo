@@ -1,10 +1,12 @@
-import { Center, ScrollView,} from 'native-base'
+import { Center, ScrollView } from 'native-base'
 import { createStackNavigator } from '@react-navigation/stack'
 import { ToastAndroid } from 'react-native'
 import React, { useEffect, useState, useCallback } from 'react'
 import PostLoader from '../../components/post/PostLoader'
 import PostItem from '../../components/post/PostItem'
 import Detail from './Detail'
+import Signup from '../auth/Signup'
+import Signin from '../auth/Signin'
 // import { RefreshControl } from 'react-native-gesture-handler'
 
 const StackView = createStackNavigator()
@@ -65,6 +67,8 @@ const Home = ({ navigation }: any) => {
     >
       <StackView.Screen name="My review" component={Main} />
       <StackView.Screen name="Detail" component={Detail} />
+      <StackView.Screen name="Login" component={Signin} />
+      <StackView.Screen name="Signup" component={Signup} />
     </StackView.Navigator>
   )
 };

@@ -4,7 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 
 
-const Register = () => {
+const Signup = () => {
   const [show, setShow] = React.useState(false);
 
   return (
@@ -16,7 +16,7 @@ const Register = () => {
           px={4}
           flex={1}
         >
-      <Text className=''>Register</Text>
+      <Text className=''>Signup</Text>
 
       <Stack space={4} w="100%" alignItems="center">
 
@@ -50,7 +50,7 @@ const Register = () => {
             base: "auto",
             md: "3"
           }}>
-            <Button size="md">Register</Button>   
+            <Button size="md">Signup</Button>   
           <Text className="">Already have an account?</Text>
             
           </Stack>
@@ -60,4 +60,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Signup

@@ -85,4 +85,5 @@ function Layout() {
     </Tab.Navigator>
   )
 }
+
 export default Layout
