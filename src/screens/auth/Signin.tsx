@@ -12,7 +12,7 @@ const SignIn = ({ navigation }: any) => {
   const [user, setUser] = useState({ email: '', password: '' })
 
   const handleSignIn = async () => {
-    if (user.email === '' || user.password === '') return
+    if (user.email.trim() === '' || user.password.trim() === '') return
 
     setLoading(true)
     const payload: UserSignIn = user

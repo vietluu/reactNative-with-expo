@@ -11,7 +11,7 @@ const SignUp = ({ navigation }: any) => {
   const toast = useToast()
 
   const handleSignUp = async () => {
-    if (user.email === '' || user.password === '') return
+    if (user.email.trim() === '' || user.password.trim() === '') return
 
     setLoading(true)
     const payload: UserSignUp = user
