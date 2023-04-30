@@ -1,15 +1,14 @@
 import React from 'react'
-import { FormControl, Input, Stack, Text, Box, Button, Icon, Pressable, Center, NativeBaseProvider, WarningOutlineIcon } from "native-base"
+import {  Input, Stack, Text,  Button, Icon, Pressable, Center, NativeBaseProvider, View } from "native-base"
 import { MaterialIcons } from "@expo/vector-icons";
 
 
-type Props = {}
 
-const Register = (props: Props) => {
+const Register = () => {
   const [show, setShow] = React.useState(false);
 
   return (
-    <>
+    <View>
        <NativeBaseProvider>
         <Center
           _dark={{ bg: 'blueGray.900' }}
@@ -57,8 +56,7 @@ const Register = (props: Props) => {
           </Stack>
         </Center>
       </NativeBaseProvider>
-        
-    </>
+    </View>
   )
 }
 

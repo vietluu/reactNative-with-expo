@@ -30,7 +30,9 @@ function BaseLink() {
   //   if (!appIsReady) {
   //     return null;
   //   }
+
   const Stack = createNativeStackNavigator();
+  
   return (
     <NavigationContainer>
       <Stack.Navigator>

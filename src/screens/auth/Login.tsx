@@ -1,23 +1,19 @@
-import React from 'react';
+import React from 'react'
 import {
-  FormControl,
   Input,
   Stack,
   Text,
-  Box,
   Button,
   Icon,
   Pressable,
   Center,
   NativeBaseProvider,
-  WarningOutlineIcon,
-} from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
+} from 'native-base'
+import { MaterialIcons } from '@expo/vector-icons'
 
-type Props = {};
 
-const Login = (props: Props) => {
-  const [show, setShow] = React.useState(false);
+const Login = () => {
+  const [show, setShow] = React.useState(false)
   return (
     <>
       <NativeBaseProvider>
@@ -93,7 +89,7 @@ const Login = (props: Props) => {
         </Center>
       </NativeBaseProvider>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

@@ -1,14 +1,14 @@
-import React from 'react';
-import CreatePost from '../screens/createPost';
-import Notify from '../screens/notification';
-import Home from '../screens/home';
-import Setting from '../screens/setting';
-import PostStore from '../screens/postStore';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from '@expo/vector-icons/Ionicons';
+import React from 'react'
+import CreatePost from '../screens/createPost'
+import Notify from '../screens/notification'
+import Home from '../screens/home'
+import Setting from '../screens/setting'
+import PostStore from '../screens/postStore'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import Icon from '@expo/vector-icons/Ionicons'
 
 function Layout() {
-  const Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator()
   return (
     <Tab.Navigator
       screenOptions={{
@@ -83,6 +83,6 @@ function Layout() {
         }}
       />
     </Tab.Navigator>
-  );
+  )
 }
-export default Layout;
+export default Layout

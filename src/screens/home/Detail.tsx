@@ -1,34 +1,31 @@
 import {
-  Avatar,
   Box,
-  Button,
-  Center,
   HStack,
   IconButton,
   Image,
-  Stack,
   Text,
   VStack,
-  View,
-} from 'native-base';
-import React, { memo, useState, useLayoutEffect } from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import AvatarEntity from '../../components/common/AvatarEntity';
+} from 'native-base'
+import React, { memo, useState, useLayoutEffect } from 'react'
+import Ionicons from '@expo/vector-icons/Ionicons'
+import AvatarEntity from '../../components/common/AvatarEntity'
 
 const Detail = ({ route, navigation }: any) => {
-  const [active, setActive] = useState(false);
-  const value = route.params;
+  const [active, setActive] = useState(false)
+  const value = route.params
   const user = {
     id: 2,
-  };
+  }
+  
   useLayoutEffect(() => {
     if (value.react) {
-      let arr = value.react.map((val: any) => Number(val.id));
+      const arr = value.react.map((val: any) => Number(val.id))
       if (arr.includes(user.id)) {
-        setActive(true);
+        setActive(true)
       }
     }
-  }, [value.react]);
+  }, [value.react])
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '',
@@ -41,8 +38,9 @@ const Detail = ({ route, navigation }: any) => {
           />
         </HStack>
       ),
-    });
-  }, [navigation, route]);
+    })
+  }, [navigation, route])
+
   return (
     <Box w="full" px={2} mb={2} bgColor="coolGray.200">
       <VStack>
@@ -108,6 +106,7 @@ const Detail = ({ route, navigation }: any) => {
         </VStack>
       </HStack>
     </Box>
-  );
-};
-export default memo(Detail);
+  )
+}
+
+export default memo(Detail)

@@ -2,24 +2,13 @@ import React from 'react';
 import {
   Text,
   HStack,
-  Center,
   Switch,
   useColorMode,
   NativeBaseProvider,
   extendTheme,
-  VStack,
-  Box,
-  Skeleton,
   StatusBar,
 } from 'native-base';
-import NativeBaseIcon from './src/lib/NativeBaseIcon';
-import PostItem from './src/screens/home/PostItem';
-import AvatarEntity from './src/components/common/AvatarEntity';
-import PostLoader from './src/components/post/PostLoader';
-import CommentLoader from './src/components/CommentLoader';
 import Navigation from './src/components/Navigation';
-import Login from './src/components/auth/Login';
-import Register from './src/components/auth/Register';
 import { Provider } from 'react-redux';
 
 import store from './src/redux';
