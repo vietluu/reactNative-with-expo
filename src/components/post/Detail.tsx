@@ -1,13 +1,13 @@
-import { Box, HStack, IconButton, Image, Input, Text, VStack } from 'native-base'
+import { Box, ScrollView, HStack, IconButton, Image, Input, Text, VStack } from 'native-base'
 import React, { memo, useState, useLayoutEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import AvatarEntity from '../common/AvatarEntity'
 import { TextInput } from 'react-native-gesture-handler'
-
+import Comment from './conment'
 const Detail = ({ route, navigation }: any) => {
   const [active, setActive] = useState(false)
   const [txt, setTxt] = useState('')
-  const value = route.params
+  const value = route?.params || null
   const user = {
     id: 2,
   }
@@ -34,7 +34,7 @@ const Detail = ({ route, navigation }: any) => {
   }, [navigation, route])
 
   return (
-    <Box w="full" px={2} mb={2} bgColor="coolGray.200">
+    <ScrollView w="full" px={2} mb={2} bgColor="coolGray.200">
       <VStack>
         <Text fontSize="md" mt={1}>
           {value?.content}
@@ -53,12 +53,12 @@ const Detail = ({ route, navigation }: any) => {
         />
       </VStack>
       <HStack>
-        <VStack w="90%">
+        <VStack w="88%">
           <HStack alignItems={'center'}>
-            <IconButton icon={<Ionicons name="heart-outline" size={39} color={`${active ? '#000' : '#644AB5'}`} />} />
-            <IconButton icon={<Ionicons name="chatbubble-outline" size={36} color="#644AB5" />} />
+            <IconButton icon={<Ionicons name="heart-outline" size={33} color={`${active ? '#000' : '#644AB5'}`} />} />
+            <IconButton icon={<Ionicons name="chatbubble-outline" size={30} color="#644AB5" />} />
 
-            <IconButton icon={<Ionicons name="paper-plane-outline" size={36} color="#644AB5" />} />
+            <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
           </HStack>
           {value.react.length > 0 && (
             <VStack ml={2} mb={1}>
@@ -67,17 +67,20 @@ const Detail = ({ route, navigation }: any) => {
           )}
         </VStack>
 
-        <VStack w="10%">
-          <IconButton icon={<Ionicons name="bookmark-outline" size={36} color="#644AB5" />} />
+        <VStack>
+          <IconButton icon={<Ionicons name="bookmark-outline" size={30} color="#644AB5" />} />
         </VStack>
       </HStack>
       <VStack>
         <HStack>
-          <Input placeholder="coment.." w="90%" inputMode="text" value={txt} onChangeText={(e) => setTxt(e)} />
-          <IconButton />
+          <Input placeholder="coment.." w="86%" inputMode="text" value={txt} onChangeText={(e) => setTxt(e)} />
+          <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
         </HStack>
       </VStack>
-    </Box>
+      <VStack>
+        <Comment />
+      </VStack>
+    </ScrollView>
   )
 }
 

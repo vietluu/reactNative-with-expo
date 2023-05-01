@@ -26,7 +26,7 @@ const Home = ({ navigation }: any) => {
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
-      const { data } = await api.post('/post/find', {})
+      const data: any = await api.post('post/find')
       if (data) setPosts(data)
       setIsLoading(false)
     })()
@@ -53,7 +53,13 @@ const Home = ({ navigation }: any) => {
         },
       }}
     >
-      <StackView.Screen name="My review" component={Main} />
+      <StackView.Screen
+        name="My review"
+        component={Main}
+        options={{
+          headerLeft: () => <></>,
+        }}
+      />
       <StackView.Screen name="Detail" component={Detail} />
     </StackView.Navigator>
   )

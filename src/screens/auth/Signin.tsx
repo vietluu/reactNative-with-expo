@@ -1,34 +1,32 @@
 import { useState } from 'react'
 import { api } from '../../utils/api'
 import { setToken } from '../../utils/token'
+import { ThunkDispatch } from 'redux-thunk'
 import { UserSignIn } from '../../types'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Input, Text, Button, Icon, Pressable, Center, FormControl } from 'native-base'
-
+import { haserr, isloading, login } from '../../redux/auth/reducer'
+import { useAppDispatch, useAppSelector } from '../../redux'
 const SignIn = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState({ email: '', password: '' })
 
+  const dispatch = useAppDispatch()
+  const isLoading = useAppSelector(isloading)
+
   const handleSignIn = async () => {
     if (user.email.trim() === '' || user.password.trim() === '') return
-
-    setLoading(true)
     const payload: UserSignIn = user
-
     try {
-      const { data } = await api.post('/auth/local/signin', JSON.parse(JSON.stringify(payload)))
-      const { access_token } = data
-      if (!data || !data.access_token) return
-
-      console.log('sign in success', data)
-      await setToken(access_token)
+      const res: any = await dispatch(login(payload))
+      if (!res) return
+      console.log('sign in success')
+      await setToken(res.payload.access_token)
       navigation.navigate('LayoutScreen')
     } catch (error) {
       console.error('handleSignIn', error)
     }
-
-    setLoading(false)
   }
 
   const goToSignUp = () => {
@@ -71,7 +69,7 @@ const SignIn = ({ navigation }: any) => {
         />
       </FormControl>
 
-      <Button w={'full'} onPress={handleSignIn} marginTop={4} isLoading={loading} isLoadingText="Signing in">
+      <Button w={'full'} onPress={handleSignIn} marginTop={4} isLoading={isLoading || false} isLoadingText="Signing in">
         Sign in
       </Button>
 
