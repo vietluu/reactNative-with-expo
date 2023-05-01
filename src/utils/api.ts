@@ -1,7 +1,6 @@
 import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { API_URL } from '@env'
-import { Platform } from 'react-native'
+import { getToken } from './token'
 
 const apiPrefix = 'api/v1'
 
@@ -19,15 +18,7 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     // Do something before request is sent
-    let token
-
-    if (Platform.OS === 'web') {
-      // do something for ios
-      token = await localStorage.getItem('access_token')
-    } else if (Platform.OS === 'android') {
-      // other thing for android
-      token = await AsyncStorage.getItem('access_token')
-    }
+    const token = await getToken()
 
     if (token) config.headers.Authorization = 'Bearer ' + token
     else delete config.headers.Authorization

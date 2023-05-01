@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { api } from '../../utils/api'
+import { setToken } from '../../utils/token'
 import { UserSignIn } from '../../types'
-import { Platform } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Input, Text, Button, Icon, Pressable, Center, FormControl } from 'native-base'
 
@@ -20,17 +19,10 @@ const SignIn = ({ navigation }: any) => {
     try {
       const { data } = await api.post('/auth/local/signin', JSON.parse(JSON.stringify(payload)))
       const { access_token } = data
-
-      if (Platform.OS === 'web') {
-        // do something for ios
-        localStorage.setItem('access_token', access_token)
-      } else if (Platform.OS === 'android') {
-        // other thing for android
-        await AsyncStorage.setItem('access_token', access_token)
-      }
+      if (!data || !data.access_token) return
 
       console.log('sign in success', data)
-      if (!data || !data.access_token) return
+      await setToken(access_token)
       navigation.navigate('LayoutScreen')
     } catch (error) {
       console.error('handleSignIn', error)
@@ -46,7 +38,7 @@ const SignIn = ({ navigation }: any) => {
   return (
     <Center _dark={{ bg: 'blueGray.900' }} _light={{ bg: 'blueGray.50' }} px={4} flex={1}>
       <Text fontSize={'xl'} fontWeight={'medium'}>
-        SignIn
+        Sign In
       </Text>
 
       <FormControl>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
 import Layout from './Layout'
@@ -7,10 +6,11 @@ import SignUp from '../screens/auth/Signup'
 
 function BaseLink() {
   const Stack = createNativeStackNavigator()
+  const initialRouteName = 'SignIn'
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignIn">
+      <Stack.Navigator initialRouteName={initialRouteName}>
         <Stack.Group>
           <Stack.Screen
             name="SignInScreen"
