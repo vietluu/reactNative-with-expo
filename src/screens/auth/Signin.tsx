@@ -9,8 +9,8 @@ const SignIn = ({ navigation }: any) => {
   const [user, setUser] = useState({ email: '', password: '' })
 
   const handleSignIn = async () => {
-    const payload: UserSignIn = user
-    const { data } = await api.post('/auth/local/signup', payload)
+    // const payload: UserSignIn = user
+    // const { data } = await api.post('/auth/local/signup', payload)
 
     console.log('handleSignIn')
     navigation.navigate('LayoutScreen')

@@ -5,6 +5,9 @@ import React, { useEffect, useState, useCallback } from 'react'
 import PostLoader from '../../components/post/PostLoader'
 import PostItem from '../../components/post/PostItem'
 import Detail from '../../components/post/Detail'
+import Setting from '../setting'
+import Icon from '@expo/vector-icons/Ionicons'
+
 
 import { RefreshControl } from 'react-native-gesture-handler'
 
@@ -54,7 +57,7 @@ const Home = ({ navigation }: any) => {
         },
       }}
     >
-      <StackView.Screen name="My review" component={Main} />
+      <StackView.Screen name="My Review" component={Main} />
       <StackView.Screen name="Detail" component={Detail} />
     </StackView.Navigator>
   )
