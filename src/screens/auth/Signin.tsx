@@ -53,6 +53,7 @@ const SignIn = ({ navigation }: any) => {
         <Input
           marginTop={4}
           type={show ? 'text' : 'password'}
+          InputLeftElement={<Icon as={<MaterialIcons name="vpn-key" />} size={5} ml="2" color="muted.400" />}
           InputRightElement={
             <Pressable onPress={() => setShow(!show)}>
               <Icon

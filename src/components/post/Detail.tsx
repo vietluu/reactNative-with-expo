@@ -3,7 +3,7 @@ import React, { memo, useState, useLayoutEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import AvatarEntity from '../common/AvatarEntity'
 import { TextInput } from 'react-native-gesture-handler'
-import Comment from './conment'
+import Comment from './Comment'
 const Detail = ({ route, navigation }: any) => {
   const [active, setActive] = useState(false)
   const [txt, setTxt] = useState('')
@@ -77,9 +77,7 @@ const Detail = ({ route, navigation }: any) => {
           <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
         </HStack>
       </VStack>
-      <VStack>
-        <Comment />
-      </VStack>
+      <VStack></VStack>
     </ScrollView>
   )
 }

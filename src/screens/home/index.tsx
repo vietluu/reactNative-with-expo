@@ -46,15 +46,16 @@ const Home = ({ navigation }: any) => {
 
   return (
     <StackView.Navigator
-      initialRouteName="main"
+      initialRouteName="My Review"
       screenOptions={{
         headerStyle: {
           backgroundColor: '#644AB5',
         },
+        headerTintColor: '#fff',
       }}
     >
       <StackView.Screen
-        name="My review"
+        name="My Review"
         component={Main}
         options={{
           headerLeft: () => <></>,
