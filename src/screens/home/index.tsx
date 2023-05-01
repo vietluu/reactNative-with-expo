@@ -2,18 +2,16 @@ import { Center, ScrollView } from 'native-base'
 import { createStackNavigator } from '@react-navigation/stack'
 import { ToastAndroid } from 'react-native'
 import React, { useEffect, useState, useCallback } from 'react'
+import { RefreshControl } from 'react-native-gesture-handler'
 import PostLoader from '../../components/post/PostLoader'
 import PostItem from '../../components/post/PostItem'
 import Detail from '../../components/post/Detail'
-import Setting from '../setting'
-
-
-import { RefreshControl } from 'react-native-gesture-handler'
+import { api } from '../../utils/api'
 
 const StackView = createStackNavigator()
 
 const Home = ({ navigation }: any) => {
-  const [postdata, setPostdata] = useState([])
+  const [posts, setPosts] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
 
@@ -21,18 +19,16 @@ const Home = ({ navigation }: any) => {
     setRefreshing(true)
     setTimeout(() => {
       setRefreshing(false)
-      isLoading == false && ToastAndroid.show('tin tức đã được cập nhật!', ToastAndroid.TOP)
+      isLoading == false && ToastAndroid.show('Tin tức đã được cập nhật!', ToastAndroid.TOP)
     }, 1000)
   }, [])
 
   useEffect(() => {
     ;(async () => {
       setIsLoading(true)
-      const res = await fetch('https://642f7da7b289b1dec4b3f5cc.mockapi.io/api/v1/post').then((res) => res.json())
-      if (res) {
-        setPostdata(res)
-        setIsLoading(false)
-      }
+      const { data } = await api.post('/post/find', {})
+      if (data) setPosts(data)
+      setIsLoading(false)
     })()
   }, [])
 
@@ -41,7 +37,8 @@ const Home = ({ navigation }: any) => {
       <Center flex={1}>
         {isLoading && <PostLoader />}
         <ScrollView w="full" px={2} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-          {postdata?.length > 0 && postdata?.map((val, i) => <PostItem key={i} value={val} navigation={navigation} />)}
+          {posts?.length > 0 &&
+            posts?.map((val, index) => <PostItem key={index} value={val} navigation={navigation} />)}
         </ScrollView>
       </Center>
     )

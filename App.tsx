@@ -1,13 +1,8 @@
-import React from 'react'
-import {
-  NativeBaseProvider,
-  extendTheme,
-  StatusBar,
-} from 'native-base'
-import Navigation from './src/components/Navigation'
 import { Provider } from 'react-redux'
-
+import { NativeBaseProvider, extendTheme, StatusBar } from 'native-base'
+import Navigation from './src/components/Navigation'
 import store from './src/redux'
+
 // Define the config
 const config = {
   useSystemColorMode: false,

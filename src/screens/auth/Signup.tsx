@@ -1,25 +1,39 @@
 import { useState } from 'react'
-import { Input, Text, Button, Icon, Pressable, Center, NativeBaseProvider, View, FormControl } from 'native-base'
+import { Input, Text, Button, Icon, Pressable, Center, FormControl, useToast } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { api } from '../../utils/api'
 import { UserSignUp } from '../../types'
 
 const SignUp = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [user, setUser] = useState({ email: '', password: '' })
+  const toast = useToast()
 
   const handleSignUp = async () => {
+    if (user.email.trim() === '' || user.password.trim() === '') return
+
+    setLoading(true)
     const payload: UserSignUp = user
 
     try {
       const { data } = await api.post('/auth/local/signup', payload)
 
       if (!data || !data.access_token) return
-
+      toast.show({
+        title: 'Register success',
+        placement: 'top',
+      })
       navigation.navigate('SignInScreen')
     } catch (error) {
+      toast.show({
+        title: 'Register failed',
+        placement: 'top',
+      })
       console.error('handleSignUp', error)
     }
+
+    setLoading(false)
   }
 
   const goToSignIn = () => {
@@ -29,7 +43,7 @@ const SignUp = ({ navigation }: any) => {
   return (
     <Center _dark={{ bg: 'blueGray.900' }} _light={{ bg: 'blueGray.50' }} px={4} flex={1}>
       <Text fontSize={'xl'} fontWeight={'medium'}>
-        SignUp
+        Sign Up
       </Text>
 
       <FormControl>
@@ -79,8 +93,8 @@ const SignUp = ({ navigation }: any) => {
         />
       </FormControl>
 
-      <Button w={'full'} onPress={handleSignUp} marginTop={4}>
-        SignUp
+      <Button w={'full'} onPress={handleSignUp} marginTop={4} isLoading={loading} isLoadingText="Signing up">
+        Sign Up
       </Button>
 
       <Text onPress={goToSignIn} marginTop={2}>
