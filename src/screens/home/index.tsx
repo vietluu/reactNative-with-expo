@@ -6,7 +6,6 @@ import PostLoader from '../../components/post/PostLoader'
 import PostItem from '../../components/post/PostItem'
 import Detail from '../../components/post/Detail'
 import Setting from '../setting'
-import Icon from '@expo/vector-icons/Ionicons'
 
 
 import { RefreshControl } from 'react-native-gesture-handler'
