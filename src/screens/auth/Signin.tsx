@@ -21,12 +21,14 @@ const SignIn = ({ navigation }: any) => {
     if (user.email.trim() === '' || user.password.trim() === '') return
     const payload: UserSignIn = user
     try {
+
       await dispatch(login(payload))
       if (userToken) {
         dispatch(loadPosts())
         navigation.navigate('LayoutScreen')
         dispatch(getProfile())
       }
+
     } catch (error) {
       console.error('handleSignIn', error)
     }
