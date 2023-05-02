@@ -56,7 +56,9 @@ const Detail = ({ route, navigation }: any) => {
 
             <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
           </HStack>
+
           {value?.react?.length > 0 && (
+
             <VStack ml={2} mb={1}>
               <Text color={'gray.400'}>{value.react.length} person like this!</Text>
             </VStack>
@@ -69,8 +71,10 @@ const Detail = ({ route, navigation }: any) => {
       </HStack>
       <VStack>
         <HStack>
+
           <Input placeholder="coment.." w="86%" inputMode="text" value={txt} onChangeText={(e) => setTxt(e)} />
           <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
+
         </HStack>
       </VStack>
       <VStack></VStack>

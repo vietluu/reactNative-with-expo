@@ -40,13 +40,16 @@ const PostItem = ({ value, navigation }: any) => {
           <HStack alignItems={'center'}>
             <IconButton icon={<Ionicons name="heart-outline" size={33} color={`${active ? '#000' : '#644AB5'}`} />} />
             <IconButton
+
               icon={<Ionicons name="chatbubble-outline" size={30} color="#644AB5" />}
               onPress={(e) => navigation.navigate('Detail', value)}
             />
 
             <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
           </HStack>
+
           {value?.react?.length > 0 && (
+
             <VStack ml={2} mb={1}>
               <Text color={'gray.400'}>{value?.react?.length} person like this!</Text>
             </VStack>
