@@ -1,34 +1,32 @@
 import { useState } from 'react'
 import { api } from '../../utils/api'
-import { setToken } from '../../utils/token'
+import { getToken, setToken } from '../../utils/token'
+import { ThunkDispatch } from 'redux-thunk'
 import { UserSignIn } from '../../types'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Input, Text, Button, Icon, Pressable, Center, FormControl } from 'native-base'
-
+import { haserr, isloading, login, token } from '../../redux/auth/reducer'
+import { useAppDispatch, useAppSelector } from '../../redux'
+import { loadPosts } from '../../redux/post/postReducer'
 const SignIn = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState({ email: '', password: '' })
 
+  const dispatch = useAppDispatch()
+  const isLoading = useAppSelector(isloading)
+  const userToken = useAppSelector(token)
   const handleSignIn = async () => {
     if (user.email.trim() === '' || user.password.trim() === '') return
-
-    setLoading(true)
     const payload: UserSignIn = user
-
     try {
-      const { data } = await api.post('/auth/local/signin', JSON.parse(JSON.stringify(payload)))
-      const { access_token } = data
-      if (!data || !data.access_token) return
-
-      console.log('sign in success', data)
-      await setToken(access_token)
-      navigation.navigate('LayoutScreen')
+      await dispatch(login(payload))
+      if (userToken) {
+        navigation.navigate('LayoutScreen')
+      }
     } catch (error) {
       console.error('handleSignIn', error)
     }
-
-    setLoading(false)
   }
 
   const goToSignUp = () => {
@@ -55,6 +53,7 @@ const SignIn = ({ navigation }: any) => {
         <Input
           marginTop={4}
           type={show ? 'text' : 'password'}
+          InputLeftElement={<Icon as={<MaterialIcons name="vpn-key" />} size={5} ml="2" color="muted.400" />}
           InputRightElement={
             <Pressable onPress={() => setShow(!show)}>
               <Icon
@@ -71,7 +70,7 @@ const SignIn = ({ navigation }: any) => {
         />
       </FormControl>
 
-      <Button w={'full'} onPress={handleSignIn} marginTop={4} isLoading={loading} isLoadingText="Signing in">
+      <Button w={'full'} onPress={handleSignIn} marginTop={4} isLoading={isLoading || false} isLoadingText="Signing in">
         Sign in
       </Button>
 

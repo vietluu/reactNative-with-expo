@@ -4,7 +4,7 @@ import React from 'react'
 const PostStore = ({ navigation }: any) => {
   return (
     <Center>
-      <Text>hello world</Text>
+      <Text>Post store</Text>
     </Center>
   )
 }
