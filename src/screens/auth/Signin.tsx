@@ -59,7 +59,7 @@ const SignIn = ({ navigation }: any) => {
     const payload: UserSignIn = user
 
     try {
-      const { data } = await api.post('/auth/local/signin', JSON.parse(JSON.stringify(payload)))
+      const { data } = await api.post('/auth/local/signin', payload)
       const { access_token } = data
       if (!data || !data.access_token) return
 
