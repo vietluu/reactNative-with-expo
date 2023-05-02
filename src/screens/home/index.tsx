@@ -27,7 +27,7 @@ const Home = ({ navigation }: any) => {
     ;(async () => {
       setIsLoading(true)
       const data: any = await api.post('post/find')
-      if (data) setPosts(data)
+      if (data) setPosts(data.data)
       setIsLoading(false)
     })()
   }, [])

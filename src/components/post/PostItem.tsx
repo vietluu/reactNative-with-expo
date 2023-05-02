@@ -1,4 +1,4 @@
-import { Box, HStack, IconButton, Image, Stack, Text, VStack, View } from 'native-base'
+import { AspectRatio, Box, HStack, IconButton, Image, Stack, Text, VStack, View } from 'native-base'
 import React, { memo, useState, useLayoutEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import AvatarEntity from '../common/AvatarEntity'
@@ -28,18 +28,14 @@ const PostItem = ({ value, navigation }: any) => {
         </Text>
       </VStack>
 
-      <VStack>
-        <Image
-          source={{ uri: value?.image }}
-          alt="image"
-          width="full"
-          height="300"
-          maxHeight={400}
-          maxWidth="full"
-          mt={4}
-        />
-      </VStack>
-      <HStack>
+      {value?.image && (
+        <VStack>
+          <AspectRatio>
+            <Image source={{ uri: value?.image }} alt="image" resizeMode="contain" mt={4} />
+          </AspectRatio>
+        </VStack>
+      )}
+      <HStack w="full" justifyContent={'space-evenly'}>
         <VStack w="90%">
           <HStack alignItems={'center'}>
             <IconButton icon={<Ionicons name="heart-outline" size={33} color={`${active ? '#000' : '#644AB5'}`} />} />
@@ -50,14 +46,14 @@ const PostItem = ({ value, navigation }: any) => {
 
             <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
           </HStack>
-          {value.react.length > 0 && (
+          {value?.react?.length > 0 && (
             <VStack ml={2} mb={1}>
-              <Text color={'gray.400'}>{value.react.length} person like this!</Text>
+              <Text color={'gray.400'}>{value?.react?.length} person like this!</Text>
             </VStack>
           )}
         </VStack>
 
-        <VStack w="10%">
+        <VStack>
           <IconButton icon={<Ionicons name="bookmark-outline" size={30} color="#644AB5" />} />
         </VStack>
       </HStack>
