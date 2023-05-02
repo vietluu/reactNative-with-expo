@@ -33,7 +33,7 @@ const Setting = ({ navigation }: any) => {
       </Box>
 
       <Box flexDirection="row" justifyContent="center" alignItems="center" width="90%" bg="#fff" p="5" ml="5" rounded="xl" position="absolute" top="300" shadow={9}>
-        <Icon name="ios-location-outline" size={22} color="#000"/>
+        <Icon name="ios-location-outline" size={22} color="#000" />
         <Text color="#000" ml="5">Hanoi</Text>
       </Box>
 
@@ -42,11 +42,11 @@ const Setting = ({ navigation }: any) => {
         <Text color="#000" ml="5">Setting</Text>
       </Box>
 
- 
-      <Button leftIcon={ <Icon name="ios-log-out-outline" size={24} color="#fff" />} justifyContent="center" alignItems="center" width="90%" bg="#644AB5" py="5" ml="5" rounded="xl" position="absolute" top="500" shadow={9} onPress={handleLogout}>
-          LogOut
+
+      <Button leftIcon={<Icon name="ios-log-out-outline" size={24} color="#fff" />} justifyContent="center" alignItems="center" width="90%" bg="#644AB5" py="5" ml="5" rounded="xl" position="absolute" top="500" shadow={9} onPress={handleLogout}>
+        LogOut
       </Button>
-  
+
     </>
   )
 }
