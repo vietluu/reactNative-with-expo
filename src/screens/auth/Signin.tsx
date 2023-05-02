@@ -6,50 +6,44 @@ import { UserSignIn } from '../../types'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Input, Text, Button, Icon, Pressable, Center, FormControl } from 'native-base'
 
-
-
-
 const SignIn = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({
-    email: '', password: '', confirmPassword: ''
+    email: '',
+    password: '',
+    confirmPassword: '',
   })
-
-
 
   const validate = (user: any) => {
     const error = {
-      email: "",
-      password: "",
-      confirmPassword: ""
-
+      email: '',
+      password: '',
+      confirmPassword: '',
     }
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/
 
-    if (user.email === "") {
-      error.email = "Please enter your Email"
+    if (user.email === '') {
+      error.email = 'Please enter your Email'
     }
     if (!emailRegex.test(user.email)) {
       error.email = "Email didn't match"
     }
 
-    if (user.password === "") {
-      error.password = "Please enter your Password"
+    if (user.password === '') {
+      error.password = 'Please enter your Password'
     }
     if (!passwordRegex.test(user.password)) {
       error.password = "Password didn't match"
     }
-    if (user.confirmPassword === "" || user.confirmPassword != user.password) {
-      error.confirmPassword = "Password not matched"
-
+    if (user.confirmPassword === '' || user.confirmPassword != user.password) {
+      error.confirmPassword = 'Password not matched'
     }
 
     return error
   }
-
 
   //handleSignIn
   const handleSignIn = async () => {
@@ -63,7 +57,6 @@ const SignIn = ({ navigation }: any) => {
       const { access_token } = data
       if (!data || !data.access_token) return
 
-      console.log('sign in success', data)
       await setToken(access_token)
       navigation.navigate('LayoutScreen')
     } catch (error) {
@@ -82,7 +75,6 @@ const SignIn = ({ navigation }: any) => {
         Sign In
       </Text>
 
-
       <FormControl>
         {/* Email Input */}
         <Input
@@ -95,7 +87,6 @@ const SignIn = ({ navigation }: any) => {
           }}
         />
         {errors.email && <Text color="error.500">{errors.email}</Text>}
-
 
         {/* Password Input */}
         <Input
@@ -111,7 +102,6 @@ const SignIn = ({ navigation }: any) => {
               />
             </Pressable>
           }
-
           defaultValue={user.password}
           placeholder="Password"
           onChangeText={(text) => {
@@ -119,7 +109,6 @@ const SignIn = ({ navigation }: any) => {
           }}
         />
         {errors.password && <Text color="error.500">{errors.password}</Text>}
-
 
         <Button
           title="Submit"
@@ -132,7 +121,6 @@ const SignIn = ({ navigation }: any) => {
           Sign in
         </Button>
       </FormControl>
-
 
       <Text onPress={goToSignUp} marginTop={2}>
         Don't have an account?
