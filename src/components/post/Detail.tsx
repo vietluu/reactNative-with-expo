@@ -1,17 +1,17 @@
-import { Box, ScrollView, HStack, IconButton, Image, Input, Text, VStack, AspectRatio } from 'native-base'
+import { ScrollView, HStack, IconButton, Image, Input, Text, VStack, AspectRatio } from 'native-base'
 import React, { memo, useState, useLayoutEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import AvatarEntity from '../common/AvatarEntity'
-import { TextInput } from 'react-native-gesture-handler'
 import Comment from './Comment'
 import { useAppSelector, useAppDispatch } from '../../redux'
 import { commentData, isloading } from '../../redux/post/commentReducer'
 import { loadComments } from '../../redux/post/commentReducer'
 import CommentLoader from '../CommentLoader'
+import { get } from 'lodash'
 const Detail = ({ route, navigation }: any) => {
   const [active, setActive] = useState(false)
   const [txt, setTxt] = useState('')
-  const value = route?.params || null
+  const post = route?.params || null
   const user = {
     id: 2,
   }
@@ -19,23 +19,23 @@ const Detail = ({ route, navigation }: any) => {
 
   const isLoading = useAppSelector(isloading)
   const data = useAppSelector(commentData)
-  useLayoutEffect(() => {
-    if (value.react) {
-      const arr = value.react.map((val: any) => Number(val.id))
-      if (arr.includes(user.id)) {
-        setActive(true)
-      }
-    }
-    dispatch(loadComments({ query: { post_id: value?.id } }))
-  }, [value.react])
-
+  // useLayoutEffect(() => {
+  //   if (post.react) {
+  //     const arr = post.react.map((val: any) => Number(val.id))
+  //     if (arr.includes(user.id)) {
+  //       setActive(true)
+  //     }
+  //   }
+  //   dispatch(loadComments({ query: { post_id: post?.id } }))
+  // }, [post.react])
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '',
       headerLeft: () => (
         <HStack w="full" alignItems={'center'}>
           <Ionicons name="chevron-back-outline" size={33} color="#fff" onPress={(e) => navigation.goBack()} />
-          <AvatarEntity username={value?.created_by?.name} avatar={value?.created_by?.avatar} />
+          <AvatarEntity username={post?.created_by?.name} avatar={get(post, 'created_by.avatar')} />
+          <AvatarEntity username={post?.created_by?.name} avatar={post?.created_by?.avatar} />
         </HStack>
       ),
     })
@@ -45,14 +45,14 @@ const Detail = ({ route, navigation }: any) => {
     <ScrollView w="full" px={2} mb={2} bgColor="coolGray.200">
       <VStack>
         <Text fontSize="md" mt={1}>
-          {value?.content}
+          {post?.content}
         </Text>
       </VStack>
 
-      {value?.image && (
+      {post?.image && (
         <VStack>
           <AspectRatio>
-            <Image source={{ uri: value?.image }} alt="image" resizeMode="contain" mt={4} />
+            <Image source={{ uri: post?.image }} alt="image" resizeMode="contain" mt={4} />
           </AspectRatio>
         </VStack>
       )}
@@ -65,11 +65,11 @@ const Detail = ({ route, navigation }: any) => {
             <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
           </HStack>
 
-          {value?.react?.length > 0 && (
+          {/* {post?.react?.length > 0 && (
             <VStack ml={2} mb={1}>
-              <Text color={'gray.400'}>{value.react.length} person like this!</Text>
+              <Text color={'gray.400'}>{post.react.length} person like this!</Text>
             </VStack>
-          )}
+          )} */}
         </VStack>
 
         <VStack>
@@ -78,7 +78,7 @@ const Detail = ({ route, navigation }: any) => {
       </HStack>
       <VStack>
         <HStack>
-          <Input placeholder="coment.." w="86%" inputMode="text" value={txt} onChangeText={(e) => setTxt(e)} />
+          <Input placeholder="coment.." w="86%" inputMode="text" post={txt} onChangeText={(e) => setTxt(e)} />
           <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
         </HStack>
       </VStack>
@@ -87,7 +87,7 @@ const Detail = ({ route, navigation }: any) => {
           <CommentLoader />
         </VStack>
       )}
-      <VStack mt={3}>{data.length > 0 && data.map((value, index) => <Comment value={value} key={index} />)}</VStack>
+      <VStack mt={3}>{data.length > 0 && data.map((post, index) => <Comment comment={post} key={index} />)}</VStack>
     </ScrollView>
   )
 }

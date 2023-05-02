@@ -1,12 +1,11 @@
 import { Center, ScrollView } from 'native-base'
 import { createStackNavigator } from '@react-navigation/stack'
 import { ToastAndroid } from 'react-native'
-import React, { useEffect, useState, useCallback, useLayoutEffect } from 'react'
+import React, { useState, useCallback, useLayoutEffect } from 'react'
 import { RefreshControl } from 'react-native-gesture-handler'
 import PostLoader from '../../components/post/PostLoader'
 import PostItem from '../../components/post/PostItem'
 import Detail from '../../components/post/Detail'
-import { api } from '../../utils/api'
 import { useAppDispatch, useAppSelector } from '../../redux'
 import { isloading, loadPosts, postData } from '../../redux/post/postReducer'
 import { getProfile } from '../../redux/profile/reducer'
@@ -20,8 +19,10 @@ const Home = ({ navigation }: any) => {
   const posts = useAppSelector(postData)
 
   useLayoutEffect(() => {
-    dispatch(loadPosts())
-    dispatch(getProfile())
+    ;(async () => {
+      await dispatch(loadPosts())
+      await dispatch(getProfile())
+    })()
   }, [])
   const onRefresh = useCallback(() => {
     ;(async () => {
@@ -38,8 +39,7 @@ const Home = ({ navigation }: any) => {
       <Center flex={1}>
         {isLoading && <PostLoader />}
         <ScrollView w="full" px={2} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-          {posts?.length > 0 &&
-            posts?.map((val, index) => <PostItem key={index} value={val} navigation={navigation} />)}
+          {posts?.length > 0 && posts?.map((val, index) => <PostItem key={index} post={val} navigation={navigation} />)}
         </ScrollView>
       </Center>
     )
