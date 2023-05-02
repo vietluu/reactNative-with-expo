@@ -25,10 +25,10 @@ function Layout() {
 
         tabBarActiveTintColor: '#644AB5',
       }}
-      initialRouteName="home"
+      initialRouteName="Home"
     >
       <Tab.Screen
-        name="home"
+        name="Home"
         component={Home}
         options={{
           tabBarLabel: '',
@@ -37,38 +37,34 @@ function Layout() {
         }}
       />
       <Tab.Screen
-        name="post_Store"
+        name="Store"
         component={PostStore}
         options={{
           tabBarLabel: '',
-          headerShown: false,
           tabBarIcon: ({ color, size }) => <Icon name="bookmark-outline" size={size} color={color} />,
         }}
       />
       <Tab.Screen
-        name="create"
+        name="Create"
         component={CreatePost}
         options={{
           tabBarLabel: '',
-          headerShown: false,
           tabBarIcon: ({ color, size }) => <Icon name="add-circle-outline" size={33} color={color} />,
         }}
       />
       <Tab.Screen
-        name="notify"
+        name="notification"
         component={Notify}
         options={{
           tabBarLabel: '',
-          headerShown: false,
           tabBarIcon: ({ color, size }) => <Icon name="notifications" size={size} color={color} />,
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="Menu"
         component={Setting}
         options={{
           tabBarLabel: '',
-          headerShown: false,
           tabBarIcon: ({ color, size }) => <Icon name="person-circle-outline" size={33} color={color} />,
         }}
       />

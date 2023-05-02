@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { api } from '../../utils/api'
-import { API_URL } from '@env'
 import { setToken } from '../../utils/token'
 import { UserSignIn } from '../../types'
 import { MaterialIcons } from '@expo/vector-icons'
@@ -48,12 +47,13 @@ const SignIn = ({ navigation }: any) => {
   //handleSignIn
   const handleSignIn = async () => {
     setLoading(true)
-    setErrors(validate(user))
+    // setErrors(validate(user))
 
     const payload: UserSignIn = user
 
     try {
       const { data } = await api.post('/auth/local/signin', payload)
+      console.log('signin', api.post('/auth/local/signin', payload))
       const { access_token } = data
       if (!data || !data.access_token) return
 
