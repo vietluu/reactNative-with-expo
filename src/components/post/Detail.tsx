@@ -4,6 +4,8 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import AvatarEntity from '../common/AvatarEntity'
 import { TextInput } from 'react-native-gesture-handler'
 import Comment from './Comment'
+import { useAppSelector } from '../../redux'
+import { commentData, isloading } from '../../redux/post/commentReducer'
 const Detail = ({ route, navigation }: any) => {
   const [active, setActive] = useState(false)
   const [txt, setTxt] = useState('')
@@ -12,6 +14,8 @@ const Detail = ({ route, navigation }: any) => {
     id: 2,
   }
 
+  const isLoading = useAppSelector(isloading)
+  const data = useAppSelector(commentData)
   useLayoutEffect(() => {
     if (value.react) {
       const arr = value.react.map((val: any) => Number(val.id))
@@ -20,7 +24,7 @@ const Detail = ({ route, navigation }: any) => {
       }
     }
   }, [value.react])
-
+  console.log(data)
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '',
@@ -73,7 +77,7 @@ const Detail = ({ route, navigation }: any) => {
           <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
         </HStack>
       </VStack>
-      <VStack></VStack>
+      <VStack mt={3}>{data.length > 0 && data.map((value, index) => <Comment value={value} key={index} />)}</VStack>
     </ScrollView>
   )
 }

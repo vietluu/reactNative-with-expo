@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { api } from '../../utils'
+import { api, setToken } from '../../utils'
 import { RootState } from '..'
+
 //init state auth
 const initialState = {
   token: null,
@@ -44,6 +45,7 @@ const AuthReducer = createSlice({
     // xu li login thanh cong
     builder.addCase(login.fulfilled, (state, action) => {
       state.token = action.payload.access_token
+      setToken(action.payload.access_token)
       state.isLoading = false
       state.hasErr = false
     })

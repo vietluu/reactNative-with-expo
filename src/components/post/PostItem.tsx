@@ -2,18 +2,20 @@ import { AspectRatio, Box, HStack, IconButton, Image, Stack, Text, VStack, View 
 import React, { memo, useState, useLayoutEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import AvatarEntity from '../common/AvatarEntity'
+import { useAppDispatch, useAppSelector } from '../../redux'
+import { loadComments } from '../../redux/post/commentReducer'
+import { profile } from '../../redux/profile/reducer'
 
 const PostItem = ({ value, navigation }: any) => {
   const [active, setActive] = useState(false)
-  const user = {
-    id: 2,
-  }
+  const dispatch = useAppDispatch()
+  const user: any = useAppSelector(profile)
 
   useLayoutEffect(() => {
     if (value.react) {
       const arr = value.react.map((val: any) => Number(val.id))
 
-      if (arr.includes(user.id)) {
+      if (arr.includes(user?.id)) {
         setActive(true)
       }
     }
@@ -41,7 +43,10 @@ const PostItem = ({ value, navigation }: any) => {
             <IconButton icon={<Ionicons name="heart-outline" size={33} color={`${active ? '#000' : '#644AB5'}`} />} />
             <IconButton
               icon={<Ionicons name="chatbubble-outline" size={30} color="#644AB5" />}
-              onPress={(e) => navigation.navigate('Detail', value)}
+              onPress={(e) => {
+                dispatch(loadComments({ query: { post_id: value?.id } }))
+                navigation.navigate('Detail', value)
+              }}
             />
 
             <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />

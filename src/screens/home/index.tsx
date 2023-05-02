@@ -7,28 +7,24 @@ import PostLoader from '../../components/post/PostLoader'
 import PostItem from '../../components/post/PostItem'
 import Detail from '../../components/post/Detail'
 import { api } from '../../utils/api'
+import { useAppDispatch, useAppSelector } from '../../redux'
+import { isloading, loadPosts, postData } from '../../redux/post/postReducer'
 
 const StackView = createStackNavigator()
 
 const Home = ({ navigation }: any) => {
-  const [posts, setPosts] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
+  const dispatch = useAppDispatch()
+  const isLoading = useAppSelector(isloading)
+  const posts = useAppSelector(postData)
 
   const onRefresh = useCallback(() => {
-    setRefreshing(true)
-    setTimeout(() => {
+    ;(async () => {
+      setRefreshing(true)
+      await dispatch(loadPosts())
+
       setRefreshing(false)
       isLoading == false && ToastAndroid.show('Tin tức đã được cập nhật!', ToastAndroid.TOP)
-    }, 1000)
-  }, [])
-
-  useEffect(() => {
-    ;(async () => {
-      setIsLoading(true)
-      const data: any = await api.post('post/find')
-      if (data) setPosts(data.data)
-      setIsLoading(false)
     })()
   }, [])
 

@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { api } from '../../utils/api'
-import { setToken } from '../../utils/token'
+import { getToken, setToken } from '../../utils/token'
 import { ThunkDispatch } from 'redux-thunk'
 import { UserSignIn } from '../../types'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Input, Text, Button, Icon, Pressable, Center, FormControl } from 'native-base'
-import { haserr, isloading, login } from '../../redux/auth/reducer'
+import { haserr, isloading, login, token } from '../../redux/auth/reducer'
 import { useAppDispatch, useAppSelector } from '../../redux'
+import { loadPosts } from '../../redux/post/postReducer'
+import { getProfile } from '../../redux/profile/reducer'
 const SignIn = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -14,16 +16,17 @@ const SignIn = ({ navigation }: any) => {
 
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(isloading)
-
+  const userToken = useAppSelector(token)
   const handleSignIn = async () => {
     if (user.email.trim() === '' || user.password.trim() === '') return
     const payload: UserSignIn = user
     try {
-      const res: any = await dispatch(login(payload))
-      if (!res) return
-      console.log('sign in success')
-      await setToken(res.payload.access_token)
-      navigation.navigate('LayoutScreen')
+      await dispatch(login(payload))
+      if (userToken) {
+        dispatch(loadPosts())
+        navigation.navigate('LayoutScreen')
+        dispatch(getProfile())
+      }
     } catch (error) {
       console.error('handleSignIn', error)
     }
