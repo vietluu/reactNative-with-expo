@@ -2,13 +2,12 @@ import { useState } from 'react'
 import { api } from '../../utils/api'
 import { API_URL } from '@env'
 import { setToken } from '../../utils/token'
+import { ThunkDispatch } from 'redux-thunk'
 import { UserSignIn } from '../../types'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Input, Text, Button, Icon, Pressable, Center, FormControl } from 'native-base'
-
-
-
-
+import { haserr, isloading, login } from '../../redux/auth/reducer'
+import { useAppDispatch, useAppSelector } from '../../redux'
 const SignIn = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -16,6 +15,12 @@ const SignIn = ({ navigation }: any) => {
   const [errors, setErrors] = useState({
     email: '', password: '', confirmPassword: ''
   })
+
+
+  const dispatch = useAppDispatch()
+  const isLoading = useAppSelector(isloading)
+
+
 
 
 
@@ -57,19 +62,15 @@ const SignIn = ({ navigation }: any) => {
     setErrors(validate(user))
 
     const payload: UserSignIn = user
-
     try {
-      const { data } = await api.post('/auth/local/signin', payload)
-      const { access_token } = data
-      if (!data || !data.access_token) return
-
-      console.log('sign in success', data)
-      await setToken(access_token)
+      const res: any = await dispatch(login(payload))
+      if (!res) return
+      console.log('sign in success')
+      await setToken(res.payload.access_token)
       navigation.navigate('LayoutScreen')
     } catch (error) {
       console.error('handleSignIn', error)
     }
-    setLoading(false)
   }
 
   const goToSignUp = () => {
@@ -101,6 +102,7 @@ const SignIn = ({ navigation }: any) => {
         <Input
           marginTop={4}
           type={show ? 'text' : 'password'}
+          InputLeftElement={<Icon as={<MaterialIcons name="vpn-key" />} size={5} ml="2" color="muted.400" />}
           InputRightElement={
             <Pressable onPress={() => setShow(!show)}>
               <Icon

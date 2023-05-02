@@ -24,10 +24,10 @@ const Home = ({ navigation }: any) => {
   }, [])
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       setIsLoading(true)
-      const { data } = await api.post('/post/find', {})
-      if (data) setPosts(data)
+      const data: any = await api.post('post/find')
+      if (data) setPosts(data.data)
       setIsLoading(false)
     })()
   }, [])
@@ -46,14 +46,21 @@ const Home = ({ navigation }: any) => {
 
   return (
     <StackView.Navigator
-      initialRouteName="main"
+      initialRouteName="My Review"
       screenOptions={{
         headerStyle: {
           backgroundColor: '#644AB5',
         },
+        headerTintColor: '#fff',
       }}
     >
-      <StackView.Screen name="My Review" component={Main} />
+      <StackView.Screen
+        name="My Review"
+        component={Main}
+        options={{
+          headerLeft: () => <></>,
+        }}
+      />
       <StackView.Screen name="Detail" component={Detail} />
     </StackView.Navigator>
   )

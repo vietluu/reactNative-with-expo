@@ -1,10 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
-const store = configureStore({
-  reducer: {},
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { store } from './store'
 
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
-})
-export default store
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+
+const useAppDispatch = () => useDispatch<AppDispatch>()
+const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+
+export { store, useAppDispatch, useAppSelector }

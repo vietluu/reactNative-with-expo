@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
 import { NativeBaseProvider, extendTheme, StatusBar } from 'native-base'
 import Navigation from './src/components/Navigation'
-import store from './src/redux'
+import { store } from './src/redux/store'
 
 // Define the config
 const config = {
