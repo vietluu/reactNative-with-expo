@@ -6,7 +6,7 @@ import SignUp from '../screens/auth/Signup'
 
 function BaseLink() {
   const Stack = createNativeStackNavigator()
-  const initialRouteName = 'LayoutScreen'
+  const initialRouteName = 'SignIn'
 
   return (
     <NavigationContainer>

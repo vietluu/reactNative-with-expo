@@ -25,7 +25,7 @@ function Layout() {
 
         tabBarActiveTintColor: '#644AB5',
       }}
-      initialRouteName="create"
+      initialRouteName="home"
     >
       <Tab.Screen
         name="home"
