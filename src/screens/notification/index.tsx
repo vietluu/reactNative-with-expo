@@ -4,7 +4,7 @@ import React from 'react'
 const Notify = ({ navigation }: any) => {
   return (
     <Center>
-      <Text>hello world</Text>
+      <Text>Notification</Text>
     </Center>
   )
 }
