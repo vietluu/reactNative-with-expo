@@ -1,19 +1,61 @@
 import { useState } from 'react'
 import { api } from '../../utils/api'
+import { API_URL } from '@env'
 import { setToken } from '../../utils/token'
 import { UserSignIn } from '../../types'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Input, Text, Button, Icon, Pressable, Center, FormControl } from 'native-base'
 
+
+
+
 const SignIn = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState({ email: '', password: '' })
+  const [errors, setErrors] = useState({
+    email: '', password: '', confirmPassword: ''
+  })
 
+
+
+  const validate = (user: any) => {
+    const error = {
+      email: "",
+      password: "",
+      confirmPassword: ""
+
+    }
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/
+
+    if (user.email === "") {
+      error.email = "Please enter your Email"
+    }
+    if (!emailRegex.test(user.email)) {
+      error.email = "Email didn't match"
+    }
+
+    if (user.password === "") {
+      error.password = "Please enter your Password"
+    }
+    if (!passwordRegex.test(user.password)) {
+      error.password = "Password didn't match"
+    }
+    if (user.confirmPassword === "" || user.confirmPassword != user.password) {
+      error.confirmPassword = "Password not matched"
+
+    }
+
+    return error
+  }
+
+
+  //handleSignIn
   const handleSignIn = async () => {
-    if (user.email.trim() === '' || user.password.trim() === '') return
-
     setLoading(true)
+    setErrors(validate(user))
+
     const payload: UserSignIn = user
 
     try {
@@ -27,7 +69,6 @@ const SignIn = ({ navigation }: any) => {
     } catch (error) {
       console.error('handleSignIn', error)
     }
-
     setLoading(false)
   }
 
@@ -41,15 +82,20 @@ const SignIn = ({ navigation }: any) => {
         Sign In
       </Text>
 
+
       <FormControl>
         {/* Email Input */}
         <Input
           marginTop={4}
           InputLeftElement={<Icon as={<MaterialIcons name="email" />} size={5} ml="2" color="muted.400" />}
-          onChangeText={(text) => setUser({ ...user, email: text })}
           defaultValue={user.email}
           placeholder="Email"
+          onChangeText={(text) => {
+            setUser({ ...user, email: text })
+          }}
         />
+        {errors.email && <Text color="error.500">{errors.email}</Text>}
+
 
         {/* Password Input */}
         <Input
@@ -65,15 +111,28 @@ const SignIn = ({ navigation }: any) => {
               />
             </Pressable>
           }
-          onChangeText={(text) => setUser({ ...user, password: text })}
+
           defaultValue={user.password}
           placeholder="Password"
+          onChangeText={(text) => {
+            setUser({ ...user, password: text })
+          }}
         />
+        {errors.password && <Text color="error.500">{errors.password}</Text>}
+
+
+        <Button
+          title="Submit"
+          w={'full'}
+          onPress={handleSignIn}
+          marginTop={4}
+          isLoading={loading}
+          isLoadingText="Signing in"
+        >
+          Sign in
+        </Button>
       </FormControl>
 
-      <Button w={'full'} onPress={handleSignIn} marginTop={4} isLoading={loading} isLoadingText="Signing in">
-        Sign in
-      </Button>
 
       <Text onPress={goToSignUp} marginTop={2}>
         Don't have an account?

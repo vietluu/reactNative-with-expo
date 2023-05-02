@@ -64,7 +64,7 @@ function Layout() {
         }}
       />
       <Tab.Screen
-        name="setting"
+        name="Profile"
         component={Setting}
         options={{
           tabBarLabel: '',

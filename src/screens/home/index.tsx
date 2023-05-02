@@ -53,7 +53,7 @@ const Home = ({ navigation }: any) => {
         },
       }}
     >
-      <StackView.Screen name="My review" component={Main} />
+      <StackView.Screen name="My Review" component={Main} />
       <StackView.Screen name="Detail" component={Detail} />
     </StackView.Navigator>
   )

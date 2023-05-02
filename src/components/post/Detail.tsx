@@ -11,7 +11,7 @@ const Detail = ({ route, navigation }: any) => {
   const user = {
     id: 2,
   }
-
+ 
   useLayoutEffect(() => {
     if (value.react) {
       const arr = value.react.map((val: any) => Number(val.id))
