@@ -44,29 +44,33 @@ const SignIn = ({ navigation }: any) => {
     return error
   }
 
-  //handleSignIn
   const handleSignIn = async () => {
-    setLoading(true)
-    // setErrors(validate(user))
+    if (user.email.trim() === '' || user.password.trim() === '') return
 
-    const payload: UserSignIn = user
+    setLoading(true)
+    const payload: UserSignIn = {
+      email: user.email.trim(),
+      password: user.password.trim(),
+    }
 
     try {
       const { data } = await api.post('/auth/local/signin', payload)
-      console.log('signin', api.post('/auth/local/signin', payload))
       const { access_token } = data
       if (!data || !data.access_token) return
 
       await setToken(access_token)
       navigation.navigate('LayoutScreen')
+      setUser({ email: '', password: '' })
     } catch (error) {
       console.error('handleSignIn', error)
     }
+
     setLoading(false)
   }
 
   const goToSignUp = () => {
     navigation.navigate('SignUpScreen')
+    setUser({ email: '', password: '' })
   }
 
   return (
@@ -80,13 +84,10 @@ const SignIn = ({ navigation }: any) => {
         <Input
           marginTop={4}
           InputLeftElement={<Icon as={<MaterialIcons name="email" />} size={5} ml="2" color="muted.400" />}
+          onChangeText={(text) => setUser({ ...user, email: text })}
           defaultValue={user.email}
           placeholder="Email"
-          onChangeText={(text) => {
-            setUser({ ...user, email: text })
-          }}
         />
-        {errors.email && <Text color="error.500">{errors.email}</Text>}
 
         {/* Password Input */}
         <Input
@@ -102,25 +103,16 @@ const SignIn = ({ navigation }: any) => {
               />
             </Pressable>
           }
+          onChangeText={(text) => setUser({ ...user, password: text })}
           defaultValue={user.password}
           placeholder="Password"
-          onChangeText={(text) => {
-            setUser({ ...user, password: text })
-          }}
         />
         {errors.password && <Text color="error.500">{errors.password}</Text>}
-
-        <Button
-          title="Submit"
-          w={'full'}
-          onPress={handleSignIn}
-          marginTop={4}
-          isLoading={loading}
-          isLoadingText="Signing in"
-        >
-          Sign in
-        </Button>
       </FormControl>
+
+      <Button w={'full'} onPress={handleSignIn} marginTop={4} isLoading={loading} isLoadingText="Signing in">
+        Sign in
+      </Button>
 
       <Text onPress={goToSignUp} marginTop={2}>
         Don't have an account?

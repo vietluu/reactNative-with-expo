@@ -9,10 +9,9 @@ const initialState = {
 
 export const getProfile = createAsyncThunk('profile/get', async () => {
   const res: any = await api.get('/user/profile')
-  if (res.status === 200) {
-    return res.data
-  }
-  return res.data.json()
+  if (res.status !== 200) return res.data.json()
+
+  return res.data
 })
 
 const profileReducer = createSlice({

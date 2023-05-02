@@ -21,7 +21,6 @@ api.interceptors.request.use(
     let token = await getToken()
 
     if (typeof token !== 'string') token = null
-
     if (token) config.headers.Authorization = 'Bearer ' + token
     else delete config.headers.Authorization
 

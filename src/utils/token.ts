@@ -36,3 +36,13 @@ export async function getToken() {
 
   return token
 }
+
+export async function clearToken() {
+  if (Platform.OS === 'web') {
+    // do something for ios
+    await localStorage.clear()
+  } else if (Platform.OS === 'android') {
+    // other thing for android
+    await AsyncStorage.clear()
+  }
+}

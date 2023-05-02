@@ -2,24 +2,19 @@ import { useState } from 'react'
 import { Input, Text, Button, Icon, Pressable, Center, FormControl, useToast } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { api } from '../../utils/api'
-import { API_URL } from '@env'
-
-
 import { UserSignUp } from '../../types'
-import { AnyIfEmpty } from 'react-redux'
-
 
 const SignUp = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const [user, setUser] = useState({ email: '', password: '', confirmPassword: '' })
   const [errors, setErrors] = useState({
-    email: '', password: '', confirmPassword: ''
+    email: '',
+    password: '',
+    confirmPassword: '',
   })
 
   const toast = useToast()
-
-
 
   //handleSignUp
   const handleSignUp = async () => {
@@ -38,6 +33,7 @@ const SignUp = ({ navigation }: any) => {
         placement: 'top',
       })
       navigation.navigate('SignInScreen')
+      setUser({ email: '', password: '', confirmPassword: '' })
     } catch (error) {
       toast.show({
         title: 'Register failed',
@@ -50,48 +46,43 @@ const SignUp = ({ navigation }: any) => {
 
   const goToSignIn = () => {
     navigation.navigate('SignInScreen')
+    setUser({ email: '', password: '', confirmPassword: '' })
   }
-
 
   const validate = (user: any) => {
     const error = {
-      email: "",
-      password: "",
-      confirmPassword: ""
-
+      email: '',
+      password: '',
+      confirmPassword: '',
     }
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/
 
-    if (user.email === "") {
-      error.email = "Please enter your Email"
+    if (user.email === '') {
+      error.email = 'Please enter your Email'
     }
     if (!emailRegex.test(user.email)) {
       error.email = "Email didn't match"
     }
 
-    if (user.password === "") {
-      error.password = "Please enter your Password"
+    if (user.password === '') {
+      error.password = 'Please enter your Password'
     }
     if (!passwordRegex.test(user.password)) {
       error.password = "Password didn't match"
     }
-    if (user.confirmPassword === "" || user.confirmPassword != user.password) {
-      error.confirmPassword = "Password not matched"
-
+    if (user.confirmPassword === '' || user.confirmPassword != user.password) {
+      error.confirmPassword = 'Password not matched'
     }
 
     return error
   }
-
-
 
   return (
     <Center _dark={{ bg: 'blueGray.900' }} _light={{ bg: 'blueGray.50' }} px={4} flex={1}>
       <Text fontSize={'xl'} fontWeight={'medium'}>
         Sign Up
       </Text>
-
 
       <FormControl>
         {/* Email Input */}
@@ -128,8 +119,6 @@ const SignUp = ({ navigation }: any) => {
         />
         {errors.password && <Text color="error.500">{errors.password}</Text>}
 
-
-
         {/* Confirm PassWord Input */}
         <Input
           marginTop={4}
@@ -149,7 +138,6 @@ const SignUp = ({ navigation }: any) => {
           onChangeText={(text) => {
             setUser({ ...user, confirmPassword: text })
           }}
-
         />
         {errors.confirmPassword && <Text color="error.500">{errors.confirmPassword}</Text>}
 
@@ -164,7 +152,6 @@ const SignUp = ({ navigation }: any) => {
           Sign Up
         </Button>
       </FormControl>
-
 
       <Text onPress={goToSignIn} marginTop={2}>
         Already have an account?
