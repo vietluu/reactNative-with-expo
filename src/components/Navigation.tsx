@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import Layout from './Layout'
 import SignIn from '../screens/auth/Signin'
 import SignUp from '../screens/auth/Signup'
+import { useLayoutEffect } from 'react'
+import { getToken } from '../utils'
 
 function BaseLink() {
   const Stack = createNativeStackNavigator()
