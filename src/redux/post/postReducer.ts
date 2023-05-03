@@ -12,7 +12,10 @@ const initialState = {
 export const loadPosts = createAsyncThunk('post/load', async () => {
   const options = {
     options: {
-      relations: ['comments', 'medias'], // join to get comments and medias
+      relations: [
+        // 'comments',
+        'medias',
+      ], // join to get comments and medias
       order: {
         // order new post to top
         created_at: 'DESC',
