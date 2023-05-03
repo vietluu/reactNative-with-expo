@@ -16,12 +16,48 @@ const SignUp = ({ navigation }: any) => {
 
   const toast = useToast()
 
+
+  const validate = () => {
+    let isValid = true
+    if (!user.email) {
+      handleError("Please input email", "email")
+      isValid = false
+    }
+    else if (!user.email.match(/\S+@\S+\.\S+/)) {
+      handleError('Please input a valid email', 'email');
+      isValid = false;
+    }
+    if (!user.password) {
+      handleError("Please input password", "password")
+      isValid = false
+    } else if (user.password.length < 8) {
+      handleError('Min password length of 8', 'password');
+      isValid = false;
+    }
+    if (!user.confirmPassword) {
+      handleError("Please input confirmPassword", "confirmPassword")
+      isValid = false
+    } else if (user.confirmPassword.length < 8) {
+      handleError('Min confirmPassword  length of 8', 'confirmPassword');
+      isValid = false;
+    } else if (user.confirmPassword !== user.password) {
+      handleError('confirmPassword  do not match', 'confirmPassword');
+      isValid = false;
+    }
+
+    if (isValid) {
+      handleSignUp()
+    }
+  }
+
+  const handleError = (errorMessage: any, user: any) => {
+    setErrors((prev) => ({ ...prev, [user]: errorMessage }))
+  }
+
   //handleSignUp
   const handleSignUp = async () => {
 
-    setErrors(validate(user))
-    // setLoading(true)
-
+    setLoading(true)
 
     const payload: UserSignUp = user
 
@@ -50,34 +86,6 @@ const SignUp = ({ navigation }: any) => {
     setUser({ email: '', password: '', confirmPassword: '' })
   }
 
-  const validate = (user: any) => {
-    const error = {
-      email: '',
-      password: '',
-      confirmPassword: '',
-    }
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-    const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/
-
-    if (user.email === '') {
-      error.email = 'Please enter your Email'
-    }
-    else if (!emailRegex.test(user.email)) {
-      error.email = "Email didn't match"
-    }
-
-    if (user.password === '') {
-      error.password = 'Please enter your Password'
-    }
-    else if (!passwordRegex.test(user.password)) {
-      error.password = "Password didn't match"
-    }
-    if (user.confirmPassword === '' || user.confirmPassword != user.password) {
-      error.confirmPassword = 'Password not matched'
-    }
-
-    return error
-  }
 
   return (
     <Center _dark={{ bg: 'blueGray.900' }} _light={{ bg: 'blueGray.50' }} px={4} flex={1}>
@@ -94,6 +102,10 @@ const SignUp = ({ navigation }: any) => {
           defaultValue={user.email}
           onChangeText={(text) => {
             setUser({ ...user, email: text })
+          }}
+          error={errors.email}
+          onFocus={() => {
+            handleError(null, "email")
           }}
         />
         {errors.email && <Text color="error.500">{errors.email}</Text>}
@@ -117,6 +129,10 @@ const SignUp = ({ navigation }: any) => {
           onChangeText={(text) => {
             setUser({ ...user, password: text })
           }}
+          error={errors.password}
+          onFocus={() => {
+            handleError(null, "password")
+          }}
         />
         {errors.password && <Text color="error.500">{errors.password}</Text>}
 
@@ -139,13 +155,17 @@ const SignUp = ({ navigation }: any) => {
           onChangeText={(text) => {
             setUser({ ...user, confirmPassword: text })
           }}
+          error={errors.confirmPassword}
+          onFocus={() => {
+            handleError(null, "confirmPassword")
+          }}
         />
         {errors.confirmPassword && <Text color="error.500">{errors.confirmPassword}</Text>}
 
         <Button
           w={'full'}
           title="Submit"
-          onPress={handleSignUp}
+          onPress={validate}
           marginTop={4}
           isLoading={loading}
           isLoadingText="Signing up"

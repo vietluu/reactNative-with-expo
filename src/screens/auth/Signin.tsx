@@ -11,41 +11,72 @@ const SignIn = ({ navigation }: any) => {
   const [errors, setErrors] = useState({
     email: '',
     password: '',
-
   })
 
-  const validate = (user: any) => {
-    const error = {
-      email: '',
-      password: '',
+  // const validate = (user: any) => {
+  //   let isValid = true;
+  //   const error = {
+  //     email: '',
+  //     password: '',
+  //   }
+  //   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  //   const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/
 
-    }
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-    const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/
+  //   if (user.email === '') {
+  //     error.email = 'Please enter your email'
+  //     isValid = false;
+  //   } else if (!emailRegex.test(user.email)) {
+  //     error.email = "Email didn't match"
+  //     isValid = false;
 
-    if (user.email === '') {
-      error.email = 'Please enter your email'
-    }
-    else if (!emailRegex.test(user.email)) {
-      error.email = "Email didn't match"
-    }
-    if (user.password === '') {
-      error.password = 'Please enter your password'
-    }
-    else if (!passwordRegex.test(user.password)) {
-      error.password = "Password didn't match"
-    }
+  //   }
+  //   if (user.password === '') {
+  //     error.password = 'Please enter your password'
+  //     isValid = false;
 
 
-    return error
+  //   } else if (!passwordRegex.test(user.password)) {
+  //     error.password = "Password didn't match"
+  //     isValid = false;
+  //   }
+
+  //   // return error
+
+  //   if (isValid) {
+  //     handleSignIn();
+  //   }
+  // }
+
+  const validate = () => {
+    let isValid = true
+    if (!user.email) {
+      handleError("Please input email", "email")
+      isValid = false
+    }
+    else if (!user.email.match(/\S+@\S+\.\S+/)) {
+      handleError('Please input a valid email', 'email');
+      isValid = false;
+    }
+    if (!user.password) {
+      handleError("Please input password", "password")
+      isValid = false
+    } else if (user.password.length < 8) {
+      handleError('Min password length of 8', 'password');
+      isValid = false;
+    }
+
+    if (isValid) {
+      handleSignIn()
+    }
+  }
+
+  const handleError = (errorMessage: any, user: any) => {
+    setErrors((prev) => ({ ...prev, [user]: errorMessage }))
   }
 
   const handleSignIn = async () => {
-    // if (user.email.trim() === '' || user.password.trim() === '') return
 
-
-    setErrors(validate(user))
-    // setLoading(true)
+    setLoading(true)
 
     const payload: UserSignIn = {
       email: user.email.trim(),
@@ -86,6 +117,10 @@ const SignIn = ({ navigation }: any) => {
           onChangeText={(text) => setUser({ ...user, email: text })}
           defaultValue={user.email}
           placeholder="Email"
+          error={errors.email}
+          onFocus={() => {
+            handleError(null, "email")
+          }}
         />
 
         {errors.email ? <Text color="error.500">{errors.email}</Text> : null}
@@ -107,11 +142,15 @@ const SignIn = ({ navigation }: any) => {
           onChangeText={(text) => setUser({ ...user, password: text })}
           defaultValue={user.password}
           placeholder="Password"
+          error={errors.password}
+          onFocus={() => {
+            handleError(null, "password")
+          }}
         />
         {errors.password && <Text color="error.500">{errors.password}</Text>}
       </FormControl>
 
-      <Button w={'full'} onPress={handleSignIn} marginTop={4} isLoading={loading} isLoadingText="Signing in">
+      <Button w={'full'} onPress={validate} marginTop={4} isLoading={loading} isLoadingText="Signing in">
         Sign in
       </Button>
 
