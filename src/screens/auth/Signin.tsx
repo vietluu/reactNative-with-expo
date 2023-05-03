@@ -13,39 +13,43 @@ const SignIn = ({ navigation }: any) => {
     password: '',
   })
 
+
+
   const validate = () => {
     let isValid = true
-
-    if (isValid) {
-      handleSignIn()
-    }
 
     if (!user.email) {
       handleError('Please input email', 'email')
       isValid = false
-      setLoading(false)
     } else if (!user.email.match(/\S+@\S+\.\S+/)) {
       handleError('Please input a valid email', 'email')
       isValid = false
-      setLoading(false)
     }
     if (!user.password) {
       handleError('Please input password', 'password')
       isValid = false
-      setLoading(false)
     } else if (user.password.length < 8) {
       handleError('Min password length of 8', 'password')
       isValid = false
-      setLoading(false)
     }
+    return isValid
   }
+
 
   const handleError = (errorMessage: any, user: any) => {
     setErrors((prev) => ({ ...prev, [user]: errorMessage }))
   }
 
   const handleSignIn = async () => {
+
     setLoading(true)
+
+    if (!validate()) {
+      setLoading(false)
+      console.log('ok');
+      return false
+    }
+
 
     const payload: UserSignIn = {
       email: user.email.trim(),
@@ -55,7 +59,7 @@ const SignIn = ({ navigation }: any) => {
     try {
       const { data } = await api.post('/auth/local/signin', payload)
       const { access_token } = data
-
+      console.log('ok2');
       if (access_token) {
         await setToken(access_token)
         navigation.navigate('LayoutScreen')
@@ -87,7 +91,7 @@ const SignIn = ({ navigation }: any) => {
           onChangeText={(text) => setUser({ ...user, email: text })}
           defaultValue={user.email}
           placeholder="Email"
-          error={errors.email}
+          // error={errors.email}
           onFocus={() => {
             handleError(null, 'email')
           }}
@@ -112,7 +116,7 @@ const SignIn = ({ navigation }: any) => {
           onChangeText={(text) => setUser({ ...user, password: text })}
           defaultValue={user.password}
           placeholder="Password"
-          error={errors.password}
+          // error={errors.password}
           onFocus={() => {
             handleError(null, 'password')
           }}
