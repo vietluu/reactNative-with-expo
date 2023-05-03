@@ -16,7 +16,6 @@ const SignUp = ({ navigation }: any) => {
 
   const toast = useToast()
 
-
   const validate = () => {
     let isValid = true
 
@@ -25,44 +24,36 @@ const SignUp = ({ navigation }: any) => {
     }
 
     if (!user.email) {
-      handleError("Please input email", "email")
+      handleError('Please input email', 'email')
       isValid = false
       setLoading(false)
-    }
-    else if (!user.email.match(/\S+@\S+\.\S+/)) {
-      handleError('Please input a valid email', 'email');
-      isValid = false;
+    } else if (!user.email.match(/\S+@\S+\.\S+/)) {
+      handleError('Please input a valid email', 'email')
+      isValid = false
       setLoading(false)
-
     }
     if (!user.password) {
-      handleError("Please input password", "password")
+      handleError('Please input password', 'password')
       isValid = false
       setLoading(false)
-
     } else if (user.password.length < 8) {
-      handleError('Min password length of 8', 'password');
+      handleError('Min password length of 8', 'password')
       isValid = false
       setLoading(false)
     }
     if (!user.confirmPassword) {
-      handleError("Please input confirmPassword", "confirmPassword")
+      handleError('Please input confirmPassword', 'confirmPassword')
       isValid = false
       setLoading(false)
-
     } else if (user.confirmPassword.length < 8) {
-      handleError('Min confirmPassword length of 8', 'confirmPassword');
+      handleError('Min confirmPassword length of 8', 'confirmPassword')
       isValid = false
       setLoading(false)
-
     } else if (user.confirmPassword !== user.password) {
-      handleError('confirmPassword do not match', 'confirmPassword');
+      handleError('confirmPassword do not match', 'confirmPassword')
       isValid = false
       setLoading(false)
-
     }
-
-
   }
 
   const handleError = (errorMessage: any, user: any) => {
@@ -71,21 +62,22 @@ const SignUp = ({ navigation }: any) => {
 
   //handleSignUp
   const handleSignUp = async () => {
-
     setLoading(true)
 
     const payload: UserSignUp = user
 
     try {
       const { data } = await api.post('/auth/local/signup', payload)
+      const { access_token } = data
 
-      if (!data || !data.access_token) return
-      toast.show({
-        title: 'Register success',
-        placement: 'top',
-      })
-      navigation.navigate('SignInScreen')
-      setUser({ email: '', password: '', confirmPassword: '' })
+      if (access_token) {
+        toast.show({
+          title: 'Register success',
+          placement: 'top',
+        })
+        navigation.navigate('SignInScreen')
+        setUser({ email: '', password: '', confirmPassword: '' })
+      }
     } catch (error) {
       toast.show({
         title: 'Register failed',
@@ -100,7 +92,6 @@ const SignUp = ({ navigation }: any) => {
     navigation.navigate('SignInScreen')
     setUser({ email: '', password: '', confirmPassword: '' })
   }
-
 
   return (
     <Center _dark={{ bg: 'blueGray.900' }} _light={{ bg: 'blueGray.50' }} px={4} flex={1}>
@@ -120,7 +111,7 @@ const SignUp = ({ navigation }: any) => {
           }}
           error={errors.email}
           onFocus={() => {
-            handleError(null, "email")
+            handleError(null, 'email')
           }}
         />
         {errors.email && <Text color="error.500">{errors.email}</Text>}
@@ -146,7 +137,7 @@ const SignUp = ({ navigation }: any) => {
           }}
           error={errors.password}
           onFocus={() => {
-            handleError(null, "password")
+            handleError(null, 'password')
           }}
         />
         {errors.password && <Text color="error.500">{errors.password}</Text>}
@@ -172,7 +163,7 @@ const SignUp = ({ navigation }: any) => {
           }}
           error={errors.confirmPassword}
           onFocus={() => {
-            handleError(null, "confirmPassword")
+            handleError(null, 'confirmPassword')
           }}
         />
         {errors.confirmPassword && <Text color="error.500">{errors.confirmPassword}</Text>}
@@ -180,7 +171,7 @@ const SignUp = ({ navigation }: any) => {
         <Button
           w={'full'}
           title="Submit"
-          onPress={validate}
+          onPress={handleSignUp}
           marginTop={4}
           isLoading={loading}
           isLoadingText="Signing up"

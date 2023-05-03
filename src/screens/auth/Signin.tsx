@@ -13,7 +13,6 @@ const SignIn = ({ navigation }: any) => {
     password: '',
   })
 
-
   const validate = () => {
     let isValid = true
 
@@ -21,24 +20,21 @@ const SignIn = ({ navigation }: any) => {
       handleSignIn()
     }
 
-
     if (!user.email) {
-      handleError("Please input email", "email")
+      handleError('Please input email', 'email')
       isValid = false
       setLoading(false)
-    }
-    else if (!user.email.match(/\S+@\S+\.\S+/)) {
-      handleError('Please input a valid email', 'email');
+    } else if (!user.email.match(/\S+@\S+\.\S+/)) {
+      handleError('Please input a valid email', 'email')
       isValid = false
       setLoading(false)
     }
     if (!user.password) {
-      handleError("Please input password", "password")
+      handleError('Please input password', 'password')
       isValid = false
       setLoading(false)
-
     } else if (user.password.length < 8) {
-      handleError('Min password length of 8', 'password');
+      handleError('Min password length of 8', 'password')
       isValid = false
       setLoading(false)
     }
@@ -49,7 +45,6 @@ const SignIn = ({ navigation }: any) => {
   }
 
   const handleSignIn = async () => {
-
     setLoading(true)
 
     const payload: UserSignIn = {
@@ -60,11 +55,12 @@ const SignIn = ({ navigation }: any) => {
     try {
       const { data } = await api.post('/auth/local/signin', payload)
       const { access_token } = data
-      if (!data || !data.access_token) return
 
-      await setToken(access_token)
-      navigation.navigate('LayoutScreen')
-      setUser({ email: '', password: '' })
+      if (access_token) {
+        await setToken(access_token)
+        navigation.navigate('LayoutScreen')
+        setUser({ email: '', password: '' })
+      }
     } catch (error) {
       console.error('handleSignIn', error)
     }
@@ -93,7 +89,7 @@ const SignIn = ({ navigation }: any) => {
           placeholder="Email"
           error={errors.email}
           onFocus={() => {
-            handleError(null, "email")
+            handleError(null, 'email')
           }}
         />
 
@@ -118,13 +114,13 @@ const SignIn = ({ navigation }: any) => {
           placeholder="Password"
           error={errors.password}
           onFocus={() => {
-            handleError(null, "password")
+            handleError(null, 'password')
           }}
         />
         {errors.password && <Text color="error.500">{errors.password}</Text>}
       </FormControl>
 
-      <Button w={'full'} onPress={validate} marginTop={4} isLoading={loading} isLoadingText="Signing in">
+      <Button w={'full'} onPress={handleSignIn} marginTop={4} isLoading={loading} isLoadingText="Signing in">
         Sign in
       </Button>
 

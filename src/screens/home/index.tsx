@@ -31,18 +31,6 @@ const Home = ({ navigation }: any) => {
 
       setRefreshing(false)
       isLoading == false && ToastAndroid.show('Tin tức đã được cập nhật!', ToastAndroid.TOP)
-<<<<<<< HEAD
-    }, 1000)
-  }, [])
-
-  useEffect(() => {
-    ; (async () => {
-      setIsLoading(true)
-      const data: any = await api.post('post/find')
-      if (data) setPosts(data.data)
-      setIsLoading(false)
-=======
->>>>>>> 710386749034f6a427056da08f5511142144b676
     })()
   }, [])
 

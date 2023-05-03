@@ -61,15 +61,7 @@ function Layout() {
         }}
       />
       <Tab.Screen
-<<<<<<< HEAD
-<<<<<<< HEAD
-        name="Profile"
-=======
         name="Menu"
->>>>>>> 9c3dfb27c503d69e466b609f4c8c0f83d01e3f81
-=======
-        name="Menu"
->>>>>>> 710386749034f6a427056da08f5511142144b676
         component={Setting}
         options={{
           tabBarLabel: '',
