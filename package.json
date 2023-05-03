@@ -45,7 +45,10 @@
     "expo-secure-store": "^12.1.1",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
+<<<<<<< HEAD
+=======
     "moment": "^2.29.4",
+>>>>>>> 710386749034f6a427056da08f5511142144b676
     "native-base": "3.4.0",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
