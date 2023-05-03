@@ -12,7 +12,10 @@ const initialState = {
 export const loadPosts = createAsyncThunk('post/load', async () => {
   const options = {
     options: {
-      relations: ['comments', 'medias'], // join to get comments and medias
+      relations: [
+        // 'comments',
+        'medias',
+      ], // join to get comments and medias
       order: {
         // order new post to top
         created_at: 'DESC',
@@ -22,7 +25,6 @@ export const loadPosts = createAsyncThunk('post/load', async () => {
 
   const res: any = await api.post('/post/find', options)
 
-  console.log(res.data[0])
   if (res.status == 200) {
     return await res.data
   }

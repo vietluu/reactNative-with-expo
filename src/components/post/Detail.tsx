@@ -34,8 +34,7 @@ const Detail = ({ route, navigation }: any) => {
       headerLeft: () => (
         <HStack w="full" alignItems={'center'}>
           <Ionicons name="chevron-back-outline" size={33} color="#fff" onPress={(e) => navigation.goBack()} />
-          <AvatarEntity username={post?.created_by?.name} avatar={get(post, 'created_by.avatar')} />
-          <AvatarEntity username={post?.created_by?.name} avatar={post?.created_by?.avatar} />
+          <AvatarEntity username={get(post, 'created_by.name')} avatar={get(post, 'created_by.avatar')} />
         </HStack>
       ),
     })
