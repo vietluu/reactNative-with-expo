@@ -1,17 +1,20 @@
-import { Button, Center, CheckIcon, FormControl, Input, Select, Stack, View, TextArea, Spinner } from 'native-base'
+import { Button, CheckIcon, FormControl, Input, Select, Stack, View, TextArea, Spinner, useToast } from 'native-base'
 import { useState, useEffect, memo } from 'react'
 import { api } from '../../utils'
 import { ICategory } from '../../types'
 import { ICreatePost } from '../../types/post/post.types'
-import { useToast } from 'native-base'
+import * as ImagePicker from 'expo-image-picker'
+import { Image } from 'native-base'
 
 const initPost = { name: '', content: '' }
 
 const CreatePost = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [creating, setCreating] = useState(false)
-  const [categoryId, setCategoryId] = useState('')
+  const [categoryId, setCategoryId] = useState<string | null>(null)
   const [post, setPost] = useState<ICreatePost>(initPost)
+  const [image, setImage] = useState<string | null>(null)
   const [categories, setCategories] = useState<ICategory[]>([])
   const toast = useToast()
 
@@ -29,17 +32,13 @@ const CreatePost = ({ navigation }: any) => {
     try {
       const payload: ICreatePost = {
         ...post,
-        category: {
-          id: +categoryId,
-        },
-        // medias: [
-        //   {
-        //     id: 3,
-        //   },
-        //   {
-        //     id: 2,
-        //   },
-        // ],
+        ...(categoryId
+          ? {
+              category: {
+                id: +categoryId,
+              },
+            }
+          : {}),
       }
 
       const response = await api.post('/post', payload)
@@ -48,14 +47,58 @@ const CreatePost = ({ navigation }: any) => {
           title: 'Create post success',
           placement: 'top',
         })
+
+        navigation.navigate('Detail', response.data)
       }
     } catch (error) {
       console.error('handleCreatePost: ', error)
     }
 
-    setCategoryId('')
-    setPost(initPost)
+    resetPost()
     setCreating(false)
+  }
+
+  const handleUploadImage = async () => {
+    // No permissions request is necessary for launching the image library
+    try {
+      // pick image
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        // aspect: [4, 3],
+        quality: 1,
+      })
+
+      if (result.canceled) return
+      const image = result.assets[0].uri
+
+      // upload image
+      setImage(image)
+      const formData = new FormData()
+      formData.append('image', { name: 'image.jpeg', uri: image, type: 'image/jpeg' } as any, 'image.jpeg')
+
+      setUploading(true)
+      const response = await api.post('/media/upload', formData, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      })
+
+      if (response.status === 200 && response.data) {
+        setPost({ ...post, medias: [{ id: response.data.id }] })
+      }
+    } catch (error) {
+      console.error('handleUploadImage error:', error)
+    }
+
+    setUploading(false)
+  }
+
+  // reset post data to empty
+  const resetPost = () => {
+    setCategoryId(null)
+    setImage(null)
+    setPost(initPost)
   }
 
   return (
@@ -67,7 +110,7 @@ const CreatePost = ({ navigation }: any) => {
           <View display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
             {categories.length ? (
               <Select
-                selectedValue={categoryId}
+                selectedValue={categoryId as any}
                 minWidth={200}
                 placeholder="Select a category"
                 onValueChange={(value) => setCategoryId(value)}
@@ -86,6 +129,10 @@ const CreatePost = ({ navigation }: any) => {
 
             <Button onPress={handleCreatePost} isLoading={creating} isLoadingText="Creating">
               Create
+            </Button>
+
+            <Button onPress={handleUploadImage} isLoading={uploading} isLoadingText="Uploading">
+              Image
             </Button>
           </View>
 
@@ -112,6 +159,14 @@ const CreatePost = ({ navigation }: any) => {
               </Stack>
             </FormControl>
           </View>
+
+          <Image
+            source={{
+              uri: image || '../../../assets/image/default.jpg',
+            }}
+            alt="Alternate Text"
+            size="xl"
+          />
         </>
       )}
     </View>

@@ -5,6 +5,8 @@ import AvatarEntity from '../common/AvatarEntity'
 import { useAppDispatch, useAppSelector } from '../../redux'
 import { loadComments } from '../../redux/post/commentReducer'
 import { profile } from '../../redux/profile/reducer'
+import { get } from 'lodash'
+import { getImage } from '../../utils/image'
 
 const PostItem = ({ post, navigation }: any) => {
   const [active, setActive] = useState(false)
@@ -21,22 +23,25 @@ const PostItem = ({ post, navigation }: any) => {
   //   }
   // }, [post.react])
 
+  const image = post?.medias?.length ? getImage(post.medias[0]) : null
+
   return (
     <Box w="full" px={2} mb={2} bgColor="coolGray.200">
-      <AvatarEntity username={post?.created_by?.name} avatar={post?.created_by?.avatar} />
+      <AvatarEntity username={get(post, 'created_by.name')} avatar={get(post, 'created_by.avatar')} />
       <VStack>
         <Text fontSize="md" mt={1}>
-          {post?.content}
+          {get(post, 'content')}
         </Text>
       </VStack>
 
-      {post?.image && (
+      {image && (
         <VStack>
           <AspectRatio>
-            <Image source={{ uri: post?.image }} alt="image" resizeMode="contain" mt={4} />
+            <Image source={{ uri: image }} alt="image" resizeMode="contain" mt={4} />
           </AspectRatio>
         </VStack>
       )}
+
       <HStack w="full" justifyContent={'space-evenly'}>
         <VStack w="90%">
           <HStack alignItems={'center'}>
