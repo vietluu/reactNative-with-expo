@@ -19,35 +19,50 @@ const SignUp = ({ navigation }: any) => {
 
   const validate = () => {
     let isValid = true
-    if (!user.email) {
-      handleError("Please input email", "email")
-      isValid = false
-    }
-    else if (!user.email.match(/\S+@\S+\.\S+/)) {
-      handleError('Please input a valid email', 'email');
-      isValid = false;
-    }
-    if (!user.password) {
-      handleError("Please input password", "password")
-      isValid = false
-    } else if (user.password.length < 8) {
-      handleError('Min password length of 8', 'password');
-      isValid = false;
-    }
-    if (!user.confirmPassword) {
-      handleError("Please input confirmPassword", "confirmPassword")
-      isValid = false
-    } else if (user.confirmPassword.length < 8) {
-      handleError('Min confirmPassword  length of 8', 'confirmPassword');
-      isValid = false;
-    } else if (user.confirmPassword !== user.password) {
-      handleError('confirmPassword  do not match', 'confirmPassword');
-      isValid = false;
-    }
 
     if (isValid) {
       handleSignUp()
     }
+
+    if (!user.email) {
+      handleError("Please input email", "email")
+      isValid = false
+      setLoading(false)
+    }
+    else if (!user.email.match(/\S+@\S+\.\S+/)) {
+      handleError('Please input a valid email', 'email');
+      isValid = false;
+      setLoading(false)
+
+    }
+    if (!user.password) {
+      handleError("Please input password", "password")
+      isValid = false
+      setLoading(false)
+
+    } else if (user.password.length < 8) {
+      handleError('Min password length of 8', 'password');
+      isValid = false
+      setLoading(false)
+    }
+    if (!user.confirmPassword) {
+      handleError("Please input confirmPassword", "confirmPassword")
+      isValid = false
+      setLoading(false)
+
+    } else if (user.confirmPassword.length < 8) {
+      handleError('Min confirmPassword length of 8', 'confirmPassword');
+      isValid = false
+      setLoading(false)
+
+    } else if (user.confirmPassword !== user.password) {
+      handleError('confirmPassword do not match', 'confirmPassword');
+      isValid = false
+      setLoading(false)
+
+    }
+
+
   }
 
   const handleError = (errorMessage: any, user: any) => {

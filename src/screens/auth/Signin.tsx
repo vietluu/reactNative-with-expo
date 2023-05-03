@@ -13,60 +13,34 @@ const SignIn = ({ navigation }: any) => {
     password: '',
   })
 
-  // const validate = (user: any) => {
-  //   let isValid = true;
-  //   const error = {
-  //     email: '',
-  //     password: '',
-  //   }
-  //   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-  //   const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/
-
-  //   if (user.email === '') {
-  //     error.email = 'Please enter your email'
-  //     isValid = false;
-  //   } else if (!emailRegex.test(user.email)) {
-  //     error.email = "Email didn't match"
-  //     isValid = false;
-
-  //   }
-  //   if (user.password === '') {
-  //     error.password = 'Please enter your password'
-  //     isValid = false;
-
-
-  //   } else if (!passwordRegex.test(user.password)) {
-  //     error.password = "Password didn't match"
-  //     isValid = false;
-  //   }
-
-  //   // return error
-
-  //   if (isValid) {
-  //     handleSignIn();
-  //   }
-  // }
 
   const validate = () => {
     let isValid = true
+
+    if (isValid) {
+      handleSignIn()
+    }
+
+
     if (!user.email) {
       handleError("Please input email", "email")
       isValid = false
+      setLoading(false)
     }
     else if (!user.email.match(/\S+@\S+\.\S+/)) {
       handleError('Please input a valid email', 'email');
-      isValid = false;
+      isValid = false
+      setLoading(false)
     }
     if (!user.password) {
       handleError("Please input password", "password")
       isValid = false
+      setLoading(false)
+
     } else if (user.password.length < 8) {
       handleError('Min password length of 8', 'password');
-      isValid = false;
-    }
-
-    if (isValid) {
-      handleSignIn()
+      isValid = false
+      setLoading(false)
     }
   }
 
