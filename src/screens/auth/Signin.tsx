@@ -4,12 +4,6 @@ import { setToken } from '../../utils/token'
 import { UserSignIn } from '../../types'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Input, Text, Button, Icon, Pressable, Center, FormControl } from 'native-base'
-<<<<<<< HEAD
-import { haserr, isloading, login } from '../../redux/auth/reducer'
-import { useAppDispatch, useAppSelector } from '../../redux'
-=======
-
->>>>>>> 710386749034f6a427056da08f5511142144b676
 const SignIn = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -17,83 +11,60 @@ const SignIn = ({ navigation }: any) => {
   const [errors, setErrors] = useState({
     email: '',
     password: '',
-    confirmPassword: '',
+
   })
 
-<<<<<<< HEAD
-
-  const dispatch = useAppDispatch()
-  const isLoading = useAppSelector(isloading)
-
-
-
-
-
-=======
->>>>>>> 710386749034f6a427056da08f5511142144b676
   const validate = (user: any) => {
     const error = {
       email: '',
       password: '',
-      confirmPassword: '',
+
     }
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     const passwordRegex = /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/
 
     if (user.email === '') {
-      error.email = 'Please enter your Email'
+      error.email = 'Please enter your email'
     }
-    if (!emailRegex.test(user.email)) {
+    else if (!emailRegex.test(user.email)) {
       error.email = "Email didn't match"
     }
-
     if (user.password === '') {
-      error.password = 'Please enter your Password'
+      error.password = 'Please enter your password'
     }
-    if (!passwordRegex.test(user.password)) {
+    else if (!passwordRegex.test(user.password)) {
       error.password = "Password didn't match"
     }
-    if (user.confirmPassword === '' || user.confirmPassword != user.password) {
-      error.confirmPassword = 'Password not matched'
-    }
+
 
     return error
   }
 
   const handleSignIn = async () => {
-    if (user.email.trim() === '' || user.password.trim() === '') return
+    // if (user.email.trim() === '' || user.password.trim() === '') return
 
-    setLoading(true)
+
+    setErrors(validate(user))
+    // setLoading(true)
+
     const payload: UserSignIn = {
       email: user.email.trim(),
       password: user.password.trim(),
     }
 
-<<<<<<< HEAD
-    const payload: UserSignIn = user
-    try {
-      const res: any = await dispatch(login(payload))
-      if (!res) return
-      console.log('sign in success')
-      await setToken(res.payload.access_token)
-=======
     try {
       const { data } = await api.post('/auth/local/signin', payload)
       const { access_token } = data
       if (!data || !data.access_token) return
 
       await setToken(access_token)
->>>>>>> 710386749034f6a427056da08f5511142144b676
       navigation.navigate('LayoutScreen')
       setUser({ email: '', password: '' })
     } catch (error) {
       console.error('handleSignIn', error)
     }
-<<<<<<< HEAD
-=======
 
     setLoading(false)
->>>>>>> 710386749034f6a427056da08f5511142144b676
   }
 
   const goToSignUp = () => {
@@ -117,6 +88,8 @@ const SignIn = ({ navigation }: any) => {
           placeholder="Email"
         />
 
+        {errors.email ? <Text color="error.500">{errors.email}</Text> : null}
+
         {/* Password Input */}
         <Input
           marginTop={4}
@@ -138,12 +111,9 @@ const SignIn = ({ navigation }: any) => {
         {errors.password && <Text color="error.500">{errors.password}</Text>}
       </FormControl>
 
-<<<<<<< HEAD
-=======
       <Button w={'full'} onPress={handleSignIn} marginTop={4} isLoading={loading} isLoadingText="Signing in">
         Sign in
       </Button>
->>>>>>> 710386749034f6a427056da08f5511142144b676
 
       <Text onPress={goToSignUp} marginTop={2}>
         Don't have an account?

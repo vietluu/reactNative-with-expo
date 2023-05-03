@@ -18,9 +18,10 @@ const SignUp = ({ navigation }: any) => {
 
   //handleSignUp
   const handleSignUp = async () => {
-    setLoading(true)
 
     setErrors(validate(user))
+    // setLoading(true)
+
 
     const payload: UserSignUp = user
 
@@ -61,14 +62,14 @@ const SignUp = ({ navigation }: any) => {
     if (user.email === '') {
       error.email = 'Please enter your Email'
     }
-    if (!emailRegex.test(user.email)) {
+    else if (!emailRegex.test(user.email)) {
       error.email = "Email didn't match"
     }
 
     if (user.password === '') {
       error.password = 'Please enter your Password'
     }
-    if (!passwordRegex.test(user.password)) {
+    else if (!passwordRegex.test(user.password)) {
       error.password = "Password didn't match"
     }
     if (user.confirmPassword === '' || user.confirmPassword != user.password) {
