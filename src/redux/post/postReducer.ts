@@ -22,7 +22,6 @@ export const loadPosts = createAsyncThunk('post/load', async () => {
 
   const res: any = await api.post('/post/find', options)
 
-  console.log(res.data[0])
   if (res.status == 200) {
     return await res.data
   }

@@ -37,10 +37,20 @@ const Home = ({ navigation }: any) => {
   const Main = ({ navigation }: any) => {
     return (
       <Center flex={1}>
-        {isLoading && <PostLoader />}
-        <ScrollView w="full" px={2} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-          {posts?.length > 0 && posts?.map((val, index) => <PostItem key={index} post={val} navigation={navigation} />)}
-        </ScrollView>
+        {isLoading ? (
+          <PostLoader />
+        ) : (
+          <ScrollView
+            w="full"
+            px={2}
+            nestedScrollEnabled={true}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          >
+            {posts.map((post, index) => (
+              <PostItem key={index} post={post} navigation={navigation} />
+            ))}
+          </ScrollView>
+        )}
       </Center>
     )
   }
