@@ -18,8 +18,9 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     // Do something before request is sent
-    const token = await getToken()
+    let token = await getToken()
 
+    if (typeof token !== 'string') token = null
     if (token) config.headers.Authorization = 'Bearer ' + token
     else delete config.headers.Authorization
 

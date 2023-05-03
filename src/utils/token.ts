@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 export async function setToken(token: string) {
   if (Platform.OS === 'web') {
     // do something for ios
-    localStorage.setItem('access_token', token)
+    await localStorage.setItem('access_token', token)
   } else if (Platform.OS === 'android') {
     // other thing for android
     await AsyncStorage.setItem('access_token', token)
@@ -35,4 +35,14 @@ export async function getToken() {
   }
 
   return token
+}
+
+export async function clearToken() {
+  if (Platform.OS === 'web') {
+    // do something for ios
+    await localStorage.clear()
+  } else if (Platform.OS === 'android') {
+    // other thing for android
+    await AsyncStorage.clear()
+  }
 }
