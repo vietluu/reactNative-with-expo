@@ -8,6 +8,9 @@ import { commentData, isloading } from '../../redux/post/commentReducer'
 import { loadComments } from '../../redux/post/commentReducer'
 import CommentLoader from '../CommentLoader'
 import { get } from 'lodash'
+import { getImage } from '../../utils/image'
+import { SliderBox } from 'react-native-image-slider-box'
+
 const Detail = ({ route, navigation }: any) => {
   const [active, setActive] = useState(false)
   const [txt, setTxt] = useState('')
@@ -40,6 +43,8 @@ const Detail = ({ route, navigation }: any) => {
     })
   }, [navigation, route])
 
+  const images = post?.medias ? post.medias.map((media: any) => getImage(media)) : []
+
   return (
     <ScrollView w="full" px={2} mb={2} bgColor="coolGray.200">
       <VStack>
@@ -48,13 +53,14 @@ const Detail = ({ route, navigation }: any) => {
         </Text>
       </VStack>
 
-      {post?.image && (
+      {images.length ? (
         <VStack>
-          <AspectRatio>
-            <Image source={{ uri: post?.image }} alt="image" resizeMode="contain" mt={4} />
-          </AspectRatio>
+          <SliderBox images={images} />
         </VStack>
+      ) : (
+        <></>
       )}
+
       <HStack w="full" justifyContent={'space-evenly'}>
         <VStack w="90%">
           <HStack alignItems={'center'}>

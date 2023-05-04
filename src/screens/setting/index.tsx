@@ -13,12 +13,11 @@ const Setting = ({ navigation }: any) => {
     // need to remove current user state
     setTimeout(async () => {
       await clearToken()
-      setLoading(true)
+      setLoading(false)
       toast.show({
         title: 'Sign out success',
         placement: 'top',
       })
-      console.log('token ', await getToken())
       navigation.navigate('SignInScreen')
     }, 1000)
   }
