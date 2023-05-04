@@ -46,7 +46,6 @@ const SignIn = ({ navigation }: any) => {
 
     if (!validate()) {
       setLoading(false)
-      console.log('ok');
       return false
     }
 
@@ -59,7 +58,6 @@ const SignIn = ({ navigation }: any) => {
     try {
       const { data } = await api.post('/auth/local/signin', payload)
       const { access_token } = data
-      console.log('ok2');
       if (access_token) {
         await setToken(access_token)
         navigation.navigate('LayoutScreen')
