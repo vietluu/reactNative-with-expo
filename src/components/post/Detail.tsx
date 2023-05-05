@@ -25,6 +25,9 @@ import { ToastAndroid, Alert } from 'react-native'
 import { useDisclose } from 'native-base'
 import { profile } from '../../redux/profile/reducer'
 import _ from 'lodash'
+import { getImage } from '../../utils/image'
+import { SliderBox } from 'react-native-image-slider-box'
+
 const Detail = ({ route, navigation }: any) => {
   const data = useAppSelector(commentData)
   const [active, setActive] = useState(false)
@@ -56,8 +59,8 @@ const Detail = ({ route, navigation }: any) => {
       title: '',
       headerLeft: () => (
         <HStack w="full" alignItems={'center'}>
-          <Ionicons name="chevron-back-outline" size={33} color="#fff" onPress={onCloseAct} />
-          <AvatarEntity username={post?.created_by?.name} avatar={post?.created_by?.avatar} />
+          <Ionicons name="chevron-back-outline" size={33} color="#fff" onPress={(e) => navigation.goBack()} />
+          <AvatarEntity username={_.get(post, 'created_by.name')} avatar={_.get(post, 'created_by.avatar')} />
         </HStack>
       ),
     })
@@ -179,6 +182,8 @@ const Detail = ({ route, navigation }: any) => {
     setTxtChange(value?.content)
     setIsSelectUpdate(true)
   }
+  const images = post?.medias ? post.medias.map((media: any) => getImage(media)) : []
+
   return (
     <ScrollView w="full" px={2} mb={2} bgColor="coolGray.200" onTouchMove={onClose}>
       <VStack>
@@ -187,13 +192,14 @@ const Detail = ({ route, navigation }: any) => {
         </Text>
       </VStack>
 
-      {post?.image && (
+      {images.length ? (
         <VStack>
-          <AspectRatio>
-            <Image source={{ uri: post?.image }} alt="image" resizeMode="contain" mt={4} />
-          </AspectRatio>
+          <SliderBox images={images} />
         </VStack>
+      ) : (
+        <></>
       )}
+
       <HStack w="full" justifyContent={'space-evenly'}>
         <VStack w="90%">
           <HStack alignItems={'center'}>

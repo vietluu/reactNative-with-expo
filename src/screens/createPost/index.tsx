@@ -1,10 +1,24 @@
-import { Button, CheckIcon, FormControl, Input, Select, Stack, View, TextArea, Spinner, useToast } from 'native-base'
+import {
+  Button,
+  CheckIcon,
+  FormControl,
+  Input,
+  Select,
+  Stack,
+  View,
+  TextArea,
+  Spinner,
+  useToast,
+  Center,
+  ScrollView,
+} from 'native-base'
 import { useState, useEffect, memo } from 'react'
 import { api } from '../../utils'
 import { ICategory } from '../../types'
 import { ICreatePost } from '../../types/post/post.types'
 import * as ImagePicker from 'expo-image-picker'
 import { Image } from 'native-base'
+import { IMedia } from '../../types/media/media.types'
 
 const initPost = { name: '', content: '' }
 
@@ -14,7 +28,8 @@ const CreatePost = ({ navigation }: any) => {
   const [creating, setCreating] = useState(false)
   const [categoryId, setCategoryId] = useState<string | null>(null)
   const [post, setPost] = useState<ICreatePost>(initPost)
-  const [image, setImage] = useState<string | null>(null)
+  const [images, setImages] = useState<string[]>([])
+  const [medias, setMedias] = useState<IMedia[]>([])
   const [categories, setCategories] = useState<ICategory[]>([])
   const toast = useToast()
 
@@ -39,6 +54,7 @@ const CreatePost = ({ navigation }: any) => {
               },
             }
           : {}),
+        ...(medias.length ? { medias } : {}),
       }
 
       const response = await api.post('/post', payload)
@@ -60,6 +76,7 @@ const CreatePost = ({ navigation }: any) => {
 
   const handleUploadImage = async () => {
     // No permissions request is necessary for launching the image library
+    if (isLoading) return
     try {
       // pick image
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -73,7 +90,6 @@ const CreatePost = ({ navigation }: any) => {
       const image = result.assets[0].uri
 
       // upload image
-      setImage(image)
       const formData = new FormData()
       formData.append('image', { name: 'image.jpeg', uri: image, type: 'image/jpeg' } as any, 'image.jpeg')
 
@@ -85,7 +101,8 @@ const CreatePost = ({ navigation }: any) => {
       })
 
       if (response.status === 200 && response.data) {
-        setPost({ ...post, medias: [{ id: response.data.id }] })
+        setImages([...images, image])
+        setMedias([...medias, response.data])
       }
     } catch (error) {
       console.error('handleUploadImage error:', error)
@@ -97,16 +114,16 @@ const CreatePost = ({ navigation }: any) => {
   // reset post data to empty
   const resetPost = () => {
     setCategoryId(null)
-    setImage(null)
+    setImages([])
     setPost(initPost)
   }
 
   return (
-    <View w="full" padding={4}>
+    <View w="full" paddingBottom={4}>
       {isLoading ? (
         <Spinner accessibilityLabel="Loading posts" />
       ) : (
-        <>
+        <ScrollView padding={4}>
           <View display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
             {categories.length ? (
               <Select
@@ -160,14 +177,20 @@ const CreatePost = ({ navigation }: any) => {
             </FormControl>
           </View>
 
-          <Image
-            source={{
-              uri: image || '../../../assets/image/default.jpg',
-            }}
-            alt="Alternate Text"
-            size="xl"
-          />
-        </>
+          <Center width={'full'}>
+            {images.map((image, index) => (
+              <Image
+                key={index}
+                source={{
+                  uri: image || '../../../assets/image/default.jpg',
+                }}
+                alt="Alternate Text"
+                size="xl"
+                marginTop={4}
+              />
+            ))}
+          </Center>
+        </ScrollView>
       )}
     </View>
   )

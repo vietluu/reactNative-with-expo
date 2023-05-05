@@ -1,34 +1,37 @@
 import { AspectRatio, Box, HStack, IconButton, Image, Stack, Text, VStack, View } from 'native-base'
 import React, { memo, useState, useLayoutEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import AvatarEntity from '../common/AvatarEntity'
 import { useAppDispatch, useAppSelector } from '../../redux'
 import { loadComments } from '../../redux/post/commentReducer'
 import { profile } from '../../redux/profile/reducer'
 import { get } from 'lodash'
 import { getImage } from '../../utils/image'
+import AvatarEntity from '../common/AvatarEntity'
+import { SliderBox } from 'react-native-image-slider-box'
 
 const PostItem = ({ post, navigation }: any) => {
   const [active, setActive] = useState(false)
   const dispatch = useAppDispatch()
   const user: any = useAppSelector(profile)
 
-  const image = post?.medias?.length ? getImage(post.medias[0]) : null
+  const images = post?.medias ? post.medias.map((media: any) => getImage(media)) : []
+
   return (
     <Box w="full" px={2} mb={2} bgColor="coolGray.200">
       <AvatarEntity username={get(post, 'created_by.name')} avatar={get(post, 'created_by.avatar')} />
+
       <VStack>
         <Text fontSize="md" mt={1}>
           {get(post, 'content')}
         </Text>
       </VStack>
 
-      {image && (
+      {images.length ? (
         <VStack>
-          <AspectRatio>
-            <Image source={{ uri: image }} alt="image" resizeMode="contain" mt={4} />
-          </AspectRatio>
+          <SliderBox images={images} />
         </VStack>
+      ) : (
+        <></>
       )}
 
       <HStack w="full" justifyContent={'space-evenly'}>
