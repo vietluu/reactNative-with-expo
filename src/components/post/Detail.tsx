@@ -42,7 +42,7 @@ const Detail = ({ route, navigation }: any) => {
   const { isOpen, onOpen, onClose } = useDisclose()
   const dispatch = useAppDispatch()
 
-  const isLoading = useAppSelector(isloading)
+  const isLoading: boolean = useAppSelector(isloading)
 
   const user: any = useAppSelector(profile)
 
@@ -59,7 +59,7 @@ const Detail = ({ route, navigation }: any) => {
       title: '',
       headerLeft: () => (
         <HStack w="full" alignItems={'center'}>
-          <Ionicons name="chevron-back-outline" size={33} color="#fff" onPress={(e) => navigation.goBack()} />
+          <Ionicons name="chevron-back-outline" size={33} color="#fff" onPress={onCloseAct} />
           <AvatarEntity username={_.get(post, 'created_by.name')} avatar={_.get(post, 'created_by.avatar')} />
         </HStack>
       ),
@@ -183,7 +183,7 @@ const Detail = ({ route, navigation }: any) => {
     setIsSelectUpdate(true)
   }
   const images = post?.medias ? post.medias.map((media: any) => getImage(media)) : []
-
+  console.log(isLoading)
   return (
     <ScrollView w="full" px={2} mb={2} bgColor="coolGray.200" onTouchMove={onClose}>
       <VStack>
@@ -304,9 +304,17 @@ const Detail = ({ route, navigation }: any) => {
           ))}
         </VStack>
       ) : (
-        <VStack mt={3}>
-          <CommentLoader />
-        </VStack>
+        <Center>
+          {isLoading ? (
+            <VStack mt={3}>
+              <CommentLoader />
+            </VStack>
+          ) : (
+            <Text mt={4} color={'coolGray.500'}>
+              Không có bình luận nào!
+            </Text>
+          )}
+        </Center>
       )}
     </ScrollView>
   )
