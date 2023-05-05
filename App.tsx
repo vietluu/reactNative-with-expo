@@ -1,3 +1,4 @@
+import './ignoreWarnings'
 import { Provider } from 'react-redux'
 import { NativeBaseProvider, extendTheme, StatusBar } from 'native-base'
 import Navigation from './src/components/Navigation'
