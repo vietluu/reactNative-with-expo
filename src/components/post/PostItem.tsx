@@ -12,19 +12,8 @@ const PostItem = ({ post, navigation }: any) => {
   const [active, setActive] = useState(false)
   const dispatch = useAppDispatch()
   const user: any = useAppSelector(profile)
-  // de lai
-  // useLayoutEffect(() => {
-  //   if (post.react) {
-  //     const arr = post?.react?.map((val: any) => Number(val.id))
-
-  //     if (arr.includes(user?.id)) {
-  //       setActive(true)
-  //     }
-  //   }
-  // }, [post.react])
 
   const image = post?.medias?.length ? getImage(post.medias[0]) : null
-
   return (
     <Box w="full" px={2} mb={2} bgColor="coolGray.200">
       <AvatarEntity username={get(post, 'created_by.name')} avatar={get(post, 'created_by.avatar')} />

@@ -18,7 +18,6 @@ const Setting = ({ navigation }: any) => {
         title: 'Sign out success',
         placement: 'top',
       })
-      console.log('token ', await getToken())
       navigation.navigate('SignInScreen')
     }, 1000)
   }
