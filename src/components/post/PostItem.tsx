@@ -13,16 +13,6 @@ const PostItem = ({ post, navigation }: any) => {
   const [active, setActive] = useState(false)
   const dispatch = useAppDispatch()
   const user: any = useAppSelector(profile)
-  // de lai
-  // useLayoutEffect(() => {
-  //   if (post.react) {
-  //     const arr = post?.react?.map((val: any) => Number(val.id))
-
-  //     if (arr.includes(user?.id)) {
-  //       setActive(true)
-  //     }
-  //   }
-  // }, [post.react])
 
   const images = post?.medias ? post.medias.map((media: any) => getImage(media)) : []
 

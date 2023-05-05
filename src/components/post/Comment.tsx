@@ -1,5 +1,5 @@
 import { Avatar, Box, HStack, Text, VStack } from 'native-base'
-import React from 'react'
+import React, { memo } from 'react'
 import moment from 'moment/moment'
 import 'moment/locale/vi'
 const Comment = ({ comment }: any) => {
@@ -31,4 +31,4 @@ const Comment = ({ comment }: any) => {
     </Box>
   )
 }
-export default Comment
+export default memo(Comment)

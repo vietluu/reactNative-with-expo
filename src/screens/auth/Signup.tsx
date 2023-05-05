@@ -45,13 +45,11 @@ const SignUp = ({ navigation }: any) => {
     }
 
     return isValid
-
   }
 
   const handleError = (errorMessage: any, user: any) => {
     setErrors((prev) => ({ ...prev, [user]: errorMessage }))
   }
-
 
   const handleSignUp = async () => {
     setLoading(true)
@@ -60,7 +58,6 @@ const SignUp = ({ navigation }: any) => {
       setLoading(false)
       return false
     }
-
 
     const payload: UserSignUp = user
 

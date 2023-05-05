@@ -17,7 +17,7 @@ export const loadComments = createAsyncThunk('comment/load', async (body: any) =
 })
 
 // add New comment
-export const addNewComment = createAsyncThunk('comment/create', async (body) => {
+export const addNewComment = createAsyncThunk('comment/create', async (body: any) => {
   const response: any = await api.post('/comment', body)
   if (response.status == 200 || response.status === 201) {
     return await response.data
@@ -26,9 +26,16 @@ export const addNewComment = createAsyncThunk('comment/create', async (body) => 
 })
 
 //delete comment
-export const commentDeletes = createAsyncThunk('comment/delete', async (body) => {
+export const commentDeletes = createAsyncThunk('comment/delete', async (body: any) => {
   const res: any = await api.delete(`/comment/${body}`)
   if (res.status == 200) {
+    return await res.data
+  }
+  return await res.json()
+})
+export const commentUpdate = createAsyncThunk('comment/update', async (body: any) => {
+  const res: any = await api.put(`/comment`, body)
+  if (res.status === 200 || res.status === 201) {
     return await res.data
   }
   return await res.json()

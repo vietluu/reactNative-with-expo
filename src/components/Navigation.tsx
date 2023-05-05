@@ -21,8 +21,6 @@ function BaseLink() {
       try {
         const token = await getToken()
         if (token !== null) await setInitRoute('LayoutScreen')
-
-        console.log('initRoute', initRoute)
       } catch (error) {
         console.error('NavigationContainer: ', error)
       }

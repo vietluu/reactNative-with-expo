@@ -13,8 +13,6 @@ const SignIn = ({ navigation }: any) => {
     password: '',
   })
 
-
-
   const validate = () => {
     let isValid = true
 
@@ -35,20 +33,17 @@ const SignIn = ({ navigation }: any) => {
     return isValid
   }
 
-
   const handleError = (errorMessage: any, user: any) => {
     setErrors((prev) => ({ ...prev, [user]: errorMessage }))
   }
 
   const handleSignIn = async () => {
-
     setLoading(true)
 
     if (!validate()) {
       setLoading(false)
       return false
     }
-
 
     const payload: UserSignIn = {
       email: user.email.trim(),
