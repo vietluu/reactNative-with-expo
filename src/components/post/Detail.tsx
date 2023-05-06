@@ -13,7 +13,7 @@ import {
   Button,
   Center,
 } from 'native-base'
-import React, { memo, useState, useEffect, useLayoutEffect } from 'react'
+import React, { memo, useState, useEffect, useLayoutEffect, useCallback } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import AvatarEntity from '../common/AvatarEntity'
 import Comment from './Comment'
@@ -27,65 +27,91 @@ import { profile } from '../../redux/profile/reducer'
 import _ from 'lodash'
 import { getImage } from '../../utils/image'
 import { SliderBox } from 'react-native-image-slider-box'
+import { getOnePost, likePost } from '../../redux/post/postReducer'
 
 const Detail = ({ route, navigation }: any) => {
-  const data = useAppSelector(commentData)
-  const [active, setActive] = useState(false)
+  const param = route?.params?.param
+  const postData = route?.params?.post_Item
+  const [post, setPost]: any = useState({})
+  const [active, setActive] = useState(postData?.active || false)
   const [txt, setTxt] = useState('')
   const [isSelectUpdate, setIsSelectUpdate] = useState(false)
   const [select, setSlect]: any = useState(null)
   const [txtChange, setTxtChange] = useState('')
-  const [cmtData, setCmtData] = useState([])
+  const [cmtData, setCmtData]: any = useState([])
   const [disable, setDisable] = useState(false)
-  const post = route?.params || null
-
+  const data = useAppSelector(commentData)
   const { isOpen, onOpen, onClose } = useDisclose()
+  const isLoading: boolean = useAppSelector(isloading)
+  const user: any = useAppSelector(profile)
   const dispatch = useAppDispatch()
 
-  const isLoading: boolean = useAppSelector(isloading)
-
-  const user: any = useAppSelector(profile)
+  useLayoutEffect(() => {
+    ;(async () => {
+      if (param) {
+        const res = await dispatch(getOnePost(param?.id))
+        if (res.payload) {
+          setPost(res.payload)
+          setCmtData(res?.payload?.comments)
+          setActive(res.payload?.post_users[0]?.is_like || false)
+        }
+      } else {
+        setPost(postData)
+      }
+    })()
+  }, [param])
 
   useEffect(() => {
-    if (data.length > 0) {
+    if (data?.length > 0) {
       setCmtData(data?.filter((e: any) => e?.post_id === post.id))
     }
   }, [data])
+
   useLayoutEffect(() => {
     ;(async () => {
-      await dispatch(loadComments({ query: { post_id: post?.id } }))
+      param == null && (await dispatch(loadComments({ query: { post_id: post?.id } })))
     })()
     navigation.setOptions({
       title: '',
       headerLeft: () => (
         <HStack w="full" alignItems={'center'}>
-          <Ionicons name="chevron-back-outline" size={33} color="#fff" onPress={onCloseAct} />
+          <Ionicons name="chevron-back-outline" size={33} color="#fff" onPress={() => onCloseModal()} />
           <AvatarEntity username={_.get(post, 'created_by.name')} avatar={_.get(post, 'created_by.avatar')} />
         </HStack>
       ),
     })
-  }, [navigation, route])
+  }, [post])
 
-  const onCloseAct = () => {
+  const onLikePost = async (id: number) => {
+    const res: any = await dispatch(likePost({ post_id: id }))
+    if (res.payload) {
+      setActive(res?.payload?.is_like)
+    }
+  }
+
+  const onCloseModal = async () => {
     try {
-      if (txt.trim() !== '') {
-        Alert.alert('My Review ', 'Bạn có chắc chắn muốn thoát?', [
-          {
-            text: 'Hủy',
-            onPress: () => {
-              return
-            },
-            style: 'cancel',
+      Alert.alert('My Review ', 'Bạn có chắc chắn muốn thoát?', [
+        {
+          text: 'Hủy',
+          onPress: () => {
+            return
           },
-          { text: 'OK', onPress: () => navigation.goBack() },
-        ])
-      } else {
-        navigation.goBack()
-      }
+          style: 'cancel',
+        },
+        { text: 'OK', onPress: () => navigation.goBack() },
+      ])
     } catch (error) {
       ToastAndroid.show('Đã xảy ra lỗi!', ToastAndroid.SHORT)
     }
   }
+  const onLike = async (id: number) => {
+    const res: any = await post?.onLikePost(id)
+    if (res) {
+      setActive(res.is_like)
+    }
+  }
+
   const onDelCmt = async (id: any) => {
     onClose()
 
@@ -106,7 +132,7 @@ const Detail = ({ route, navigation }: any) => {
               const res: any = await dispatch(commentDeletes(id))
               if (res.payload.message === 'success') {
                 setDisable(false)
-                const newArr = data?.filter((e: any) => e.id !== select.id) || []
+                const newArr = cmtData?.filter((e: any) => e.id !== select.id) || []
                 setCmtData(newArr)
                 ToastAndroid.show('Xóa thành công!', ToastAndroid.SHORT)
               }
@@ -176,6 +202,7 @@ const Detail = ({ route, navigation }: any) => {
       await dispatch(loadComments({ query: { post_id: post?.id } }))
     }
   }
+
   const onUpdateComment = async (id: any) => {
     onClose()
     const value: any = data?.find((e: any) => e.id === id)
@@ -183,7 +210,7 @@ const Detail = ({ route, navigation }: any) => {
     setIsSelectUpdate(true)
   }
   const images = post?.medias ? post.medias.map((media: any) => getImage(media)) : []
-  console.log(isLoading)
+
   return (
     <ScrollView w="full" px={2} mb={2} bgColor="coolGray.200" onTouchMove={onClose}>
       <VStack>
@@ -192,7 +219,7 @@ const Detail = ({ route, navigation }: any) => {
         </Text>
       </VStack>
 
-      {images.length ? (
+      {images?.length > 0 ? (
         <VStack>
           <SliderBox images={images} />
         </VStack>
@@ -203,17 +230,23 @@ const Detail = ({ route, navigation }: any) => {
       <HStack w="full" justifyContent={'space-evenly'}>
         <VStack w="90%">
           <HStack alignItems={'center'}>
-            <IconButton icon={<Ionicons name="heart-outline" size={33} color={`${active ? '#000' : '#644AB5'}`} />} />
+            <IconButton
+              icon={<Ionicons name="heart-outline" size={33} color={`${active ? '#000' : '#644AB5'}`} />}
+              onPress={(e) => {
+                param ? onLikePost(post.id) : onLike(post.id)
+              }}
+            />
             <IconButton icon={<Ionicons name="chatbubble-outline" size={30} color="#644AB5" />} />
 
             <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
           </HStack>
-
-          {/* {post?.react?.length > 0 && (
-            <VStack ml={2} mb={1}>
-              <Text color={'gray.400'}>{post.react.length} person like this!</Text>
-            </VStack>
-          )} */}
+          <VStack ml={1} mb={1}>
+            {active && (
+              <Text color={'gray.400'} fontSize={9}>
+                you has liked this!
+              </Text>
+            )}
+          </VStack>
         </VStack>
 
         <VStack>
@@ -234,7 +267,7 @@ const Detail = ({ route, navigation }: any) => {
         </HStack>
       </VStack>
 
-      {cmtData.length > 0 ? (
+      {cmtData?.length > 0 ? (
         <VStack mt={3}>
           {cmtData?.map((value: any, index: number) => (
             <View key={index}>
@@ -320,4 +353,4 @@ const Detail = ({ route, navigation }: any) => {
   )
 }
 
-export default Detail
+export default memo(Detail)

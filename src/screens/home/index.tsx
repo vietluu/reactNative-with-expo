@@ -1,7 +1,7 @@
 import { Center, ScrollView } from 'native-base'
 import { createStackNavigator } from '@react-navigation/stack'
 import { ToastAndroid } from 'react-native'
-import React, { useState, useCallback, useLayoutEffect } from 'react'
+import React, { useState, useCallback, useLayoutEffect, memo, useEffect } from 'react'
 import { RefreshControl } from 'react-native-gesture-handler'
 import PostLoader from '../../components/post/PostLoader'
 import PostItem from '../../components/post/PostItem'
@@ -11,8 +11,7 @@ import { isloading, loadPosts, postData } from '../../redux/post/postReducer'
 import { getProfile } from '../../redux/profile/reducer'
 
 const StackView = createStackNavigator()
-
-const Home = ({ navigation }: any) => {
+const Main = memo(() => {
   const [refreshing, setRefreshing] = useState(false)
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(isloading)
@@ -28,33 +27,29 @@ const Home = ({ navigation }: any) => {
     ;(async () => {
       setRefreshing(true)
       await dispatch(loadPosts())
-
       setRefreshing(false)
       isLoading == false && ToastAndroid.show('Tin tức đã được cập nhật!', ToastAndroid.TOP)
     })()
   }, [])
 
-  const Main = ({ navigation }: any) => {
-    return (
-      <Center flex={1}>
-        {isLoading ? (
-          <PostLoader />
-        ) : (
-          <ScrollView
-            w="full"
-            px={2}
-            nestedScrollEnabled={true}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-          >
-            {posts.map((post, index) => (
-              <PostItem key={index} post={post} navigation={navigation} />
-            ))}
-          </ScrollView>
-        )}
-      </Center>
-    )
-  }
-
+  return (
+    <Center flex={1}>
+      {isLoading ? (
+        <PostLoader />
+      ) : (
+        <ScrollView
+          w="full"
+          px={2}
+          nestedScrollEnabled={true}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        >
+          {posts.length > 0 && posts.map((post, index) => <PostItem key={index} post={post} />)}
+        </ScrollView>
+      )}
+    </Center>
+  )
+})
+const Home = () => {
   return (
     <StackView.Navigator
       initialRouteName="My Review"
@@ -72,8 +67,9 @@ const Home = ({ navigation }: any) => {
           headerLeft: () => <></>,
         }}
       />
+
       <StackView.Screen name="Detail" component={Detail} />
     </StackView.Navigator>
   )
 }
-export default Home
+export default memo(Home)
