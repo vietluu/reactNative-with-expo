@@ -30,16 +30,29 @@ export const loadPosts = createAsyncThunk('post/load', async () => {
   }
   return await res.json()
 })
+export const getOnePost = createAsyncThunk('post/getOne', async (id: number) => {
+  const res: any = await api.get(`/post/${id}`)
 
+  if (res.status == 200) {
+    return await res.data
+  }
+  return await res.json()
+})
 // add New Post
-export const addNewPost = createAsyncThunk('post/create', async (body) => {
+export const addNewPost = createAsyncThunk('post/create', async (body: any) => {
   const res: any = await api.post('/post', body)
   if (res.status == 200 || res.status === 201) {
     return await res.data
   }
   return await res.json()
 })
-
+export const likePost = createAsyncThunk('post/like', async (body: any) => {
+  const res: any = await api.post('/post/like', body)
+  if (res.status == 200 || res.status === 201) {
+    return await res.data
+  }
+  return await res.json()
+})
 //delete Post
 export const postDeletes = createAsyncThunk('post/delete', async (body) => {
   const res: any = await api.delete(`/post/${body}`)
