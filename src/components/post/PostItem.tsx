@@ -1,4 +1,4 @@
-import { AspectRatio, Box, HStack, IconButton, Image, Stack, Text, VStack, View } from 'native-base'
+import { AspectRatio, Box, HStack, IconButton, Image, Stack, Text, Toast, VStack, useToast } from 'native-base'
 import React, { memo, useState, useLayoutEffect } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useAppDispatch, useAppSelector } from '../../redux'
@@ -8,21 +8,37 @@ import { get } from 'lodash'
 import { getImage } from '../../utils/image'
 import AvatarEntity from '../common/AvatarEntity'
 import { SliderBox } from 'react-native-image-slider-box'
+import { api } from '../../utils'
 
 const PostItem = ({ post, navigation }: any) => {
   const [active, setActive] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const toast = useToast()
   const dispatch = useAppDispatch()
-  const user: any = useAppSelector(profile)
-  // de lai
-  // useLayoutEffect(() => {
-  //   if (post.react) {
-  //     const arr = post?.react?.map((val: any) => Number(val.id))
 
-  //     if (arr.includes(user?.id)) {
-  //       setActive(true)
-  //     }
-  //   }
-  // }, [post.react])
+  useLayoutEffect(() => {
+    if (post?.post_user?.is_save) {
+      setSaved(post?.post_user?.is_save)
+    }
+  }, [])
+
+  //handleSavePost
+  const handleSavePost = async (id: number) => {
+    try {
+      const res = await api.post('/post/save', { post_id: id })
+      console.log('response: ', res.data)
+
+      if (res.status === 200 || 202) {
+        toast.show({
+          title: 'Save post success',
+          placement: 'top',
+        })
+        setSaved(res?.data?.is_save)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const images = post?.medias ? post.medias.map((media: any) => getImage(media)) : []
 
@@ -57,17 +73,19 @@ const PostItem = ({ post, navigation }: any) => {
 
             <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
           </HStack>
-
-          {/* {post?.react?.length > 0 && (
-
-            <VStack ml={2} mb={1}>
-              <Text color={'gray.400'}>{post?.react?.length} person like this!</Text>
-            </VStack>
-          )} */}
         </VStack>
 
         <VStack>
-          <IconButton icon={<Ionicons name="bookmark-outline" size={30} color="#644AB5" />} />
+          <IconButton
+            icon={
+              <Ionicons
+                name={saved ? 'bookmark' : 'bookmark-outline'}
+                onPress={() => handleSavePost(post?.id)}
+                size={30}
+                color="#644AB5"
+              />
+            }
+          />
         </VStack>
       </HStack>
     </Box>
