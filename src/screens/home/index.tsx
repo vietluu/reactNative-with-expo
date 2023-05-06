@@ -19,10 +19,10 @@ const Main = memo(() => {
 
   useLayoutEffect(() => {
     ;(async () => {
-      await dispatch(loadPosts())
-      await dispatch(getProfile())
+      await Promise.all([dispatch(loadPosts()), dispatch(getProfile())])
     })()
   }, [])
+
   const onRefresh = useCallback(() => {
     ;(async () => {
       setRefreshing(true)

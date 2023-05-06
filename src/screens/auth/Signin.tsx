@@ -52,6 +52,7 @@ const SignIn = ({ navigation }: any) => {
 
     try {
       const { data } = await api.post('/auth/local/signin', payload)
+
       const { access_token } = data
       if (access_token) {
         await setToken(access_token)

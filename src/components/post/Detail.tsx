@@ -36,7 +36,7 @@ const Detail = ({ route, navigation }: any) => {
   const [active, setActive] = useState(postData?.active || false)
   const [txt, setTxt] = useState('')
   const [isSelectUpdate, setIsSelectUpdate] = useState(false)
-  const [select, setSlect]: any = useState(null)
+  const [select, setSelect]: any = useState(null)
   const [txtChange, setTxtChange] = useState('')
   const [cmtData, setCmtData]: any = useState([])
   const [disable, setDisable] = useState(false)
@@ -150,6 +150,7 @@ const Detail = ({ route, navigation }: any) => {
     }
   }
   const submitDelay = _.debounce(() => submit(), 1000)
+
   const submit = async () => {
     try {
       if (select?.id && txtChange) {
@@ -167,7 +168,7 @@ const Detail = ({ route, navigation }: any) => {
         if (res.payload) {
           setTxtChange('')
           setDisable(false)
-          setSlect(null)
+          setSelect(null)
           setIsSelectUpdate(false)
           const newData: any = cmtData?.map((value: any) => {
             if (value.id === select.id) {
@@ -209,6 +210,7 @@ const Detail = ({ route, navigation }: any) => {
     setTxtChange(value?.content)
     setIsSelectUpdate(true)
   }
+
   const images = post?.medias ? post.medias.map((media: any) => getImage(media)) : []
 
   return (
@@ -227,6 +229,7 @@ const Detail = ({ route, navigation }: any) => {
         <></>
       )}
 
+      {/* Section actions */}
       <HStack w="full" justifyContent={'space-evenly'}>
         <VStack w="90%">
           <HStack alignItems={'center'}>
@@ -243,7 +246,7 @@ const Detail = ({ route, navigation }: any) => {
           <VStack ml={1} mb={1}>
             {active && (
               <Text color={'gray.400'} fontSize={9}>
-                you has liked this!
+                You has liked this!
               </Text>
             )}
           </VStack>
@@ -267,17 +270,18 @@ const Detail = ({ route, navigation }: any) => {
         </HStack>
       </VStack>
 
+      {/* Comment */}
       {cmtData?.length > 0 ? (
         <VStack mt={3}>
-          {cmtData?.map((value: any, index: number) => (
+          {cmtData?.map((comment: any, index: number) => (
             <View key={index}>
-              {select?.id === value.id && isSelectUpdate ? (
+              {select?.id === comment.id && isSelectUpdate ? (
                 <Center bgColor={'fuchsia.50'}>
                   <HStack>
                     <Input
                       isFocused
                       w="full"
-                      placeholder="coment.."
+                      placeholder="Comment.."
                       inputMode="text"
                       value={txtChange}
                       onChangeText={(e) => setTxtChange(e)}
@@ -290,11 +294,11 @@ const Detail = ({ route, navigation }: any) => {
                         onPress={(e) => {
                           setDisable(true)
                           setTxtChange('')
-                          setSlect(null)
+                          setSelect(null)
                           setIsSelectUpdate(false)
                         }}
                       >
-                        cancel
+                        Cancel
                       </Text>
                     </Button>
                     <Button h={5} px={1} py={0}>
@@ -306,7 +310,7 @@ const Detail = ({ route, navigation }: any) => {
                         }}
                         disabled={disable}
                       >
-                        submit
+                        Submit
                       </Text>
                     </Button>
                   </HStack>
@@ -314,13 +318,14 @@ const Detail = ({ route, navigation }: any) => {
               ) : (
                 <Pressable
                   onLongPress={() => {
-                    setSlect(value)
+                    setSelect(comment)
                     onOpen()
                   }}
                 >
-                  <Comment comment={value} />
+                  <Comment comment={comment} />
                 </Pressable>
               )}
+
               <Actionsheet isOpen={isOpen} onClose={onClose} disableOverlay size="full">
                 {select?.created_by_id === user.id ? (
                   <Actionsheet.Content>

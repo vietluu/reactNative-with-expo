@@ -30,7 +30,10 @@ export const loadPosts = createAsyncThunk('post/load', async () => {
   }
   return await res.json()
 })
+
 export const getOnePost = createAsyncThunk('post/getOne', async (id: number) => {
+  if (!id) return null
+
   const res: any = await api.get(`/post/${id}`)
 
   if (res.status == 200) {
@@ -38,6 +41,7 @@ export const getOnePost = createAsyncThunk('post/getOne', async (id: number) => 
   }
   return await res.json()
 })
+
 // add New Post
 export const addNewPost = createAsyncThunk('post/create', async (body: any) => {
   const res: any = await api.post('/post', body)
