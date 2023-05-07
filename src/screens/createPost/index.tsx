@@ -11,6 +11,7 @@ import {
   useToast,
   Center,
   ScrollView,
+  Actionsheet,
 } from 'native-base'
 import { useState, useEffect, memo } from 'react'
 import { api } from '../../utils'
@@ -31,6 +32,7 @@ const CreatePost = ({ navigation }: any) => {
   const [images, setImages] = useState<string[]>([])
   const [medias, setMedias] = useState<IMedia[]>([])
   const [categories, setCategories] = useState<ICategory[]>([])
+  const [isOpen, setIsOpen] = useState(false)
   const toast = useToast()
 
   useEffect(() => {
@@ -64,7 +66,7 @@ const CreatePost = ({ navigation }: any) => {
           placement: 'top',
         })
 
-        navigation.navigate('Detail', response.data)
+        navigation.navigate('Detail', { post_Item: response.data })
       }
     } catch (error) {
       console.error('handleCreatePost: ', error)
@@ -118,6 +120,18 @@ const CreatePost = ({ navigation }: any) => {
     setPost(initPost)
   }
 
+  const closeActionSheet = () => {
+    setIsOpen(false)
+  }
+
+  const showActionSheet = () => {
+    setIsOpen(true)
+  }
+
+  const handlePhotoImage = () => {
+    console.log('handlePhotoImage')
+  }
+
   return (
     <View w="full" paddingBottom={4}>
       {isLoading ? (
@@ -148,7 +162,7 @@ const CreatePost = ({ navigation }: any) => {
               Create
             </Button>
 
-            <Button onPress={handleUploadImage} isLoading={uploading} isLoadingText="Uploading">
+            <Button onPress={showActionSheet} isLoading={uploading} isLoadingText="Uploading">
               Image
             </Button>
           </View>
@@ -190,6 +204,13 @@ const CreatePost = ({ navigation }: any) => {
               />
             ))}
           </Center>
+
+          <Actionsheet isOpen={isOpen} onClose={closeActionSheet} disableOverlay size="full">
+            <Actionsheet.Content>
+              <Actionsheet.Item onPress={handlePhotoImage}>Chụp ảnh</Actionsheet.Item>
+              <Actionsheet.Item onPress={handleUploadImage}>Tải ảnh</Actionsheet.Item>
+            </Actionsheet.Content>
+          </Actionsheet>
         </ScrollView>
       )}
     </View>
