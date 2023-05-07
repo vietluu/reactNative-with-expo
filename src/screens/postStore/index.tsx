@@ -1,30 +1,13 @@
-import {
-  AspectRatio,
-  Box,
-  HStack,
-  IconButton,
-  Image,
-  Stack,
-  Text,
-  VStack,
-  View,
-  Avatar,
-  Center,
-  ScrollView,
-} from 'native-base'
-import React, { memo, useState, useLayoutEffect, useCallback } from 'react'
+import { Center, ScrollView } from 'native-base'
+import { memo, useState, useLayoutEffect, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '../../redux'
-import { profile } from '../../redux/profile/reducer'
-import { loadSavePosts, isloading, postData, postBookMark } from '../../redux/post/postReducer'
-import { getImage } from '../../utils/image'
-import Ionicons from '@expo/vector-icons/Ionicons'
+import { loadSavePosts, isloading, postBookMark } from '../../redux/post/postReducer'
 import { ToastAndroid } from 'react-native'
 import PostLoader from '../../components/post/PostLoader'
 import PostItem from '../../components/post/PostItem'
 import { RefreshControl } from 'react-native-gesture-handler'
 
 const PostStore = ({ navigation }: any) => {
-  const [active, setActive] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
   const isLoading = useAppSelector(isloading)
   const dispatch = useAppDispatch()

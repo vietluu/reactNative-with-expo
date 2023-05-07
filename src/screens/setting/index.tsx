@@ -1,11 +1,16 @@
-import { useState } from 'react'
-import { Text, HStack, Avatar, Box, Button, useToast } from 'native-base'
+import { useEffect, useState } from 'react'
+import { Text, HStack, Avatar, Box, Button, useToast, ScrollView } from 'native-base'
 import Icon from '@expo/vector-icons/Ionicons'
-import { clearToken, getToken } from '../../utils'
+import { clearToken } from '../../utils'
+import { useAppSelector } from '../../redux'
+import { profile } from '../../redux/profile/reducer'
+import { get } from 'lodash'
+import AvatarEntity from '../../components/common/AvatarEntity'
 
 const Setting = ({ navigation }: any) => {
   const toast = useToast()
   const [loading, setLoading] = useState(false)
+  const user: any = useAppSelector(profile)
 
   //hanleSignout
   const hanleSignout = () => {
@@ -23,22 +28,19 @@ const Setting = ({ navigation }: any) => {
   }
 
   return (
-    <>
-      <Box width="full" height="150" bg="#644AB5">
-        <HStack justifyContent="center" position="relative">
-          <Avatar
-            position="absolute"
-            top="20"
-            size="2xl"
-            bg="amber.500"
-            source={{
-              uri: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-            }}
-          />
-
-          <Text position="absolute" top={210} fontSize={30} fontWeight="bold">
-            SangPX
+    <ScrollView w="full" h="full">
+      <Box width="full" bg="#644AB5" minHeight={240}>
+        <HStack justifyContent="center" display={'flex'} flexDirection={'column'} alignItems={'center'}>
+          <Text fontSize={30} fontWeight="bold" marginTop={5}>
+            {get(user, 'name')}
           </Text>
+          <AvatarEntity
+            marginTop={5}
+            size="2xl"
+            username={get(user, 'name')}
+            isTextAvatar={true}
+            justifyContent={'center'}
+          />
         </HStack>
       </Box>
 
@@ -51,9 +53,6 @@ const Setting = ({ navigation }: any) => {
         p="5"
         ml="5"
         rounded="xl"
-        position="absolute"
-        top="300"
-        shadow={9}
       >
         <Icon name="ios-location-outline" size={22} color="#000" />
         <Text color="#000" ml="5">
@@ -70,9 +69,6 @@ const Setting = ({ navigation }: any) => {
         p="5"
         ml="5"
         rounded="xl"
-        position="absolute"
-        top="400"
-        shadow={9}
       >
         <Icon name="settings-outline" size={22} color="#000" />
         <Text color="#000" ml="5">
@@ -89,16 +85,13 @@ const Setting = ({ navigation }: any) => {
         py="5"
         ml="5"
         rounded="xl"
-        position="absolute"
-        top="500"
-        shadow={9}
         onPress={hanleSignout}
         isLoading={loading}
         isLoadingText="Signing out"
       >
         Sign Out
       </Button>
-    </>
+    </ScrollView>
   )
 }
 export default Setting
