@@ -3,22 +3,22 @@ import { User } from '../../types/user'
 
 const colors = ['#475569']
 
-const AvatarEntity = ({ username, avatar, isTextAvatar = false }: any) => {
+const AvatarEntity = ({ username, avatar, isTextAvatar = false, size = 'md', justifyContent = 'flex-start' }: any) => {
   const name = username ? username.charAt(0)?.toUpperCase() : null
   const randomColor = colors[0]
 
   return (
-    <HStack w="full" alignItems="center" py="2">
+    <HStack w="full" alignItems="center" py="2" justifyContent={justifyContent}>
       {avatar ? (
         <Avatar
-          size="md"
+          size={size || 'md'}
           source={{
             uri: avatar,
           }}
         ></Avatar>
       ) : (
         <Avatar
-          size="md"
+          size={size || 'md'}
           bg={randomColor}
           color={'white'}
           source={{

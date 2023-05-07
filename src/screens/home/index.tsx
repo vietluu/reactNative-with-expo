@@ -11,18 +11,27 @@ import { isloading, loadPosts, postData } from '../../redux/post/postReducer'
 import { getProfile } from '../../redux/profile/reducer'
 
 const StackView = createStackNavigator()
-const Main = memo(() => {
+const Main = ({ route }: any) => {
+  const newData: object = route?.params?.newData
   const [refreshing, setRefreshing] = useState(false)
+  const [posts, setPosts]: any[] = useState([])
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(isloading)
-  const posts = useAppSelector(postData)
+  const postsData = useAppSelector(postData)
 
   useLayoutEffect(() => {
     ;(async () => {
       await Promise.all([dispatch(loadPosts()), dispatch(getProfile())])
     })()
   }, [])
-
+  useEffect(() => {
+    if (postsData.length > 0) {
+      setPosts(postsData)
+    }
+    if (posts.length > 0 && newData) {
+      setPosts([newData, ...posts])
+    }
+  }, [newData, postsData])
   const onRefresh = useCallback(() => {
     ;(async () => {
       setRefreshing(true)
@@ -48,7 +57,7 @@ const Main = memo(() => {
       )}
     </Center>
   )
-})
+}
 const Home = () => {
   return (
     <StackView.Navigator

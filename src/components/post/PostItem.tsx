@@ -49,10 +49,9 @@ const PostItem = ({ post }: any) => {
         setSaved(res?.data?.is_save)
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
-
 
   const onLikePost = async (id: number) => {
     const res: any = await dispatch(likePost({ post_id: id }))
@@ -69,7 +68,6 @@ const PostItem = ({ post }: any) => {
       setLike(post?.post_user?.is_like)
     }
   }, [])
-
 
   return (
     <Box w="full" px={2} mb={2} bgColor="coolGray.200">
@@ -88,7 +86,11 @@ const PostItem = ({ post }: any) => {
       ) : (
         <></>
       )}
-
+      {post?.category && (
+        <Text mt={2} w={50} p={0} fontSize={9} fontWeight={700} color={'blue.500'} ml={1}>
+          #{post.category.name}
+        </Text>
+      )}
       <HStack w="full" justifyContent={'space-evenly'}>
         <VStack w="90%">
           <HStack alignItems={'center'}>
@@ -113,7 +115,6 @@ const PostItem = ({ post }: any) => {
               </Text>
             )}
           </VStack>
-
         </VStack>
 
         <VStack>

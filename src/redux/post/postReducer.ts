@@ -16,6 +16,7 @@ export const loadPosts = createAsyncThunk('post/load', async () => {
       relations: [
         // 'comments',
         'medias',
+        'category',
       ], // join to get comments and medias
       order: {
         // order new post to top
@@ -51,6 +52,7 @@ export const addNewPost = createAsyncThunk('post/create', async (body: any) => {
   }
   return await res.json()
 })
+
 export const likePost = createAsyncThunk('post/like', async (body: any) => {
   const res: any = await api.post('/post/like', body)
   if (res.status == 200 || res.status === 201) {
@@ -58,8 +60,9 @@ export const likePost = createAsyncThunk('post/like', async (body: any) => {
   }
   return await res.json()
 })
+
 //delete Post
-export const postDeletes = createAsyncThunk('post/delete', async (body) => {
+export const postDelete = createAsyncThunk('post/delete', async (body) => {
   const res: any = await api.delete(`/post/${body}`)
   if (res.status == 200) {
     return await res.data
@@ -92,7 +95,6 @@ export const loadSavePosts = createAsyncThunk('post/loadSave', async () => {
   }
 
   const res: any = await api.post('/post/find', options)
-
   if (res.status == 200) {
     return await res.data
   }
