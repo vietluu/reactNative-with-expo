@@ -1,5 +1,5 @@
-import { AspectRatio, Box, HStack, IconButton, Image, Stack, Text, VStack, View } from 'native-base'
-import React, { memo, useState, useLayoutEffect, useEffect, useCallback } from 'react'
+import { AspectRatio, Box, HStack, IconButton, Image, Stack, Text, Toast, VStack, useToast, View } from 'native-base'
+import React, { memo, useState, useLayoutEffect, useCallback } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useAppDispatch, useAppSelector } from '../../redux'
 import { loadComments } from '../../redux/post/commentReducer'
@@ -8,14 +8,44 @@ import { get } from 'lodash'
 import { getImage } from '../../utils/image'
 import AvatarEntity from '../common/AvatarEntity'
 import { SliderBox } from 'react-native-image-slider-box'
+import { api } from '../../utils'
 import { likePost } from '../../redux/post/postReducer'
 import { useNavigation } from '@react-navigation/native'
+
 const PostItem = ({ post }: any) => {
-  const [like, setLike] = useState(false)
+  const [active, setActive] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const toast = useToast()
   const dispatch = useAppDispatch()
+
+  const [like, setLike] = useState(false)
   const user: any = useAppSelector(profile)
   const images = post?.medias ? post.medias.map((media: any) => getImage(media)) : []
   const navigation: any = useNavigation()
+
+  useLayoutEffect(() => {
+    if (post?.post_user?.is_save) {
+      setSaved(post?.post_user?.is_save)
+    }
+  }, [])
+
+  //handleSavePost
+  const handleSavePost = async (id: number) => {
+    try {
+      const res = await api.post('/post/save', { post_id: id })
+
+      if (res.status === 200 || 202) {
+        toast.show({
+          title: 'Save post success',
+          placement: 'top',
+        })
+        setSaved(res?.data?.is_save)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   const onLikePost = async (id: number) => {
     const res: any = await dispatch(likePost({ post_id: id }))
@@ -31,6 +61,7 @@ const PostItem = ({ post }: any) => {
       setLike(post?.post_user?.is_like)
     }
   }, [])
+
 
   return (
     <Box w="full" px={2} mb={2} bgColor="coolGray.200">
@@ -66,6 +97,7 @@ const PostItem = ({ post }: any) => {
 
             <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
           </HStack>
+
           <VStack ml={1} mb={1}>
             {like && (
               <Text color={'gray.400'} fontSize={9}>
@@ -73,20 +105,24 @@ const PostItem = ({ post }: any) => {
               </Text>
             )}
           </VStack>
-          {/* {post?.like_count > 0  && (
-            <VStack ml={2} mb={1}>
-              {
-              <Text color={'gray.400'} fontSize={9}>{post.like_count} person like this!</Text>
-            </VStack>
-          )} */}
+
         </VStack>
 
         <VStack>
-          <IconButton icon={<Ionicons name="bookmark-outline" size={30} color="#644AB5" />} />
+          <IconButton
+            icon={
+              <Ionicons
+                name={saved ? 'bookmark' : 'bookmark-outline'}
+                onPress={() => handleSavePost(post?.id)}
+                size={30}
+                color="#644AB5"
+              />
+            }
+          />
         </VStack>
       </HStack>
     </Box>
   )
 }
 
-export default memo(PostItem)
+export default PostItem
