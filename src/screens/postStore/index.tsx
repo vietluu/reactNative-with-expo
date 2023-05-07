@@ -31,18 +31,14 @@ const PostStore = ({ navigation }: any) => {
 
   const posts = useAppSelector(postBookMark)
 
-
-
-
-
   useLayoutEffect(() => {
-    ; (async () => {
+    ;(async () => {
       await dispatch(loadSavePosts())
     })()
   }, [])
 
   const onRefresh = useCallback(() => {
-    ; (async () => {
+    ;(async () => {
       setRefreshing(true)
       await dispatch(loadSavePosts())
 
@@ -63,9 +59,8 @@ const PostStore = ({ navigation }: any) => {
             nestedScrollEnabled={true}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
           >
-            {posts.map((post, index) => (
-              <PostItem key={index} post={post} navigation={navigation} />
-            ))}
+            {posts.length > 0 &&
+              posts.map((post, index) => <PostItem key={index} post={post} navigation={navigation} />)}
           </ScrollView>
         )}
       </Center>

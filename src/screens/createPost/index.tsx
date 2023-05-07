@@ -64,7 +64,7 @@ const CreatePost = ({ navigation }: any) => {
           placement: 'top',
         })
 
-        navigation.navigate('Detail', response.data)
+        navigation.navigate('My Review', { newData: response.data })
       }
     } catch (error) {
       console.error('handleCreatePost: ', error)
