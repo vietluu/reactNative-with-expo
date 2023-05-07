@@ -7,7 +7,7 @@ import PostStore from '../screens/postStore'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from '@expo/vector-icons/Ionicons'
 
-function Layout() {
+function Layout({ initRoute = 'Home' }: any) {
   const Tab = createBottomTabNavigator()
   return (
     <Tab.Navigator
@@ -25,7 +25,7 @@ function Layout() {
 
         tabBarActiveTintColor: '#644AB5',
       }}
-      initialRouteName="Home"
+      initialRouteName={initRoute}
     >
       <Tab.Screen
         name="Home"

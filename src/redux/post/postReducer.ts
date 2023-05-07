@@ -52,6 +52,7 @@ export const addNewPost = createAsyncThunk('post/create', async (body: any) => {
   }
   return await res.json()
 })
+
 export const likePost = createAsyncThunk('post/like', async (body: any) => {
   const res: any = await api.post('/post/like', body)
   if (res.status == 200 || res.status === 201) {
@@ -59,8 +60,9 @@ export const likePost = createAsyncThunk('post/like', async (body: any) => {
   }
   return await res.json()
 })
+
 //delete Post
-export const postDeletes = createAsyncThunk('post/delete', async (body) => {
+export const postDelete = createAsyncThunk('post/delete', async (body) => {
   const res: any = await api.delete(`/post/${body}`)
   if (res.status == 200) {
     return await res.data

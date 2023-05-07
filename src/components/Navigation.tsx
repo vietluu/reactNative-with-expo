@@ -11,7 +11,6 @@ import { Spinner } from 'native-base'
 
 function BaseLink() {
   const Stack = createNativeStackNavigator()
-  const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
   const [initRoute, setInitRoute] = useState('SignIn')
 

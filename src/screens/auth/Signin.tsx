@@ -4,6 +4,9 @@ import { setToken } from '../../utils/token'
 import { UserSignIn } from '../../types'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Input, Text, Button, Icon, Pressable, Center, FormControl } from 'native-base'
+import { getProfile } from '../../redux/profile/reducer'
+import { useAppDispatch } from '../../redux'
+
 const SignIn = ({ navigation }: any) => {
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -12,6 +15,7 @@ const SignIn = ({ navigation }: any) => {
     email: '',
     password: '',
   })
+  const dispatch = useAppDispatch()
 
   const validate = () => {
     let isValid = true
@@ -56,6 +60,7 @@ const SignIn = ({ navigation }: any) => {
       const { access_token } = data
       if (access_token) {
         await setToken(access_token)
+        await dispatch(getProfile())
         navigation.navigate('LayoutScreen')
         setUser({ email: '', password: '' })
       }
