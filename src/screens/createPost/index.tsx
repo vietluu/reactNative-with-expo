@@ -110,6 +110,7 @@ const CreatePost = ({ navigation }: any) => {
       console.error('handleUploadImage error:', error)
     }
 
+    closeActionSheet()
     setUploading(false)
   }
 
@@ -128,8 +129,40 @@ const CreatePost = ({ navigation }: any) => {
     setIsOpen(true)
   }
 
-  const handlePhotoImage = () => {
-    console.log('handlePhotoImage')
+  const handlePhotoImage = async () => {
+    if (isLoading) return
+    try {
+      // pick image
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 1,
+      })
+
+      if (result.canceled) return
+      const image = result.assets[0].uri
+
+      // upload image
+      const formData = new FormData()
+      formData.append('image', { name: 'image.jpeg', uri: image, type: 'image/jpeg' } as any, 'image.jpeg')
+
+      setUploading(true)
+      const response = await api.post('/media/upload', formData, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      })
+
+      if (response.status === 200 && response.data) {
+        setImages([...images, image])
+        setMedias([...medias, response.data])
+      }
+    } catch (error) {
+      console.error('handleUploadImage error:', error)
+    }
+
+    closeActionSheet()
+    setUploading(false)
   }
 
   return (
