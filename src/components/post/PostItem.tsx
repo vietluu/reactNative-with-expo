@@ -35,10 +35,17 @@ const PostItem = ({ post }: any) => {
       const res = await api.post('/post/save', { post_id: id })
 
       if (res.status === 200 || 202) {
-        toast.show({
-          title: 'Save post success',
-          placement: 'top',
-        })
+        if (res?.data?.is_save) {
+          toast.show({
+            title: 'Save Post',
+            placement: 'top',
+          })
+        } else {
+          toast.show({
+            title: 'UnSave Post',
+            placement: 'top',
+          })
+        }
         setSaved(res?.data?.is_save)
       }
     } catch (error) {
@@ -55,6 +62,7 @@ const PostItem = ({ post }: any) => {
       return
     }
   }
+
   useLayoutEffect(() => {
     if (post?.post_user?.is_like) {
       setLike(post?.post_user?.is_like)
