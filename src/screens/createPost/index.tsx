@@ -90,6 +90,7 @@ const CreatePost = ({ navigation }: any) => {
 
       if (result.canceled) return
       const image = result.assets[0].uri
+      closeActionSheet()
 
       // upload image
       const formData = new FormData()
@@ -107,10 +108,10 @@ const CreatePost = ({ navigation }: any) => {
         setMedias([...medias, response.data])
       }
     } catch (error) {
+      closeActionSheet()
       console.error('handleUploadImage error:', error)
     }
 
-    closeActionSheet()
     setUploading(false)
   }
 
@@ -141,6 +142,7 @@ const CreatePost = ({ navigation }: any) => {
 
       if (result.canceled) return
       const image = result.assets[0].uri
+      closeActionSheet()
 
       // upload image
       const formData = new FormData()
@@ -159,9 +161,9 @@ const CreatePost = ({ navigation }: any) => {
       }
     } catch (error) {
       console.error('handleUploadImage error:', error)
+      closeActionSheet()
     }
 
-    closeActionSheet()
     setUploading(false)
   }
 
