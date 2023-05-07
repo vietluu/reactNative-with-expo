@@ -26,7 +26,6 @@ const PostItem = ({ post, navigation }: any) => {
   const handleSavePost = async (id: number) => {
     try {
       const res = await api.post('/post/save', { post_id: id })
-      console.log('response: ', res.data)
 
       if (res.status === 200 || 202) {
         toast.show({
