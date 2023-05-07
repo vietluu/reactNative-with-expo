@@ -3,7 +3,7 @@ import { User } from '../../types/user'
 
 const colors = ['#475569']
 
-const AvatarEntity = ({ username, email, avatar }: User) => {
+const AvatarEntity = ({ username, avatar, isTextAvatar = false }: any) => {
   const name = username ? username.charAt(0)?.toUpperCase() : null
   const randomColor = colors[0]
 
@@ -29,9 +29,13 @@ const AvatarEntity = ({ username, email, avatar }: User) => {
         </Avatar>
       )}
 
-      <Text fontSize="lg" pl={2}>
-        {username}
-      </Text>
+      {isTextAvatar ? (
+        <></>
+      ) : (
+        <Text fontSize="lg" pl={2}>
+          {username}
+        </Text>
+      )}
     </HStack>
   )
 }

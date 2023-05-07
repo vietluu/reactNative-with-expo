@@ -13,8 +13,6 @@ const SignIn = ({ navigation }: any) => {
     password: '',
   })
 
-
-
   const validate = () => {
     let isValid = true
 
@@ -35,21 +33,17 @@ const SignIn = ({ navigation }: any) => {
     return isValid
   }
 
-
   const handleError = (errorMessage: any, user: any) => {
     setErrors((prev) => ({ ...prev, [user]: errorMessage }))
   }
 
   const handleSignIn = async () => {
-
     setLoading(true)
 
     if (!validate()) {
       setLoading(false)
-      console.log('ok');
       return false
     }
-
 
     const payload: UserSignIn = {
       email: user.email.trim(),
@@ -58,8 +52,8 @@ const SignIn = ({ navigation }: any) => {
 
     try {
       const { data } = await api.post('/auth/local/signin', payload)
+
       const { access_token } = data
-      console.log('ok2');
       if (access_token) {
         await setToken(access_token)
         navigation.navigate('LayoutScreen')

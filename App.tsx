@@ -3,6 +3,10 @@ import { Provider } from 'react-redux'
 import { NativeBaseProvider, extendTheme, StatusBar } from 'native-base'
 import Navigation from './src/components/Navigation'
 import { store } from './src/redux/store'
+import { enableFreeze, enableScreens } from 'react-native-screens'
+
+enableFreeze(true)
+enableScreens(true)
 
 // Define the config
 const config = {
