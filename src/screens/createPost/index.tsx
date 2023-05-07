@@ -11,6 +11,7 @@ import {
   useToast,
   Center,
   ScrollView,
+  Actionsheet,
 } from 'native-base'
 import { useState, useEffect, memo } from 'react'
 import { api } from '../../utils'
@@ -31,6 +32,7 @@ const CreatePost = ({ navigation }: any) => {
   const [images, setImages] = useState<string[]>([])
   const [medias, setMedias] = useState<IMedia[]>([])
   const [categories, setCategories] = useState<ICategory[]>([])
+  const [isOpen, setIsOpen] = useState(false)
   const toast = useToast()
 
   useEffect(() => {
@@ -65,7 +67,7 @@ const CreatePost = ({ navigation }: any) => {
         })
 
         navigation.navigate('My Review', { newData: response.data })
-      }
+
     } catch (error) {
       console.error('handleCreatePost: ', error)
     }
@@ -88,6 +90,59 @@ const CreatePost = ({ navigation }: any) => {
 
       if (result.canceled) return
       const image = result.assets[0].uri
+      closeActionSheet()
+
+      // upload image
+      const formData = new FormData()
+      formData.append('image', { name: 'image.jpeg', uri: image, type: 'image/jpeg' } as any, 'image.jpeg')
+
+      setUploading(true)
+      const response = await api.post('/media/upload', formData, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      })
+
+      if (response.status === 200 && response.data) {
+        setImages([...images, image])
+        setMedias([...medias, response.data])
+      }
+    } catch (error) {
+      closeActionSheet()
+      console.error('handleUploadImage error:', error)
+    }
+
+    setUploading(false)
+  }
+
+  // reset post data to empty
+  const resetPost = () => {
+    setCategoryId(null)
+    setImages([])
+    setPost(initPost)
+  }
+
+  const closeActionSheet = () => {
+    setIsOpen(false)
+  }
+
+  const showActionSheet = () => {
+    setIsOpen(true)
+  }
+
+  const handlePhotoImage = async () => {
+    if (isLoading) return
+    try {
+      // pick image
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 1,
+      })
+
+      if (result.canceled) return
+      const image = result.assets[0].uri
+      closeActionSheet()
 
       // upload image
       const formData = new FormData()
@@ -106,16 +161,10 @@ const CreatePost = ({ navigation }: any) => {
       }
     } catch (error) {
       console.error('handleUploadImage error:', error)
+      closeActionSheet()
     }
 
     setUploading(false)
-  }
-
-  // reset post data to empty
-  const resetPost = () => {
-    setCategoryId(null)
-    setImages([])
-    setPost(initPost)
   }
 
   return (
@@ -148,7 +197,7 @@ const CreatePost = ({ navigation }: any) => {
               Create
             </Button>
 
-            <Button onPress={handleUploadImage} isLoading={uploading} isLoadingText="Uploading">
+            <Button onPress={showActionSheet} isLoading={uploading} isLoadingText="Uploading">
               Image
             </Button>
           </View>
@@ -190,6 +239,13 @@ const CreatePost = ({ navigation }: any) => {
               />
             ))}
           </Center>
+
+          <Actionsheet isOpen={isOpen} onClose={closeActionSheet} disableOverlay size="full">
+            <Actionsheet.Content>
+              <Actionsheet.Item onPress={handlePhotoImage}>Chụp ảnh</Actionsheet.Item>
+              <Actionsheet.Item onPress={handleUploadImage}>Tải ảnh</Actionsheet.Item>
+            </Actionsheet.Content>
+          </Actionsheet>
         </ScrollView>
       )}
     </View>
