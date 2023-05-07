@@ -67,7 +67,7 @@ const CreatePost = ({ navigation }: any) => {
         })
 
         navigation.navigate('My Review', { newData: response.data })
-
+      }
     } catch (error) {
       console.error('handleCreatePost: ', error)
     }
