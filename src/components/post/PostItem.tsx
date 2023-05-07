@@ -56,6 +56,7 @@ const PostItem = ({ post }: any) => {
       return
     }
   }
+
   useLayoutEffect(() => {
     if (post?.post_user?.is_like) {
       setLike(post?.post_user?.is_like)
