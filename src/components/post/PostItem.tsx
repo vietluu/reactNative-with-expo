@@ -11,7 +11,7 @@ import { SliderBox } from 'react-native-image-slider-box'
 import { likePost } from '../../redux/post/postReducer'
 import { useNavigation } from '@react-navigation/native'
 const PostItem = ({ post }: any) => {
-  const [active, setActive] = useState(false)
+  const [like, setLike] = useState(false)
   const dispatch = useAppDispatch()
   const user: any = useAppSelector(profile)
   const images = post?.medias ? post.medias.map((media: any) => getImage(media)) : []
@@ -20,7 +20,7 @@ const PostItem = ({ post }: any) => {
   const onLikePost = async (id: number) => {
     const res: any = await dispatch(likePost({ post_id: id }))
     if (res?.payload) {
-      setActive(res?.payload?.is_like)
+      setLike(res?.payload?.is_like)
       return res.payload
     } else {
       return
@@ -28,7 +28,7 @@ const PostItem = ({ post }: any) => {
   }
   useLayoutEffect(() => {
     if (post?.post_user?.is_like) {
-      setActive(post?.post_user?.is_like)
+      setLike(post?.post_user?.is_like)
     }
   }, [])
 
@@ -54,20 +54,20 @@ const PostItem = ({ post }: any) => {
         <VStack w="90%">
           <HStack alignItems={'center'}>
             <IconButton
-              icon={<Ionicons name="heart-outline" size={33} color={`${active ? '#000' : '#644AB5'}`} />}
+              icon={<Ionicons name="heart-outline" size={33} color={`${like ? '#000' : '#644AB5'}`} />}
               onPress={(e) => onLikePost(post.id)}
             />
             <IconButton
               icon={<Ionicons name="chatbubble-outline" size={30} color="#644AB5" />}
               onPress={(e) => {
-                navigation.navigate('Detail', { post_Item: { ...post, active, onLikePost } })
+                navigation.navigate('Detail', { post_Item: { ...post, like, onLikePost } })
               }}
             />
 
             <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
           </HStack>
           <VStack ml={1} mb={1}>
-            {active && (
+            {like && (
               <Text color={'gray.400'} fontSize={9}>
                 you has liked this!
               </Text>

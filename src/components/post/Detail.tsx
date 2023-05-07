@@ -33,7 +33,7 @@ const Detail = ({ route, navigation }: any) => {
   const param = route?.params?.param
   const postData = route?.params?.post_Item
   const [post, setPost]: any = useState({})
-  const [active, setActive] = useState(postData?.active || false)
+  const [like, setLike] = useState(postData?.like || false)
   const [txt, setTxt] = useState('')
   const [isSelectUpdate, setIsSelectUpdate] = useState(false)
   const [select, setSelect]: any = useState(null)
@@ -45,7 +45,7 @@ const Detail = ({ route, navigation }: any) => {
   const isLoading: boolean = useAppSelector(isloading)
   const user: any = useAppSelector(profile)
   const dispatch = useAppDispatch()
-
+  console.log(disable)
   useLayoutEffect(() => {
     ;(async () => {
       if (param) {
@@ -53,7 +53,7 @@ const Detail = ({ route, navigation }: any) => {
         if (res.payload) {
           setPost(res.payload)
           setCmtData(res?.payload?.comments)
-          setActive(res.payload?.post_users[0]?.is_like || false)
+          setLike(res.payload?.post_users[0]?.is_like || false)
         }
       } else {
         setPost(postData)
@@ -85,7 +85,7 @@ const Detail = ({ route, navigation }: any) => {
   const onLikePost = async (id: number) => {
     const res: any = await dispatch(likePost({ post_id: id }))
     if (res.payload) {
-      setActive(res?.payload?.is_like)
+      setLike(res?.payload?.is_like)
     }
   }
 
@@ -108,7 +108,7 @@ const Detail = ({ route, navigation }: any) => {
   const onLike = async (id: number) => {
     const res: any = await post?.onLikePost(id)
     if (res) {
-      setActive(res.is_like)
+      setLike(res.is_like)
     }
   }
 
@@ -153,6 +153,7 @@ const Detail = ({ route, navigation }: any) => {
 
   const submit = async () => {
     try {
+      console.log('run')
       if (select?.id && txtChange) {
         if (txtChange.trim() === '') {
           setDisable(false)
@@ -206,7 +207,7 @@ const Detail = ({ route, navigation }: any) => {
 
   const onUpdateComment = async (id: any) => {
     onClose()
-    const value: any = data?.find((e: any) => e.id === id)
+    const value: any = cmtData?.find((e: any) => e.id === id)
     setTxtChange(value?.content)
     setIsSelectUpdate(true)
   }
@@ -234,7 +235,7 @@ const Detail = ({ route, navigation }: any) => {
         <VStack w="90%">
           <HStack alignItems={'center'}>
             <IconButton
-              icon={<Ionicons name="heart-outline" size={33} color={`${active ? '#000' : '#644AB5'}`} />}
+              icon={<Ionicons name="heart-outline" size={33} color={`${like ? '#000' : '#644AB5'}`} />}
               onPress={(e) => {
                 param ? onLikePost(post.id) : onLike(post.id)
               }}
@@ -244,7 +245,7 @@ const Detail = ({ route, navigation }: any) => {
             <IconButton icon={<Ionicons name="paper-plane-outline" size={30} color="#644AB5" />} />
           </HStack>
           <VStack ml={1} mb={1}>
-            {active && (
+            {like && (
               <Text color={'gray.400'} fontSize={9}>
                 You has liked this!
               </Text>
@@ -305,6 +306,7 @@ const Detail = ({ route, navigation }: any) => {
                       <Text
                         fontSize={11}
                         onPress={(e) => {
+                          console.log('ok')
                           setDisable(true)
                           submitDelay()
                         }}
