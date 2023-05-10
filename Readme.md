@@ -11,7 +11,7 @@ The official NativeBase TypeScript template for [Expo](https://docs.expo.io/)
 * Install [Node.js](https://nodejs.org/)
 * Install [Git](http://www.git-scm.com/)
 * Clone the Repository: `git clone https://github.com/vietluu/reactNative-with-expo.git`
-### run
+### Run
 * Run `yarn local or npx expo start --localhost` to start with localhost 
 * Run `yarn start or npx expo start`  to start with network
 ### Server Backend
