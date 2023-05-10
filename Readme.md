@@ -39,5 +39,7 @@ The official NativeBase TypeScript template for [Expo](https://docs.expo.io/)
 ![Ảnh chụp màn hình 2023-05-10 091052](https://github.com/vietluu/reactNative-with-expo/assets/74524082/be011363-8537-4bb2-8dce-8ffb5526138c)
 
 
+## Learn more [Expo](https://docs.expo.dev/get-started)
+
 
 
