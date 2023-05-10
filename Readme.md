@@ -14,6 +14,7 @@ The official NativeBase TypeScript template for [Expo](https://docs.expo.io/)
 ### Run
 * Run `yarn local or npx expo start --localhost` to start with localhost 
 * Run `yarn start or npx expo start`  to start with network
+* Run `npx expo start --offline`  to start when there is no internet
 ### Server Backend
 * `https://github.com/quangtranvan8821/my-review-backend`
 # SignIn screen: </br>
